@@ -4441,5 +4441,34 @@ namespace FSTIMAIN
 
             }
         }
+
+        private void btnGetPONumber_Click(object sender, EventArgs e)
+        {
+            if (dgvUpdateStockNum.Rows.Count == 0)
+            {
+                MessageBox.Show("无内容！");
+                return;
+            }
+            Thread tread = new Thread(GetPONumber);
+            tread.IsBackground = true;//变为后台程序，随主窗体结束线程
+            tread.Start(dgvUpdateStockNum);
+        }
+
+        private void GetPONumber(object dgv0)
+        {
+            DataGridView dgv = (DataGridView)dgv0;
+            SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDB;uid=xym;pwd=xym-123");
+            conn.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            for (int i = 0; i < dgv.Rows.Count; i++)
+            {
+
+                cmd.CommandText = "SELECT PONumber from (SELECT PONumber,sum(case when ReceiptQuantity is null then 0-ReversedQuantity else ReceiptQuantity end) Quantity FROM [dbo].[PORV] where ItemNumber='"+dgv["物料代码",i].Value.ToString().Trim()+ "' and LotNumber = '" + dgv["批号", i].Value.ToString().Trim() + "' Group BY PONumber) as t1 where t1.Quantity>0";
+                dgv["采购单号", i].Value=cmd.ExecuteScalar();
+            }
+            conn.Close();
+            MessageBox.Show("匹配完成");
+        }
     }
 }

@@ -263,6 +263,8 @@
             this.BtUpdateStockNum = new System.Windows.Forms.Button();
             this.ExcelImport = new System.Windows.Forms.Button();
             this.TemplateDownload = new System.Windows.Forms.Button();
+            this.btnGetPONumber = new System.Windows.Forms.Button();
+            this.label66 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -2751,6 +2753,8 @@
             // 
             // tabPage10
             // 
+            this.tabPage10.Controls.Add(this.label66);
+            this.tabPage10.Controls.Add(this.btnGetPONumber);
             this.tabPage10.Controls.Add(this.ZikehuTemplateDownload);
             this.tabPage10.Controls.Add(this.BtUpdateZikehu);
             this.tabPage10.Controls.Add(this.RowIndexIntime);
@@ -2849,6 +2853,25 @@
             this.TemplateDownload.Text = "模板下载";
             this.TemplateDownload.UseVisualStyleBackColor = true;
             this.TemplateDownload.Click += new System.EventHandler(this.TemplateDownload_Click);
+            // 
+            // btnGetPONumber
+            // 
+            this.btnGetPONumber.Location = new System.Drawing.Point(196, 535);
+            this.btnGetPONumber.Name = "btnGetPONumber";
+            this.btnGetPONumber.Size = new System.Drawing.Size(95, 23);
+            this.btnGetPONumber.TabIndex = 26;
+            this.btnGetPONumber.Text = "匹配采购单号";
+            this.btnGetPONumber.UseVisualStyleBackColor = true;
+            this.btnGetPONumber.Click += new System.EventHandler(this.btnGetPONumber_Click);
+            // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Location = new System.Drawing.Point(32, 542);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(149, 12);
+            this.label66.TabIndex = 27;
+            this.label66.Text = "物料代码  批号  采购单号";
             // 
             // Form1
             // 
@@ -3160,6 +3183,8 @@
         private System.Windows.Forms.TextBox RowIndexIntime;
         private System.Windows.Forms.Button BtUpdateZikehu;
         private System.Windows.Forms.Button ZikehuTemplateDownload;
+        private System.Windows.Forms.Label label66;
+        private System.Windows.Forms.Button btnGetPONumber;
     }
 }
 
