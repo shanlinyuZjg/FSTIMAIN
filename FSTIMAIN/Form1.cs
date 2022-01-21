@@ -2556,6 +2556,8 @@ namespace FSTIMAIN
                 { AddCustomer.Enabled = true; UpdateCustomer.Enabled = false; }
                 if (dgvCustomer.Rows[rowindex].Cells["类型"].Value.ToString() == "客户信息修改")
                 { UpdateCustomer.Enabled = true; AddCustomer.Enabled = false; }
+                string Customercode1 = tbCustomerCode.Text.Trim();
+                tbUniteAccount.Text = "1A" + Customercode1.Substring(6, 1) + Customercode1.Substring(0, 1) + "-" + Customercode1.Substring(1, 2) + "-" + Customercode1.Substring(3, 3);
             }
         }
 
