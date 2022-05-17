@@ -23,6 +23,7 @@ using NPOI.SS.UserModel;
 
 namespace FSTIMAIN
 {
+    
     public partial class Form1 : Form
     {
         public Form1()//初始化组件
@@ -31,13 +32,14 @@ namespace FSTIMAIN
             Control.CheckForIllegalCrossThreadCalls = false;//多线程访问控件 不安全方式
         }
         private FSTIClient _fstiClient = null;//声明FSTIClient类的对象
-        private void Form1_Load(object sender, EventArgs e)//初始化登录192.168.8.51 四班账号
+        private void Form1_Load(object sender, EventArgs e)//初始化登录四班账号
         {
             tabControl1.SelectedIndex = 5;//默认打开登录界面
             ItemClass.SelectedIndex = 5;
             ItemClasssh.SelectedIndex = 5;
             this.Show();
             this.textPassword.Focus();
+            #region 注释
             //try
             //{
             //    _fstiClient = new FSTIClient();
@@ -89,7 +91,9 @@ namespace FSTIMAIN
             //    }
             //    MessageBox.Show(ex.Message);
             //}
+            #endregion
         }
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)//关闭程序时，退出登录
         {
             if (_fstiClient != null)
@@ -179,15 +183,15 @@ namespace FSTIMAIN
         private void GetBOm_Click(object sender, EventArgs e)//获得BOM流程
         {
             //测试获得BOM流程
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and PROCESSNAME='RY增加BOM申请流程' and TASKUSER='BPM/zuojinguo' and ENDTIME >'2020/9/17' and STEPLABEL='ERP系统录入'");
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and PROCESSNAME='RY增加BOM申请流程' and TASKUSER='BPM/zuojinguo' and ENDTIME >'2020/9/17' and STEPLABEL='ERP系统录入'");
             //实际获得BOM流程 and TASKUSER='BPM/zuojinguo'
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程' and TASKUSER='BPM/zuojinguo'  and STEPLABEL='ERP系统录入'");
-            DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程'   and STEPLABEL='ERP系统录入' ");
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程'");
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程' and TASKUSER='BPM/zuojinguo'  and STEPLABEL='ERP系统录入'");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程'   and STEPLABEL='ERP系统录入' ");
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程'");
             List<BOMliucheng> list1 = new List<BOMliucheng>();
             foreach (DataRow dr in Incidents.Rows)
             {
-                BOMliucheng bom1 = Tolist(SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=UltimusBusiness;uid=ERP;pwd=bpm+123", "SELECT * FROM [dbo].[YW_RYZY_ZJBOM] where REV_INCIDENT=" + dr[0]));
+                BOMliucheng bom1 = Tolist(SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, "SELECT * FROM [dbo].[YW_RYZY_ZJBOM] where REV_INCIDENT=" + dr[0]));
                 list1.Add(bom1);
 
             }
@@ -378,7 +382,7 @@ namespace FSTIMAIN
             #region 获得父项ItemKey
             string fuxiang = ParentItem.Text.ToString();//父项物料编码
             string parentKey;
-            using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("select ItemKey from _NoLock_FS_Item where ItemNumber = '" + fuxiang + "'", conn);
@@ -394,7 +398,7 @@ namespace FSTIMAIN
                 int xuhao = Convert.ToInt32(dgvBOMDetail["序号", i].Value);//序号
                 #region 通过父项ItemKey、序号 查找 子项、用于。
                 string zixiang = "", yongyu = "";
-                using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+                using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
                 {
                     SqlCommand cmd = new SqlCommand("select PointOfUseID,ComponentItemNumber from _NoLock_FS_BillOfMaterial where ParentItemKey = '" + parentKey + "' and OperationSequenceNumber ='" + xuhao + "'", conn);
                     DataTable dt = new DataTable();
@@ -525,13 +529,13 @@ namespace FSTIMAIN
         }
         private void GetVendor_Click(object sender, EventArgs e)//获得增加供应商流程
         {
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and PROCESSNAME='RY增加供应商流程' and TASKUSER='BPM/zuojinguo' and ENDTIME >'2019/5/18' and STEPLABEL='系统添加'");
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加供应商流程' and TASKUSER='BPM/zuojinguo' and STEPLABEL='系统添加'");
-            DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加供应商流程'  and STEPLABEL='系统添加'");
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and PROCESSNAME='RY增加供应商流程' and TASKUSER='BPM/zuojinguo' and ENDTIME >'2019/5/18' and STEPLABEL='系统添加'");
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加供应商流程' and TASKUSER='BPM/zuojinguo' and STEPLABEL='系统添加'");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加供应商流程'  and STEPLABEL='系统添加'");
             List<Vendorliucheng> list1 = new List<Vendorliucheng>();
             foreach (DataRow dr in Incidents.Rows)
             {
-                Vendorliucheng VENDOR1 = TolistVendor(SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=UltimusBusiness;uid=ERP;pwd=bpm+123", "SELECT * FROM [dbo].[YW_ZJGYS] where REV_INCIDENT=" + dr[0]));
+                Vendorliucheng VENDOR1 = TolistVendor(SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, "SELECT * FROM [dbo].[YW_ZJGYS] where REV_INCIDENT=" + dr[0]));
                 list1.Add(VENDOR1);
 
             }
@@ -588,7 +592,7 @@ namespace FSTIMAIN
                 VendorItem.Text = dgvVendor.Rows[rowindex].Cells["供应商代码"].Value.ToString().Trim().ToUpper();
                 Vendorliushuihao.Text = dgvVendor.Rows[rowindex].Cells["流水号"].Value.ToString().Trim().ToUpper();
                 Vendorhanghao.Text = (rowindex + 1).ToString();
-                DataTable dt = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=UltimusBusiness;uid=ERP;pwd=bpm+123", "SELECT * FROM [dbo].[YW_ZJGYS] where REV_INCIDENT=" + Vendorliushuihao.Text);
+                DataTable dt = SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, "SELECT * FROM [dbo].[YW_ZJGYS] where REV_INCIDENT=" + Vendorliushuihao.Text);
                 if (dt.Rows.Count == 1)
                 {
                     tbVendorCode.Text = dt.Rows[0]["GYSDM"].ToString().Trim().ToUpper();
@@ -657,7 +661,7 @@ namespace FSTIMAIN
                 return;
             }
             #region 检查供应商名称是否重复
-            using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
             {
                 Encoding EncodingLD = Encoding.GetEncoding("ISO-8859-1");
                 Encoding EncodingCH = Encoding.GetEncoding("GB2312");
@@ -861,7 +865,7 @@ namespace FSTIMAIN
             }
             #endregion
             #region 检查是否有重复的供应商名称
-            using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("select VendorName from _NoLock_FS_Vendor where VendorID = '" + tbVendorCode.Text.Trim() + "'", conn);
@@ -938,7 +942,7 @@ namespace FSTIMAIN
             ThirdGLOC.ChildGLOrganization.Value = GLOC_3;
             if (StrLength(strName) > 35)
             {
-                int Len1 = 17;
+                int Len1 = strName.Length;
                 for (int i = strName.Length; i > 0; i--)
                 {
                     if (StrLength(strName.Substring(0, i)) <= 35)
@@ -962,7 +966,6 @@ namespace FSTIMAIN
                 // success, get the response and display it using a list box
 
                 listResult.Items.Add(_fstiClient.CDFResponse);
-                return true;
             }
             else
             {
@@ -971,8 +974,9 @@ namespace FSTIMAIN
                 // and then dump the information in the list box
                 FSTIError itemError = _fstiClient.TransactionError;
                 DumpErrorObject(ThirdGLOC, itemError, listResult);
-                return false;
+                
             }
+            return true;
         }
         public bool ADDGLAV(string OrganizationCode, string strCode, ListBox listResult)//增加账号GLAV
         {
@@ -998,6 +1002,8 @@ namespace FSTIMAIN
         }
         public bool ADDGLAV(string OrganizationCode, string strCode)//增加账号GLAV不在ListResult中显示结果
         {
+            
+            #region FSTI增加GLAV
             GLAV00 myGLAV = new GLAV00();
             myGLAV.GLAccountGroup.Value = strCode;
             myGLAV.GLAccountValidationCode.Value = "1";
@@ -1010,6 +1016,7 @@ namespace FSTIMAIN
             {
                 return false;
             }
+            #endregion
         }
         private void UpdateVendor_Click(object sender, EventArgs e)//修改供应商
         {
@@ -1026,7 +1033,7 @@ namespace FSTIMAIN
                 return;
             }
             #region 检查供应商名称是否重复
-            using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
             {
                 Encoding EncodingLD = Encoding.GetEncoding("ISO-8859-1");
                 Encoding EncodingCH = Encoding.GetEncoding("GB2312");
@@ -1251,7 +1258,7 @@ namespace FSTIMAIN
             }
             #endregion
             #region 检查是否有重复的供应商名称
-            using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("select VendorName from _NoLock_FS_Vendor where VendorID = '" + tbVendorCode.Text.Trim() + "'", conn);
@@ -1310,7 +1317,7 @@ namespace FSTIMAIN
                 MessageBox.Show("请登录四班账号！");
                 return;
             }
-
+            int AllSuccess = 1;
             for (int i = 0; i < dgvItmbDetail.Rows.Count; i++)
             {
                 ITMBResult.Items.Add("*********************第" + (i + 1) + "行*********************");
@@ -1374,6 +1381,7 @@ namespace FSTIMAIN
                         dgvItmbDetail.Rows[i].HeaderCell.Style.BackColor = Color.Red;
                         dgvItmbDetail.Rows[i].Cells[0].Style.BackColor = Color.Red;
                         MessageBox.Show(string.Format("第{0}行物料({1})部分添加失败!请检查！！！", i + 1, materialcode));
+                        AllSuccess = 0;
                     }
                 }
                 else
@@ -1381,10 +1389,19 @@ namespace FSTIMAIN
                     dgvItmbDetail.Rows[i].HeaderCell.Style.ForeColor = Color.Red;
                     dgvItmbDetail.Rows[i].Cells[0].Style.BackColor = Color.Red;
                     MessageBox.Show("第" + (i + 1) + "条记录的ITMB添加失败！");
+
+                    AllSuccess = 0;
                 }
             }
             dgvItmb.Rows[Convert.ToInt32(ITMBhanghao.Text) - 1].DefaultCellStyle.ForeColor = Color.Red;
-            MessageBox.Show("添加完成！");
+            if (AllSuccess == 1)
+            {
+                MessageBox.Show("添加成功");
+            }
+            else
+            {
+                MessageBox.Show("部分添加失败，请检查！");
+            }
         }
         private bool AddItemProductLineAndInventoryAccount(int rowIndex)//添加ITMC产品线及账号
         {
@@ -2099,12 +2116,12 @@ namespace FSTIMAIN
             ItemName.Text = "";
             ItemNamedgv.DataSource = null;
             dgvItmbDetail.DataSource = null;
-            DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护')");
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护')");
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
             List<ITMBliucheng> list1 = new List<ITMBliucheng>();
             foreach (DataRow dr in Incidents.Rows)
             {
-                ITMBliucheng Vendor1 = TolistITMB(SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=UltimusBusiness;uid=ERP;pwd=bpm+123", "SELECT * FROM [dbo].[YW_ZJWLCB] where REV_INCIDENT=" + dr[0]));
+                ITMBliucheng Vendor1 = TolistITMB(SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, "SELECT * FROM [dbo].[YW_ZJWLCB] where REV_INCIDENT=" + dr[0]));
                 list1.Add(Vendor1);
 
             }
@@ -2152,16 +2169,8 @@ namespace FSTIMAIN
 
         private void Daily_Click(object sender, EventArgs e)//每日检查
         {
-            using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDB;User ID=program;PassWord=program;Auto Translate=False;"))
-            {
-                OleDbCommand cmd = new OleDbCommand("SELECT * FROM [dbo].[VirtualInventory]", conn);
-                DataTable dt = new DataTable();
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                da.Fill(dt);
-                xunikucun.DataSource = dt;                     //虚拟库存表
-            }
-
-            using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+            xunikucun.DataSource = SqlHelper1.ExecuteDataTable(SqlHelper.FSDBSQL,"SELECT * FROM [dbo].[VirtualInventory]");//虚拟库存表
+            using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
             {
                 SqlCommand cmd = new SqlCommand("SELECT *  FROM (SELECT dbo.FS_Item.ItemNumber, CAST(LTRIM(str( " +
                                                 "(dbo.FS_ItemData.OnHandQuantity + dbo.FS_ItemData.OnHoldQuantity + dbo.FS_ItemData.InShippingQuantity + dbo.FS_ItemData.InInspectionQuantity), 10, dbo.FS_Item.DecimalPrecision)) AS DECIMAL(20, 10)) TotalQty, " +
@@ -2173,7 +2182,7 @@ namespace FSTIMAIN
                 da.Fill(dt);
                 SSIICKECK.DataSource = dt;                     //SSII屏幕显示总数量和实际数量不一致的物料
             }
-            using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+            using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
             {
                 //SqlCommand cmd = new SqlCommand("SELECT VendorID AS 供应商编码,VendorName AS 供应商名称,PayeeName1 AS 收款人名称1,PayeeName2 AS 收款人名称2,"+
                 //                "VendorClass6 AS 供应商分类代码,VendorClass7 AS 供应商分类,BankName AS 银行名称,BankAccountNumber AS 银行账号,UnvoucheredAccount AS 无票应付,VoucheredAccount AS 有票应付"+
@@ -2187,7 +2196,7 @@ namespace FSTIMAIN
                 da.Fill(dt);
                 VendorCheck.DataSource = dt;                     //供应商检查 检查银行账户为空、供应商名称与开票名称不一致的供应商
             }
-            using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+            using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
             {
                 //SqlCommand cmd = new SqlCommand("SELECT VendorID AS 供应商编码,VendorName AS 供应商名称,PayeeName1 AS 收款人名称1,PayeeName2 AS 收款人名称2,"+
                 //                "VendorClass6 AS 供应商分类代码,VendorClass7 AS 供应商分类,BankName AS 银行名称,BankAccountNumber AS 银行账号,UnvoucheredAccount AS 无票应付,VoucheredAccount AS 有票应付"+
@@ -2199,7 +2208,7 @@ namespace FSTIMAIN
                 da.Fill(dt);
                 zhanghaoCheck.DataSource = dt;                     //物料账号检查
             }
-            using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+            using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
             {
                 //SqlCommand cmd = new SqlCommand("SELECT VendorID AS 供应商编码,VendorName AS 供应商名称,PayeeName1 AS 收款人名称1,PayeeName2 AS 收款人名称2,"+
                 //                "VendorClass6 AS 供应商分类代码,VendorClass7 AS 供应商分类,BankName AS 银行名称,BankAccountNumber AS 银行账号,UnvoucheredAccount AS 无票应付,VoucheredAccount AS 有票应付"+
@@ -2211,7 +2220,7 @@ namespace FSTIMAIN
                 da.Fill(dt);
                 chengbenCheck.DataSource = dt;                     //已启用物料成本检查
             }
-            using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+            using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
             {
                 //SqlCommand cmd = new SqlCommand("SELECT VendorID AS 供应商编码,VendorName AS 供应商名称,PayeeName1 AS 收款人名称1,PayeeName2 AS 收款人名称2,"+
                 //                "VendorClass6 AS 供应商分类代码,VendorClass7 AS 供应商分类,BankName AS 银行名称,BankAccountNumber AS 银行账号,UnvoucheredAccount AS 无票应付,VoucheredAccount AS 有票应付"+
@@ -2243,7 +2252,7 @@ namespace FSTIMAIN
                 wuliaoqiyong.Items.Add(ItemCode + "物料启用成功");
                 qiyong.Enabled = false;
 
-                OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;");
+                OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB);
                 OleDbCommand cmd = new OleDbCommand("SELECT ItemNumber 物料,ItemDescription 描述,ItemUM 单位,ItemRevision 版,MakeBuyCode 制购,ItemType 物类,ItemStatus 状态,IsLotTraced 批号,IsSerialized 系号,OrderPolicy 订货,IsInspectionRequired 要求检验 FROM[dbo].[_NoLock_FS_Item] where ItemNumber = '" + ITMB["物料", 0].Value.ToString().Trim().ToUpper() + "'", conn);
                 DataTable dt = new DataTable();
                 OleDbDataAdapter da = new OleDbDataAdapter(cmd);
@@ -2383,7 +2392,7 @@ namespace FSTIMAIN
                     string nametolading = "%" + EncodingEN.GetString(EncodingCH.GetBytes(ItemName.Text.Trim())) + "%";
                     string fenLei = ItemClass.Text == "全部" ? "%" : ItemClass.Text;
                     #endregion
-                    using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+                    using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
                     {
                         OleDbCommand cmd = new OleDbCommand(" SELECT dbo._NoLock_FS_Item.ItemNumber AS 物料代码, dbo._NoLock_FS_Item.ItemDescription AS 物料描述, dbo._NoLock_FS_Item.ItemUM AS 物料单位, dbo._NoLock_FS_ItemCost.CostType AS 类别, dbo._NoLock_FS_ItemCost.CostCode AS 方法, dbo._NoLock_FS_ItemCost.TotalRolledCost AS 累计成本合计, dbo._NoLock_FS_Item.GatewayWorkCenter AS 工作中心 FROM dbo._NoLock_FS_Item INNER JOIN dbo._NoLock_FS_ItemCost ON dbo._NoLock_FS_Item.ItemKey = dbo._NoLock_FS_ItemCost.ItemKey WHERE (dbo._NoLock_FS_ItemCost.CostType = '0') AND (dbo._NoLock_FS_Item.ItemDescription LIKE '" + nametolading + "') and (dbo._NoLock_FS_Item.ItemNumber like '" + fenLei + "%')", conn);
                         DataTable dt = new DataTable();
@@ -2415,7 +2424,7 @@ namespace FSTIMAIN
                     string nametolading = "%" + EncodingEN.GetString(EncodingCH.GetBytes(ItemName.Text.Trim())) + "%";
                     string fenLei = ItemClass.Text == "全部" ? "%" : ItemClass.Text;
                     #endregion
-                    using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+                    using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
                     {
                         OleDbCommand cmd = new OleDbCommand(" SELECT dbo._NoLock_FS_Item.ItemNumber AS 物料代码, dbo._NoLock_FS_Item.ItemDescription AS 物料描述, dbo._NoLock_FS_Item.ItemUM AS 物料单位, dbo._NoLock_FS_ItemCost.CostType AS 类别, dbo._NoLock_FS_ItemCost.CostCode AS 方法, dbo._NoLock_FS_ItemCost.TotalRolledCost AS 累计成本合计, dbo._NoLock_FS_Item.GatewayWorkCenter AS 工作中心 FROM dbo._NoLock_FS_Item INNER JOIN dbo._NoLock_FS_ItemCost ON dbo._NoLock_FS_Item.ItemKey = dbo._NoLock_FS_ItemCost.ItemKey WHERE (dbo._NoLock_FS_ItemCost.CostType = '0') AND (dbo._NoLock_FS_Item.ItemDescription LIKE '" + nametolading + "') and (dbo._NoLock_FS_Item.ItemNumber like '" + fenLei + "%')", conn);
                         DataTable dt = new DataTable();
@@ -2444,10 +2453,10 @@ namespace FSTIMAIN
                 }
             }
             #endregion
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and PROCESSNAME='RY开户审批流程' and TASKUSER='BPM/cuiqingjuan' and ENDTIME >'2019/12/13' and STEPLABEL='ERP管理员新增客户'");
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY开户审批流程' and TASKUSER='BPM/cuiqingjuan' and STEPLABEL='ERP管理员新增客户'");
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY开户审批流程'  and STEPLABEL='ERP管理员新增客户'");//当前环节流程
-            DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY开户审批流程' ");//所有未完成流程
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and PROCESSNAME='RY开户审批流程' and TASKUSER='BPM/cuiqingjuan' and ENDTIME >'2019/12/13' and STEPLABEL='ERP管理员新增客户'");
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY开户审批流程' and TASKUSER='BPM/cuiqingjuan' and STEPLABEL='ERP管理员新增客户'");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY开户审批流程'  and STEPLABEL='ERP管理员新增客户'");//当前环节流程
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY开户审批流程' ");//所有未完成流程
             string cmdstr = @"SELECT REV_INCIDENT AS 流水号, REV_CREATER_NAME	AS 发起人, REV_CREATER_DPT	AS 发起部门, REV_CREATER_TEL  AS 联系电话, (CASE   WHEN XGKHMC <> '' THEN '客户信息修改'  ELSE '新开户'  END ) AS 类型, KHBM	AS 客户代码, YKHMC AS 原客户名称, KHMC	AS 客户名称, KHDZ	AS 客户地址,(CASE   WHEN KHLB = 'yy' THEN '医院'  ELSE (CASE   WHEN KHLB = 'yd' THEN '药店'  ELSE (CASE   WHEN KHLB = 'mz' THEN '门诊'  ELSE  (CASE   WHEN KHLB = 'gs' or  KHLB = 'yc' THEN '公司'  ELSE   '其他'   END )    END )     END )     END )	AS 公司类型, MS	AS 合并账户, ZKHB	AS 货币类型, YZBM	AS 邮编, DH	AS 电话, CZ	AS 传真,  KHYH	AS 开户银行, ZH	AS 银行账户, SH	AS 税号, ZJL	AS 总经理, YXJL	AS 销售经理, ZB	AS 主办, CWJL	AS 财务经理, YWY	AS 业务员, YWYH	AS 业务代码, KJ	AS 会计, KJDH	AS 会计电话,BZ as 备注,KHSZSF as 客户所在省份 FROM YW_KHSP where REV_INCIDENT=-12345";
             //string cmdstr = "SELECT * FROM YW_KHSP where REV_INCIDENT=" + Incidents.Rows[0][0];
 
@@ -2456,7 +2465,7 @@ namespace FSTIMAIN
                 cmdstr += " or REV_INCIDENT=" + Incidents.Rows[i][0];
             }
 
-            dgvCustomer.DataSource = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=UltimusBusiness;uid=ERP;pwd=bpm+123", cmdstr);
+            dgvCustomer.DataSource = SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, cmdstr);
             for (int i = 0; i < this.dgvCustomer.Columns.Count; i++)
             {
                 this.dgvCustomer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -2478,6 +2487,8 @@ namespace FSTIMAIN
             }
             #endregion
             if (rowindex != -1)
+                if (dgvCustomer.Rows[rowindex].Cells["类型"].Value.ToString() == "客户信息修改")
+                { MessageBox.Show("请手工修改客户信息");return; }
             {
                 if (dgvCustomer.Rows[rowindex].DefaultCellStyle.ForeColor != Color.Red)
                 {
@@ -2495,52 +2506,53 @@ namespace FSTIMAIN
                 if (dgvCustomer["类型", rowindex].Value.ToString() == "新开户")
                 {
 
-                    tbCustomerCode.Text = dgvCustomer["客户代码", rowindex].Value.ToString();
-                    tbCustomerName.Text = dgvCustomer["客户名称", rowindex].Value.ToString();
-                    tbCustAddress.Text = dgvCustomer["客户地址", rowindex].Value.ToString();
-                    tbUniteAccount.Text = dgvCustomer["合并账户", rowindex].Value.ToString();
-                    tbPostcode.Text = dgvCustomer["邮编", rowindex].Value.ToString();
-                    tbProvince.Text = dgvCustomer["客户所在省份", rowindex].Value.ToString().Trim();
+                    tbCustomerCode.Text = dgvCustomer["客户代码", rowindex].Value.ToString().Trim();
+                    tbCustomerName.Text = dgvCustomer["客户名称", rowindex].Value.ToString().Trim();
+                    tbCustAddress.Text = dgvCustomer["客户地址", rowindex].Value.ToString().Trim();
+                    tbUniteAccount.Text = dgvCustomer["合并账户", rowindex].Value.ToString().Trim();
+                    tbPostcode.Text = dgvCustomer["邮编", rowindex].Value.ToString().Trim();
+                    tbProvince.Text = dgvCustomer["客户所在省份", rowindex].Value.ToString().Trim().Trim();
 
 
-                    if (dgvCustomer["总经理", rowindex].Value.ToString() == "")
+                    if (string.IsNullOrWhiteSpace(dgvCustomer["总经理", rowindex].Value.ToString()) )
                     {
-                        tbContactPerson.Text = dgvCustomer["财务经理", rowindex].Value.ToString();
+                        tbContactPerson.Text = dgvCustomer["财务经理", rowindex].Value.ToString().Trim();
                     }
                     else
                     {
-                        tbContactPerson.Text = dgvCustomer["总经理", rowindex].Value.ToString();
+                        tbContactPerson.Text = dgvCustomer["总经理", rowindex].Value.ToString().Trim();
                     }
                     int al = dgvCustomer["公司类型", rowindex].Value.ToString().Trim().Length;
                     if (al > 1)
                         cbIndustry.Text = dgvCustomer["公司类型", rowindex].Value.ToString().Trim().Substring(al - 2, 2);
                     else
-                        cbIndustry.Text = dgvCustomer["公司类型", rowindex].Value.ToString();
+                        cbIndustry.Text = dgvCustomer["公司类型", rowindex].Value.ToString().Trim();
 
-                    if (dgvCustomer["货币类型", rowindex].Value.ToString().Contains("F"))
-                    {
-                        MessageBox.Show("当前添加的是外贸公司，请选择货币代码！");
-                        tbCustomerCurrencyCode.Text = "USD EURO";
-                        cbMoney.Text = "外币";
-                        cbIndustry.Text = "外贸公司";
-                    }
-                    else
+                    if (dgvCustomer["货币类型", rowindex].Value.ToString().Trim()=="00000")
                     {
                         tbCustomerCurrencyCode.Text = "00000";
                         cbMoney.Text = "本币";
+                        
+                    }
+                    else
+                    {
+                        //美元（USD）、欧元(EURO)、瑞士法郎（CHF）  本币（00000）
+                        tbCustomerCurrencyCode.Text = dgvCustomer["货币类型", rowindex].Value.ToString().Trim();
+                        cbMoney.Text = "外币";
+                        cbIndustry.Text = "外贸公司";
                     }
 
-                    tbContactTelephone.Text = dgvCustomer["电话", rowindex].Value.ToString();
-                    tbContactFax.Text = dgvCustomer["传真", rowindex].Value.ToString();
-                    tbSalesmanName.Text = dgvCustomer["业务员", rowindex].Value.ToString();
-                    tbSalesmanCode.Text = dgvCustomer["业务代码", rowindex].Value.ToString();
-                    tbBankOfDeposit.Text = dgvCustomer["开户银行", rowindex].Value.ToString();
-                    tbBankAccount.Text = dgvCustomer["银行账户", rowindex].Value.ToString().Replace(" ", "");
-                    tbTaxCode.Text = dgvCustomer["税号", rowindex].Value.ToString();
-                    tbAccountantName.Text = dgvCustomer["会计", rowindex].Value.ToString();
-                    tbAccountantPhone.Text = dgvCustomer["会计电话", rowindex].Value.ToString();
+                    tbContactTelephone.Text = dgvCustomer["电话", rowindex].Value.ToString().Trim();
+                    tbContactFax.Text = dgvCustomer["传真", rowindex].Value.ToString().Trim();
+                    tbSalesmanName.Text = dgvCustomer["业务员", rowindex].Value.ToString().Trim();
+                    tbSalesmanCode.Text = dgvCustomer["业务代码", rowindex].Value.ToString().Trim();
+                    tbBankOfDeposit.Text = dgvCustomer["开户银行", rowindex].Value.ToString().Trim();
+                    tbBankAccount.Text = dgvCustomer["银行账户", rowindex].Value.ToString().Replace(" ", "").Trim();
+                    tbTaxCode.Text = dgvCustomer["税号", rowindex].Value.ToString().Trim();
+                    tbAccountantName.Text = dgvCustomer["会计", rowindex].Value.ToString().Trim();
+                    tbAccountantPhone.Text = dgvCustomer["会计电话", rowindex].Value.ToString().Trim();
 
-                    tBCustBZ.Text = dgvCustomer["备注", rowindex].Value.ToString();
+                    tBCustBZ.Text = dgvCustomer["备注", rowindex].Value.ToString().Trim();
                     if (StrLength(tbProvince.Text) > 10)
                     { MessageBox.Show("客户所在省份大于10个字符(5个汉字)，请编辑！"); }
                 }
@@ -2578,7 +2590,7 @@ namespace FSTIMAIN
             string CCode = tbCustomerCurrencyCode.Text.Trim();
             if (cbIndustry.Text == "" || cbMoney.Text == "")
             { MessageBox.Show("请检查行业类别|货币类型！"); return; }
-            if ((cbMoney.Text == "本币" && tbCustomerCurrencyCode.Text != "00000") || (cbMoney.Text == "外币" && tbCustomerCurrencyCode.Text != "USD" && tbCustomerCurrencyCode.Text != "EURO"))
+            if ((cbMoney.Text == "本币" && tbCustomerCurrencyCode.Text != "00000") || (cbMoney.Text == "外币" && tbCustomerCurrencyCode.Text != "USD" && tbCustomerCurrencyCode.Text != "EURO" && tbCustomerCurrencyCode.Text != "CHF")||string.IsNullOrWhiteSpace(cbMoney.Text)||string.IsNullOrWhiteSpace(tbCustomerCurrencyCode.Text))
             { MessageBox.Show("请检查货币类型|货币代码是否对应！"); return; }
             if (StrLength(tbBankOfDeposit.Text.Trim()) > 30)
             {
@@ -2587,7 +2599,7 @@ namespace FSTIMAIN
             }
             if (StrLength(tbBankAccount.Text.Trim()) > 30)
             {
-                MessageBox.Show("开户银行超出30个字符，请调整！ ");
+                MessageBox.Show("开户银行账号超出30个字符，请调整！ ");
                 return;
             }
             if (StrLength(tbCustAddress.Text.Trim()) > 60 && cbMoney.Text == "本币")
@@ -2617,7 +2629,7 @@ namespace FSTIMAIN
                 return;
             }
             #region 检查客户名称是否重复
-            using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
             {
                 Encoding EncodingLD = Encoding.GetEncoding("ISO-8859-1");
                 Encoding EncodingCH = Encoding.GetEncoding("GB2312");
@@ -2631,13 +2643,12 @@ namespace FSTIMAIN
                     MessageBox.Show("有相同客户名称的记录，请检查" + dtcust.Rows[0][0].ToString());
                     return;
                 }
-
             }
             #endregion
             #region 检查税号是否重复
             if (!string.IsNullOrEmpty(tbTaxCode.Text.Trim()))
             {
-                using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+                using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
                 {
                     string CustomerName = tbTaxCode.Text.Trim().Replace(" ", "");
                     SqlCommand cmd = new SqlCommand("select CustomerID from _NoLock_FS_Customer where FederalPrimaryTaxExemptCertificateNumber = '" + CustomerName + "' and CustomerID not like'" + tbCustomerCode.Text.Trim().Substring(0, 6) + "%'", conn);
@@ -2659,7 +2670,7 @@ namespace FSTIMAIN
             if (rbnChildCustomer.Checked)
             {
                 int i = 0;
-                using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+                using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
                 {
                     using (OleDbCommand cmd = new OleDbCommand(@"select CustomerName,CustomerAddress1,CustomerContact,CustomerContactPhone,CustomerContactFax,AccountingContact,              AccountingContactPhone,AccountingContactFax,CustomerControllingCode,CustomerCurrencyCode, BankReference1,BankReference2,FederalPrimaryTaxExemptCertificateNumber  from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn))
                     {
@@ -2672,7 +2683,7 @@ namespace FSTIMAIN
                     }
 
                 }
-                if (i == 0)
+                if (i == 0)//i==0  表示没有主客户
                 {
                     listBoxCustomer.Items.Add("开始增加主客户-->");
                     if (AddCustomerCompany())
@@ -2695,7 +2706,7 @@ namespace FSTIMAIN
                     listBoxCustomer.Items.Add("----------->---------->----------->增加子客户成功<<<");
                     MessageBox.Show("子客户添加成功！");
                     #region 检查是否有重复的客户名称
-                    using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+                    using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
                     {
                         conn.Open();
                         SqlCommand cmd = new SqlCommand("select CustomerName from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn);
@@ -2755,7 +2766,7 @@ namespace FSTIMAIN
                     listBoxCustomer.Items.Add("----------->---------->----------->增加主客户成功！<<<");
                     MessageBox.Show("主客户添加成功！");
                     #region 检查是否有重复的客户名称
-                    using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+                    using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
                     {
                         conn.Open();
                         SqlCommand cmd = new SqlCommand("select CustomerName from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn);
@@ -2792,6 +2803,25 @@ namespace FSTIMAIN
         int linshiindex = -100;
         private bool AddChildCustomer()//程序增加子客户
         {
+            #region 增加GLOS GLAV
+            ADDGLOS(tbUniteAccount.Text.Trim(), tbCustomerName.Text.Trim(), listBoxCustomer);
+            ADDGLAV(tbUniteAccount.Text.Trim(), "113100");
+            using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM [dbo].[_NoLock_FS_GLAccountOrganizationValidation] where GLAccountNumber='113100' and GLOrganization='" + tbUniteAccount.Text.Trim() + "'", conn);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dtcust = new DataTable();
+                sda.Fill(dtcust);
+                if (dtcust.Rows.Count == 0)
+                {
+                    if (linshiindex == -100)
+                    {
+                        MessageBox.Show(tbUniteAccount.Text.Trim() + "-113100 GLOS GLAV添加失败，子客户未添加，请检查");
+                    }
+                    return false;
+                }
+            }
+            #endregion
             #region 录入子客户主题信息
             string CustomerCode = tbCustomerCode.Text.Trim().Substring(0, 7);//子客户代码
             //添加客户基础信息
@@ -2817,9 +2847,7 @@ namespace FSTIMAIN
                 DumpErrorObject(myCustomerBasic, itemError, listBoxCustomer);
                 return false;
             }
-            //增加GLOS GLAV
-            ADDGLOS(tbUniteAccount.Text.Trim(), tbCustomerName.Text.Trim(), listBoxCustomer);
-            ADDGLAV(tbUniteAccount.Text.Trim(), "113100");
+            
             //添加客户财务应收账款及税金
             SOPC04 myCustomerAccount = new SOPC04();
             myCustomerAccount.CustomerID.Value = CustomerCode;//客户代码 
@@ -2854,7 +2882,7 @@ namespace FSTIMAIN
             string strCustAddress = tbCustAddress.Text.Trim();
             if (StrLength(strCustAddress) > 60)
             {
-                int Len1 = 50;
+                int Len1 = strCustAddress.Length;
                 for (int i = strCustAddress.Length; i > 0; i--)
                 {
                     if (StrLength(strCustAddress.Substring(0, i)) <= 60)
@@ -2902,6 +2930,7 @@ namespace FSTIMAIN
             }
             else
             {
+                //美元（USD）、欧元(EURO)、瑞士法郎（CHF） 本币（00000）
                 myCustomerSales.CreditLimitControllingAmount.Value = "0.00";//信用额度总值,此处不用带RMB即可，系统根据采用的货币区域自动添加，实际存储时没有货币代码
                 myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
                 myCustomerSales.CustomerControllingCode.Value = "F";
@@ -2977,7 +3006,7 @@ namespace FSTIMAIN
             string strCustAddress = tbCustAddress.Text.Trim();
             if (StrLength(strCustAddress) > 60)
             {
-                int Len1 = 50;
+                int Len1 = strCustAddress.Length;
                 for (int i = strCustAddress.Length; i > 0; i--)
                 {
                     if (StrLength(strCustAddress.Substring(0, i)) <= 60)
@@ -3123,7 +3152,7 @@ namespace FSTIMAIN
 
                 string ParentCustomerCode = CustomerCode.Substring(0, 6);
                 string strsql = "select CustomerName,CustomerAddress1,CustomerAddress2,CustomerZip,CustomerContact,CustomerContactPhone,CustomerContactFax,AccountingContact, AccountingContactPhone,AccountingContactFax,CSR,SalesRegion,TradeClassName,CustomerControllingCode,CustomerCurrencyCode, BankReference1,BankReference2,FederalPrimaryTaxExemptCertificateNumber  from _NoLock_FS_Customer where CustomerID = '" + ParentCustomerCode + "'";
-                using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+                using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
                 {
                     using (OleDbCommand cmd = new OleDbCommand(strsql, conn))
                     {
@@ -3207,10 +3236,6 @@ namespace FSTIMAIN
             UpdateCustomer.Enabled = true;
         }
 
-        private void SubmitCustomer_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void textUserId_TextChanged(object sender, EventArgs e)
         {
@@ -3302,7 +3327,7 @@ namespace FSTIMAIN
                 #region 注释的
                 //wuliaoqiyong.Items.Clear();
                 //qiyong.Enabled = false;
-                //OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;");
+                //OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB);
                 //OleDbCommand cmd = new OleDbCommand("SELECT ItemNumber 物料,ItemDescription 描述,ItemUM 单位,dbo._NoLock_FS_ItemCost.TotalRolledCost AS 累计成本合计,MakeBuyCode 制购,ItemType 物类,ItemStatus 状态,IsLotTraced 批号,IsSerialized 系号,OrderPolicy 订货,IsInspectionRequired 要求检验 FROM[dbo].[_NoLock_FS_Item] INNER JOIN dbo._NoLock_FS_ItemCost ON dbo._NoLock_FS_Item.ItemKey = dbo._NoLock_FS_ItemCost.ItemKey where ItemNumber = '" + qiyongItemCode.Text.Trim().ToUpper() + "' and (dbo._NoLock_FS_ItemCost.CostType = '0')", conn);
                 //DataTable dt = new DataTable();
                 //OleDbDataAdapter da = new OleDbDataAdapter(cmd);
@@ -3328,7 +3353,7 @@ namespace FSTIMAIN
 
                 wuliaoqiyong.Items.Clear();
                 qiyong.Enabled = false;
-                OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;");
+                OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB);
                 OleDbCommand cmd = new OleDbCommand("SELECT ItemNumber 物料,ItemDescription 描述,ItemUM 单位,dbo._NoLock_FS_ItemCost.TotalRolledCost AS 累计成本合计,MakeBuyCode 制购,ItemType 物类,ItemStatus 状态,IsLotTraced 批号,IsSerialized 系号,OrderPolicy 订货,IsInspectionRequired 要求检验 FROM[dbo].[_NoLock_FS_Item] INNER JOIN dbo._NoLock_FS_ItemCost ON dbo._NoLock_FS_Item.ItemKey = dbo._NoLock_FS_ItemCost.ItemKey where ItemNumber = '" + qiyongItemCode.Text.Trim().ToUpper() + "' and (dbo._NoLock_FS_ItemCost.CostType = '0')", conn);
                 DataTable dt = new DataTable();
                 OleDbDataAdapter da = new OleDbDataAdapter(cmd);
@@ -3364,12 +3389,12 @@ namespace FSTIMAIN
             ItemNamesh.Text = "";
             ItemNamedgvsh.DataSource = null;
             dgvItmbDetailsh.DataSource = null;
-            DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY增加物料申请流程' and  STEPLABEL = 'ERP管理员审核'");
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY增加物料申请流程' and  STEPLABEL = 'ERP管理员审核'");
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
             List<ITMBliucheng> list1 = new List<ITMBliucheng>();
             foreach (DataRow dr in Incidents.Rows)
             {
-                ITMBliucheng Vendor1 = TolistITMB(SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=UltimusBusiness;uid=ERP;pwd=bpm+123", "SELECT * FROM [dbo].[YW_ZJWLCB] where REV_INCIDENT=" + dr[0]));
+                ITMBliucheng Vendor1 = TolistITMB(SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, "SELECT * FROM [dbo].[YW_ZJWLCB] where REV_INCIDENT=" + dr[0]));
                 list1.Add(Vendor1);
 
             }
@@ -3526,7 +3551,7 @@ namespace FSTIMAIN
                     string nametolading = "%" + EncodingEN.GetString(EncodingCH.GetBytes(ItemNamesh.Text.Trim())) + "%";
                     string fenLei = ItemClasssh.Text == "全部" ? "%" : ItemClasssh.Text;
                     #endregion
-                    using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+                    using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
                     {
                         OleDbCommand cmd = new OleDbCommand(" SELECT dbo._NoLock_FS_Item.ItemNumber AS 物料代码, dbo._NoLock_FS_Item.ItemDescription AS 物料描述, dbo._NoLock_FS_Item.ItemUM AS 物料单位, dbo._NoLock_FS_ItemCost.CostType AS 类别, dbo._NoLock_FS_ItemCost.CostCode AS 方法, dbo._NoLock_FS_ItemCost.TotalRolledCost AS 累计成本合计, dbo._NoLock_FS_Item.GatewayWorkCenter AS 工作中心 FROM dbo._NoLock_FS_Item INNER JOIN dbo._NoLock_FS_ItemCost ON dbo._NoLock_FS_Item.ItemKey = dbo._NoLock_FS_ItemCost.ItemKey WHERE (dbo._NoLock_FS_ItemCost.CostType = '0') AND (dbo._NoLock_FS_Item.ItemDescription LIKE '" + nametolading + "') and (dbo._NoLock_FS_Item.ItemNumber like '" + fenLei + "%')", conn);
                         DataTable dt = new DataTable();
@@ -3559,7 +3584,7 @@ namespace FSTIMAIN
                 string nametolading = "%" + EncodingEN.GetString(EncodingCH.GetBytes(ItemNamesh.Text.Trim())) + "%";
                 string fenLei = ItemClasssh.Text == "全部" ? "%" : ItemClasssh.Text;
                 #endregion
-                using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+                using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
                 {
                     OleDbCommand cmd = new OleDbCommand(" SELECT dbo._NoLock_FS_Item.ItemNumber AS 物料代码, dbo._NoLock_FS_Item.ItemDescription AS 物料描述, dbo._NoLock_FS_Item.ItemUM AS 物料单位, dbo._NoLock_FS_ItemCost.CostType AS 类别, dbo._NoLock_FS_ItemCost.CostCode AS 方法, dbo._NoLock_FS_ItemCost.TotalRolledCost AS 累计成本合计, dbo._NoLock_FS_Item.GatewayWorkCenter AS 工作中心 FROM dbo._NoLock_FS_Item INNER JOIN dbo._NoLock_FS_ItemCost ON dbo._NoLock_FS_Item.ItemKey = dbo._NoLock_FS_ItemCost.ItemKey WHERE (dbo._NoLock_FS_ItemCost.CostType = '0') AND (dbo._NoLock_FS_Item.ItemDescription LIKE '" + nametolading + "') and (dbo._NoLock_FS_Item.ItemNumber like '" + fenLei + "%')", conn);
                     DataTable dt = new DataTable();
@@ -3590,9 +3615,9 @@ namespace FSTIMAIN
             dgvItemNumber.DataSource = null;
             dgvItmbUpdateDetail.DataSource = null;
             ItmbUpdateResult.Items.Clear();
-            DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY标准成本修改流程' and (STEPLABEL = '系统管理员维护')");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY标准成本修改流程' and (STEPLABEL = '系统管理员维护')");
 
-            //DataTable Incidents = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123", "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
             List<ITMBliucheng> list1 = new List<ITMBliucheng>();
             string Sqlstr = "SELECT REV_INCIDENT 流水号,ZY 摘要,REV_CREATER_NAME 申请人,REV_CREATER_DPT 申请部门,REV_CREATER_DATE 申请时间,REV_CID  FROM [dbo].[YW_RY_BZCBXG] where REV_INCIDENT=-123";
             foreach (DataRow dr in Incidents.Rows)
@@ -3601,7 +3626,7 @@ namespace FSTIMAIN
 
             }
 
-            dgvItmbUpdate.DataSource = SqlHelper1.ExecuteDataTable("Data Source=192.168.8.67;database=UltimusBusiness;uid=ERP;pwd=bpm+123", Sqlstr);
+            dgvItmbUpdate.DataSource = SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, Sqlstr);
             for (int i = 0; i < this.dgvItmbUpdate.Columns.Count; i++)
             {
                 this.dgvItmbUpdate.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -3789,7 +3814,7 @@ namespace FSTIMAIN
                 //string nametolading = "%" + EncodingEN.GetString(EncodingCH.GetBytes(ItemName.Text.Trim())) + "%";
                 //string fenLei = ItemClass.Text == "全部" ? "%" : ItemClass.Text;
                 //#endregion
-                using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+                using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
                 {
                     OleDbCommand cmd = new OleDbCommand(" SELECT dbo._NoLock_FS_Item.ItemNumber AS 物料代码, dbo._NoLock_FS_Item.ItemDescription AS 物料描述, dbo._NoLock_FS_Item.ItemUM AS 物料单位, dbo._NoLock_FS_ItemCost.CostType AS 类别, dbo._NoLock_FS_ItemCost.CostCode AS 方法, dbo._NoLock_FS_ProductLine.ProductLine AS 产品线,dbo._NoLock_FS_Item.InventoryAccount AS 库存账号,dbo._NoLock_FS_ItemCost.AtThisLevelMaterialCost AS 材料费,dbo._NoLock_FS_ItemCost.RolledMaterialCost AS 累计材料费, dbo._NoLock_FS_Item.GatewayWorkCenter AS 工作中心 FROM dbo._NoLock_FS_Item INNER JOIN dbo._NoLock_FS_ItemCost ON dbo._NoLock_FS_Item.ItemKey = dbo._NoLock_FS_ItemCost.ItemKey INNER JOIN dbo._NoLock_FS_ProductLine ON dbo._NoLock_FS_Item.ProductLineKey = dbo._NoLock_FS_ProductLine.ProductLineKey WHERE (dbo._NoLock_FS_ItemCost.CostType = '0') AND (dbo._NoLock_FS_Item.ItemNumber ='" + Item + "')", conn);
                     DataTable dt = new DataTable();
@@ -4110,7 +4135,7 @@ namespace FSTIMAIN
 
                     string ParentCustomerCode = CustomerCode.Substring(0, 6);
                     string strsql = "select CustomerName,CustomerAddress1,CustomerAddress2,CustomerZip,CustomerContact,CustomerContactPhone,CustomerContactFax,AccountingContact, AccountingContactPhone,AccountingContactFax,CSR,SalesRegion,TradeClassName,CustomerControllingCode,CustomerCurrencyCode, BankReference1,BankReference2,FederalPrimaryTaxExemptCertificateNumber  from _NoLock_FS_Customer where CustomerID = '" + ParentCustomerCode + "'";
-                    using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+                    using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
                     {
                         using (OleDbCommand cmd = new OleDbCommand(strsql, conn))
                         {
@@ -4232,7 +4257,7 @@ namespace FSTIMAIN
                 return;
             }
             #region 检查客户名称是否重复
-            using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
             {
                 Encoding EncodingLD = Encoding.GetEncoding("ISO-8859-1");
                 Encoding EncodingCH = Encoding.GetEncoding("GB2312");
@@ -4252,7 +4277,7 @@ namespace FSTIMAIN
             #region 检查税号是否重复
             if (!string.IsNullOrEmpty(tbTaxCode.Text.Trim()))
             {
-                using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+                using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
                 {
                     string CustomerName = tbTaxCode.Text.Trim().Replace(" ", "");
                     SqlCommand cmd = new SqlCommand("select CustomerID from _NoLock_FS_Customer where FederalPrimaryTaxExemptCertificateNumber = '" + CustomerName + "' and CustomerID not like'" + tbCustomerCode.Text.Trim().Substring(0, 6) + "%'", conn);
@@ -4275,7 +4300,7 @@ namespace FSTIMAIN
             if (rbnChildCustomer.Checked)
             {
                 int i = 0;
-                using (OleDbConnection conn = new OleDbConnection("Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;"))
+                using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
                 {
                     using (OleDbCommand cmd = new OleDbCommand(@"select CustomerName,CustomerAddress1,CustomerContact,CustomerContactPhone,CustomerContactFax,AccountingContact,              AccountingContactPhone,AccountingContactFax,CustomerControllingCode,CustomerCurrencyCode, BankReference1,BankReference2,FederalPrimaryTaxExemptCertificateNumber  from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn))
                     {
@@ -4312,7 +4337,7 @@ namespace FSTIMAIN
                     //MessageBox.Show("子客户添加成功！");
                     dgvUpdateStockNum["状态", index].Value = "1";
                     #region 检查是否有重复的客户名称
-                    using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+                    using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
                     {
                         conn.Open();
                         SqlCommand cmd = new SqlCommand("select CustomerName from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn);
@@ -4373,7 +4398,7 @@ namespace FSTIMAIN
                     //MessageBox.Show("主客户添加成功！");
                     dgvUpdateStockNum["状态", index].Value = "1";
                     #region 检查是否有重复的客户名称
-                    using (SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program"))
+                    using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
                     {
                         conn.Open();
                         SqlCommand cmd = new SqlCommand("select CustomerName from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn);
@@ -4459,7 +4484,7 @@ namespace FSTIMAIN
         private void GetPONumber(object dgv0)
         {
             DataGridView dgv = (DataGridView)dgv0;
-            SqlConnection conn = new SqlConnection("Data Source=192.168.8.11;database=FSDB;uid=xym;pwd=xym-123");
+            SqlConnection conn = new SqlConnection(SqlHelper.FSDBSQL);
             conn.Open();
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
@@ -4471,6 +4496,38 @@ namespace FSTIMAIN
             }
             conn.Close();
             MessageBox.Show("匹配完成");
+        }
+
+
+        private void GetCustomerprocessNotYet_Click(object sender, EventArgs e)
+        {
+            #region 客户信息groupBox7信息清空
+            foreach (Control control in groupBox7.Controls)
+            {
+                if (!(control is Label))
+                {
+                    control.Text = null;
+                }
+            }
+            #endregion
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and PROCESSNAME='RY开户审批流程' and TASKUSER='BPM/cuiqingjuan' and ENDTIME >'2019/12/13' and STEPLABEL='ERP管理员新增客户'");
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY开户审批流程' and TASKUSER='BPM/cuiqingjuan' and STEPLABEL='ERP管理员新增客户'");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME ='RY开户审批流程'  and STEPLABEL !='ERP管理员新增客户'");//未完成且不属于当前环节的流程
+            //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY开户审批流程' ");//所有未完成流程
+            string cmdstr = @"SELECT REV_INCIDENT AS 流水号, REV_CREATER_NAME	AS 发起人, REV_CREATER_DPT	AS 发起部门, REV_CREATER_TEL  AS 联系电话, (CASE   WHEN XGKHMC <> '' THEN '客户信息修改'  ELSE '新开户'  END ) AS 类型, KHBM	AS 客户代码, YKHMC AS 原客户名称, KHMC	AS 客户名称, KHDZ	AS 客户地址,(CASE   WHEN KHLB = 'yy' THEN '医院'  ELSE (CASE   WHEN KHLB = 'yd' THEN '药店'  ELSE (CASE   WHEN KHLB = 'mz' THEN '门诊'  ELSE  (CASE   WHEN KHLB = 'gs' or  KHLB = 'yc' THEN '公司'  ELSE   '其他'   END )    END )     END )     END )	AS 公司类型, MS	AS 合并账户, ZKHB	AS 货币类型, YZBM	AS 邮编, DH	AS 电话, CZ	AS 传真,  KHYH	AS 开户银行, ZH	AS 银行账户, SH	AS 税号, ZJL	AS 总经理, YXJL	AS 销售经理, ZB	AS 主办, CWJL	AS 财务经理, YWY	AS 业务员, YWYH	AS 业务代码, KJ	AS 会计, KJDH	AS 会计电话,BZ as 备注,KHSZSF as 客户所在省份 FROM YW_KHSP where REV_INCIDENT=-12345";
+            //string cmdstr = "SELECT * FROM YW_KHSP where REV_INCIDENT=" + Incidents.Rows[0][0];
+
+            for (int i = 0; i < Incidents.Rows.Count; i++)
+            {
+                cmdstr += " or REV_INCIDENT=" + Incidents.Rows[i][0];
+            }
+
+            dgvCustomer.DataSource = SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, cmdstr);
+            for (int i = 0; i < this.dgvCustomer.Columns.Count; i++)
+            {
+                this.dgvCustomer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                this.dgvCustomer.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
         }
     }
 }

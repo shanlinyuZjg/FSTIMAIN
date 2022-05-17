@@ -185,8 +185,8 @@
             this.customercode = new System.Windows.Forms.Label();
             this.label44 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.GetCustomerprocessNotYet = new System.Windows.Forms.Button();
             this.ActiveCustomer = new System.Windows.Forms.Button();
-            this.SubmitCustomer = new System.Windows.Forms.Button();
             this.UpdateCustomer = new System.Windows.Forms.Button();
             this.GetCustomerprocess = new System.Windows.Forms.Button();
             this.AddCustomer = new System.Windows.Forms.Button();
@@ -255,6 +255,8 @@
             this.dgvItmbUpdate = new System.Windows.Forms.DataGridView();
             this.ItmbUpdateResult = new System.Windows.Forms.ListBox();
             this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.label66 = new System.Windows.Forms.Label();
+            this.btnGetPONumber = new System.Windows.Forms.Button();
             this.ZikehuTemplateDownload = new System.Windows.Forms.Button();
             this.BtUpdateZikehu = new System.Windows.Forms.Button();
             this.RowIndexIntime = new System.Windows.Forms.TextBox();
@@ -263,8 +265,6 @@
             this.BtUpdateStockNum = new System.Windows.Forms.Button();
             this.ExcelImport = new System.Windows.Forms.Button();
             this.TemplateDownload = new System.Windows.Forms.Button();
-            this.btnGetPONumber = new System.Windows.Forms.Button();
-            this.label66 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -1837,6 +1837,7 @@
             this.tbUniteAccount.ForeColor = System.Drawing.SystemColors.MenuText;
             this.tbUniteAccount.Location = new System.Drawing.Point(353, 87);
             this.tbUniteAccount.Name = "tbUniteAccount";
+            this.tbUniteAccount.ReadOnly = true;
             this.tbUniteAccount.Size = new System.Drawing.Size(180, 21);
             this.tbUniteAccount.TabIndex = 4;
             this.tbUniteAccount.Text = "\r\n";
@@ -1848,7 +1849,7 @@
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(53, 12);
             this.label61.TabIndex = 3;
-            this.label61.Text = "合并账号";
+            this.label61.Text = "组织账号";
             // 
             // label62
             // 
@@ -1925,8 +1926,8 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.GetCustomerprocessNotYet);
             this.groupBox6.Controls.Add(this.ActiveCustomer);
-            this.groupBox6.Controls.Add(this.SubmitCustomer);
             this.groupBox6.Controls.Add(this.UpdateCustomer);
             this.groupBox6.Controls.Add(this.GetCustomerprocess);
             this.groupBox6.Controls.Add(this.AddCustomer);
@@ -1938,6 +1939,16 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "操作区";
             // 
+            // GetCustomerprocessNotYet
+            // 
+            this.GetCustomerprocessNotYet.Location = new System.Drawing.Point(6, 57);
+            this.GetCustomerprocessNotYet.Name = "GetCustomerprocessNotYet";
+            this.GetCustomerprocessNotYet.Size = new System.Drawing.Size(110, 23);
+            this.GetCustomerprocessNotYet.TabIndex = 9;
+            this.GetCustomerprocessNotYet.Text = "获得未至客户流程";
+            this.GetCustomerprocessNotYet.UseVisualStyleBackColor = true;
+            this.GetCustomerprocessNotYet.Click += new System.EventHandler(this.GetCustomerprocessNotYet_Click);
+            // 
             // ActiveCustomer
             // 
             this.ActiveCustomer.Location = new System.Drawing.Point(20, 166);
@@ -1948,21 +1959,10 @@
             this.ActiveCustomer.UseVisualStyleBackColor = true;
             this.ActiveCustomer.Click += new System.EventHandler(this.ActiveCustomer_Click);
             // 
-            // SubmitCustomer
-            // 
-            this.SubmitCustomer.Enabled = false;
-            this.SubmitCustomer.Location = new System.Drawing.Point(8, 120);
-            this.SubmitCustomer.Name = "SubmitCustomer";
-            this.SubmitCustomer.Size = new System.Drawing.Size(108, 23);
-            this.SubmitCustomer.TabIndex = 6;
-            this.SubmitCustomer.Text = "提交客户流程";
-            this.SubmitCustomer.UseVisualStyleBackColor = true;
-            this.SubmitCustomer.Click += new System.EventHandler(this.SubmitCustomer_Click);
-            // 
             // UpdateCustomer
             // 
             this.UpdateCustomer.Enabled = false;
-            this.UpdateCustomer.Location = new System.Drawing.Point(16, 90);
+            this.UpdateCustomer.Location = new System.Drawing.Point(16, 125);
             this.UpdateCustomer.Name = "UpdateCustomer";
             this.UpdateCustomer.Size = new System.Drawing.Size(89, 23);
             this.UpdateCustomer.TabIndex = 4;
@@ -1972,7 +1972,7 @@
             // 
             // GetCustomerprocess
             // 
-            this.GetCustomerprocess.Location = new System.Drawing.Point(8, 30);
+            this.GetCustomerprocess.Location = new System.Drawing.Point(8, 21);
             this.GetCustomerprocess.Name = "GetCustomerprocess";
             this.GetCustomerprocess.Size = new System.Drawing.Size(108, 23);
             this.GetCustomerprocess.TabIndex = 5;
@@ -1983,7 +1983,7 @@
             // AddCustomer
             // 
             this.AddCustomer.Enabled = false;
-            this.AddCustomer.Location = new System.Drawing.Point(16, 61);
+            this.AddCustomer.Location = new System.Drawing.Point(16, 96);
             this.AddCustomer.Name = "AddCustomer";
             this.AddCustomer.Size = new System.Drawing.Size(89, 23);
             this.AddCustomer.TabIndex = 3;
@@ -2167,6 +2167,7 @@
             // 
             this.textConfig.Location = new System.Drawing.Point(269, 48);
             this.textConfig.Name = "textConfig";
+            this.textConfig.ReadOnly = true;
             this.textConfig.Size = new System.Drawing.Size(135, 21);
             this.textConfig.TabIndex = 14;
             this.textConfig.Text = "m:\\mfgsys\\fs.cfg";
@@ -2771,6 +2772,25 @@
             this.tabPage10.Text = "修改库管员代码";
             this.tabPage10.UseVisualStyleBackColor = true;
             // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Location = new System.Drawing.Point(32, 542);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(149, 12);
+            this.label66.TabIndex = 27;
+            this.label66.Text = "物料代码  批号  采购单号";
+            // 
+            // btnGetPONumber
+            // 
+            this.btnGetPONumber.Location = new System.Drawing.Point(196, 535);
+            this.btnGetPONumber.Name = "btnGetPONumber";
+            this.btnGetPONumber.Size = new System.Drawing.Size(95, 23);
+            this.btnGetPONumber.TabIndex = 26;
+            this.btnGetPONumber.Text = "匹配采购单号";
+            this.btnGetPONumber.UseVisualStyleBackColor = true;
+            this.btnGetPONumber.Click += new System.EventHandler(this.btnGetPONumber_Click);
+            // 
             // ZikehuTemplateDownload
             // 
             this.ZikehuTemplateDownload.Location = new System.Drawing.Point(28, 493);
@@ -2854,25 +2874,6 @@
             this.TemplateDownload.UseVisualStyleBackColor = true;
             this.TemplateDownload.Click += new System.EventHandler(this.TemplateDownload_Click);
             // 
-            // btnGetPONumber
-            // 
-            this.btnGetPONumber.Location = new System.Drawing.Point(196, 535);
-            this.btnGetPONumber.Name = "btnGetPONumber";
-            this.btnGetPONumber.Size = new System.Drawing.Size(95, 23);
-            this.btnGetPONumber.TabIndex = 26;
-            this.btnGetPONumber.Text = "匹配采购单号";
-            this.btnGetPONumber.UseVisualStyleBackColor = true;
-            this.btnGetPONumber.Click += new System.EventHandler(this.btnGetPONumber_Click);
-            // 
-            // label66
-            // 
-            this.label66.AutoSize = true;
-            this.label66.Location = new System.Drawing.Point(32, 542);
-            this.label66.Name = "label66";
-            this.label66.Size = new System.Drawing.Size(149, 12);
-            this.label66.TabIndex = 27;
-            this.label66.Text = "物料代码  批号  采购单号";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2885,6 +2886,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ERP-BPM流程";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
@@ -3088,7 +3090,6 @@
         private System.Windows.Forms.ListBox listBoxCustomer;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button ActiveCustomer;
-        private System.Windows.Forms.Button SubmitCustomer;
         private System.Windows.Forms.Button UpdateCustomer;
         private System.Windows.Forms.Button GetCustomerprocess;
         private System.Windows.Forms.Button AddCustomer;
@@ -3185,6 +3186,7 @@
         private System.Windows.Forms.Button ZikehuTemplateDownload;
         private System.Windows.Forms.Label label66;
         private System.Windows.Forms.Button btnGetPONumber;
+        private System.Windows.Forms.Button GetCustomerprocessNotYet;
     }
 }
 

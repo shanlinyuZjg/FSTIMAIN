@@ -11,11 +11,15 @@ namespace FSTIMAIN.DAL                                                   //ÏîÄ¿Ã
 {
     class SqlHelper
     {
-        private static readonly string connstr = "Data Source=192.168.8.67;database=UltimusBusiness;uid=ERP;pwd=bpm+123";
-            //ConfigurationManager.ConnectionStrings["connstr"].ConnectionString;    //ÅäÖÃÎÄ¼þApp.configµÄÁ¬½ÓÊý¾Ý¿â×Ö·û´®
+        public static readonly string FSDBMRSQL = "Data Source=192.168.8.11;database=FSDBMR;uid=program;pwd=program";
+        public static readonly string FSDBSQL = "Data Source=192.168.8.11;database=FSDB;uid=program;pwd=program";
+        public static readonly string FSDBMRSQLOLEDB = "Provider=SQLOLEDB.1; Data Source=192.168.8.11;Initial Catalog=FSDBMR;User ID=program;PassWord=program;Auto Translate=False;";
+        public static readonly string ultimusSQL = "Data Source=192.168.8.67;database=ultimus;uid=ERP;pwd=bpm+123";
+        public static readonly string UltimusBusinessSQL = "Data Source=192.168.8.67;database=UltimusBusiness;uid=ERP;pwd=bpm+123";
+            //ConfigurationManager.ConnectionStrings["UltimusBusinessSQL"].ConnectionString;    //ÅäÖÃÎÄ¼þApp.configµÄÁ¬½ÓÊý¾Ý¿â×Ö·û´®
         public static int ExecuteNonQuery(string cmdText, params SqlParameter[] para)
         {
-            SqlConnection conn = new SqlConnection(connstr);
+            SqlConnection conn = new SqlConnection(UltimusBusinessSQL);
             conn.Open();
             SqlCommand cmd = new SqlCommand(cmdText, conn);
             cmd.Parameters.AddRange(para);
@@ -23,7 +27,7 @@ namespace FSTIMAIN.DAL                                                   //ÏîÄ¿Ã
         }
         public static object ExecuteScalar(string cmdText, params SqlParameter[] para)
         {
-            SqlConnection conn = new SqlConnection(connstr);
+            SqlConnection conn = new SqlConnection(UltimusBusinessSQL);
             conn.Open();
             SqlCommand cmd = new SqlCommand(cmdText, conn);
             cmd.Parameters.AddRange(para);
@@ -31,7 +35,7 @@ namespace FSTIMAIN.DAL                                                   //ÏîÄ¿Ã
         }
         public static DataTable ExecuteDataTable(string cmdText, params SqlParameter[] para)
         {
-            SqlConnection conn = new SqlConnection(connstr);
+            SqlConnection conn = new SqlConnection(UltimusBusinessSQL);
             SqlCommand cmd = new SqlCommand(cmdText, conn);
             cmd.Parameters.AddRange(para);
             DataTable dt = new DataTable();
@@ -44,7 +48,7 @@ namespace FSTIMAIN.DAL                                                   //ÏîÄ¿Ã
 //ÒýÓÃÌí¼Ó  System.Configuration
 //App.config Ìí¼ÓÏÂÃæµÄ´úÂë
  // <connectionStrings>
-  //  <add name="connstr" connectionString="Data Source=DESKTOP-4TK3U1D;Initial Catalog=sanceng;Integrated Security=True"/>
+  //  <add name="UltimusBusinessSQL" connectionString="Data Source=DESKTOP-4TK3U1D;Initial Catalog=sanceng;Integrated Security=True"/>
   // "Data Source=(local);database=BOOKS;uid=sa;pwd=123456"
   //"Data Source=192.168.36.90;database=BOOKS;uid=sa;pwd=123456"
   //  </connectionStrings>    
