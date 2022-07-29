@@ -2203,7 +2203,6 @@
             this.textUserId.Name = "textUserId";
             this.textUserId.Size = new System.Drawing.Size(125, 21);
             this.textUserId.TabIndex = 16;
-            this.textUserId.Text = "ZJG";
             this.textUserId.TextChanged += new System.EventHandler(this.textUserId_TextChanged);
             // 
             // btnLogon
@@ -2224,7 +2223,6 @@
             this.textPassword.PasswordChar = '*';
             this.textPassword.Size = new System.Drawing.Size(125, 21);
             this.textPassword.TabIndex = 17;
-            this.textPassword.Text = "Zz111000";
             this.textPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textPassword_KeyDown);
             // 
             // btnInitialize

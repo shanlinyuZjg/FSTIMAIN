@@ -3228,6 +3228,8 @@ namespace FSTIMAIN
                 }
             }
             #endregion
+            AddSubCustomer Asc = new AddSubCustomer("ZJG","ZJGname","软件");
+            Asc.ShowDialog();
         }
 
         private void ActiveCustomer_Click(object sender, EventArgs e)
@@ -3680,14 +3682,14 @@ namespace FSTIMAIN
                 //myItmb.RolledFixedOverheadCost.Value = Convert.ToDecimal(dgvBOM["固定间接费", i].Value.ToString().Trim()).ToString("0.000000000");
                 if (_fstiClient.ProcessId(myItmb, null))
                 {
-                    ItmbUpdateResult.Items.Add(string.Format("第{0}ITMC成本修改成功!", (i + 1)));
+                    ItmbUpdateResult.Items.Add(string.Format("第{0}行ITMC成本修改成功!", (i + 1)));
                     ItmbUpdateResult.Items.Add(_fstiClient.CDFResponse);
                 }
                 else
                 {
                     a = 0;
                     dgvItmbUpdateDetail["修改后成本", i].Style.BackColor = Color.Red;
-                    ItmbUpdateResult.Items.Add(string.Format("第{0}ITMC成本修改失败!", (i + 1)));
+                    ItmbUpdateResult.Items.Add(string.Format("第{0}行ITMC成本修改失败!", (i + 1)));
                     FSTIError itemError = _fstiClient.TransactionError;
                     DumpErrorObject(myItmb, itemError, ItmbUpdateResult);
                 }
@@ -3734,7 +3736,7 @@ namespace FSTIMAIN
 
                 if (_fstiClient.ProcessId(myItmc, null))
                 {
-                    ItmbUpdateResult.Items.Add(string.Format("第{0}ITMC产品线和库存账号修改成功!", (i + 1)));
+                    ItmbUpdateResult.Items.Add(string.Format("第{0}行ITMC产品线和库存账号修改成功!", (i + 1)));
                     ItmbUpdateResult.Items.Add(_fstiClient.CDFResponse);
                 }
                 else
