@@ -489,9 +489,9 @@
             this.label1.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.label1.Location = new System.Drawing.Point(19, 444);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(425, 12);
+            this.label1.Size = new System.Drawing.Size(485, 12);
             this.label1.TabIndex = 29;
-            this.label1.Text = "提示：增加子客户提示成功时才能使用，若有其他信息提示请联系软件服务处。";
+            this.label1.Text = "提示：增加子客户提示成功时才能使用，若有其他信息提示或操作错误请联系软件服务处。";
             // 
             // label2
             // 
