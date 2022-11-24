@@ -38,60 +38,9 @@ namespace FSTIMAIN
             ItemClass.SelectedIndex = 5;
             ItemClasssh.SelectedIndex = 5;
             this.Show();
-            this.textPassword.Focus();
-            #region 注释
-            //try
-            //{
-            //    _fstiClient = new FSTIClient();
+            btnInitialize_Click(null, null);
+            this.textUserId.Focus();
 
-            //    // call InitializeByConfigFile
-            //    // second parameter == true is to participate in unified logon
-            //    // third parameter == false, no support for impersonation is needed
-            //    string fscfg = @"Z:\mfgsys\fs.cfg";
-            //    _fstiClient.InitializeByConfigFile(fscfg, true, false);
-
-            //    // Since this program is participating in unified logon, need to
-            //    // check if a logon is required.
-            //    if (_fstiClient.IsLogonRequired)
-            //    {
-            //        string message = null;     // used to hold a return message, from the logon
-            //        int status;         // receives the return value from the logon call
-
-            //        status = _fstiClient.Logon("ZJG", "123321", ref message);
-            //        if (status > 0)
-            //        {
-            //            MessageBox.Show("Invalid user id or password");
-            //            toolStripStatusLabel1.Text = "未登录";
-            //            toolStripStatusLabel2.Text = "";
-            //            toolStripStatusLabel3.Text = "";
-            //        }
-            //        else
-            //        {
-            //            toolStripStatusLabel1.Text = "ID:"+ _fstiClient.UserId;
-            //            toolStripStatusLabel2.Text = "配置文件：" + fscfg;
-            //            toolStripStatusLabel3.Text = "服务器:" + _fstiClient.ServerName;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        toolStripStatusLabel1.Text = "ID:" + _fstiClient.UserId;
-            //        toolStripStatusLabel2.Text = "配置文件：" + fscfg;
-            //        toolStripStatusLabel3.Text = "服务器:"+ _fstiClient.ServerName;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    toolStripStatusLabel1.Text = "未登录";
-            //    toolStripStatusLabel2.Text = "";
-            //    toolStripStatusLabel3.Text = "";
-            //    if (_fstiClient != null)
-            //    {
-            //        _fstiClient.Terminate();
-            //        _fstiClient = null;
-            //    }
-            //    MessageBox.Show(ex.Message);
-            //}
-            #endregion
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)//关闭程序时，退出登录
@@ -245,7 +194,7 @@ namespace FSTIMAIN
                 BOMhanghao.Text = (rowindex + 1).ToString();
                 string ParentGuid = BOM.Rows[rowindex].Cells["ParentGuid"].Value.ToString();
 
-                dgvBOMDetail.DataSource = SqlHelper.ExecuteDataTable("SELECT upper(ltrim(rtrim(YY))) as 用于,upper(ltrim(rtrim(XH))) as 序号,upper(ltrim(rtrim(ZX))) as 子项,upper(ltrim(rtrim(ZL))) as 子类,upper(ltrim(rtrim(SL))) as 数量,upper(ltrim(rtrim(LL))) as 量类,upper(ltrim(rtrim(DW))) as 单位,upper(ltrim(rtrim(SHX))) as 生效,upper(ltrim(rtrim(SX))) as 失效,upper(ltrim(rtrim(SH))) as 损耗 FROM YW_JXSYSQ_EX where ParentGuid = '" + ParentGuid + "'");
+                dgvBOMDetail.DataSource = SqlHelper.ExecuteDataTable("SELECT ZT as 状态, upper(ltrim(rtrim(YY))) as 用于,upper(ltrim(rtrim(XH))) as 序号,upper(ltrim(rtrim(ZX))) as 子项,upper(ltrim(rtrim(ZL))) as 子类,upper(ltrim(rtrim(SL))) as 数量,upper(ltrim(rtrim(LL))) as 量类,upper(ltrim(rtrim(DW))) as 单位,upper(ltrim(rtrim(SHX))) as 生效,upper(ltrim(rtrim(SX))) as 失效,upper(ltrim(rtrim(SH))) as 损耗 FROM YW_JXSYSQ_EX where ParentGuid = '" + ParentGuid + "'");
                 if (BOM.Rows[rowindex].Cells["申请方式"].Value.ToString() == "增加")
                 { AddBOM.Enabled = true; UpdateBOM.Enabled = false; }
                 if (BOM.Rows[rowindex].Cells["申请方式"].Value.ToString() == "修改")
@@ -441,6 +390,7 @@ namespace FSTIMAIN
             int shibai = 0;
             for (int i = 0; i < dgvBOMDetail.Rows.Count; i++)
             {
+                if (dgvBOMDetail["状态", i].Value.ToString() == "删除") continue;
                 BILL00 myBill = new BILL00();
                 if (dgvBOMDetail["序号", i].Value.ToString() == "")
                     continue;
@@ -1548,7 +1498,12 @@ namespace FSTIMAIN
             myItmb.InspectionLeadTimeDays.Value = dgvItmbDetail["检验", rowIndex].Value.ToString();
             myItmb.PreferredStockroom.Value = dgvItmbDetail["优先库", rowIndex].Value.ToString();
             myItmb.PreferredBin.Value = dgvItmbDetail["位", rowIndex].Value.ToString();
-            if (dgvItmbDetail["单位", rowIndex].Value.ToString().Trim().ToUpper() == "KG")
+            string dgvItemUM = dgvItmbDetail["单位", rowIndex].Value.ToString().Trim().ToUpper();
+            if (dgvItemUM == "BI")
+            { myItmb.DecimalPrecision.Value = "3"; }
+            if (dgvItemUM == "KG"|| dgvItemUM == "L" || dgvItemUM == "M" || dgvItemUM == "C" || dgvItemUM == "S" || dgvItemUM == "T")
+            { myItmb.DecimalPrecision.Value = "2"; }
+            if (dgvItemUM == "WA"|| dgvItemUM == "WG")
             { myItmb.DecimalPrecision.Value = "4"; }
             myItmb.LotSizeMinimum.Value = dgvItmbDetail["最小批量订货", rowIndex].Value.ToString();
             myItmb.LotSizeMultiplier.Value = dgvItmbDetail["批量订货倍数", rowIndex].Value.ToString();
@@ -1598,7 +1553,14 @@ namespace FSTIMAIN
                 itmb07.IsLotTraceItemFIFO.Value = "Y";
                 itmb07.BackflushPolicy.Value = "N";
                 //itmb07.LastUsedLotCounter.Value = "000000000";
-                //itmb07.LotNumberMask.Value = "YYMMDDNN";
+                //if (fenlei == "M")
+                //{
+                    itmb07.LotNumberMask.Value = "XXXXXXXXXXXXXXXXXXXX";
+                //}
+                //else
+                //{
+                //    itmb07.LotNumberMask.Value = "YYMMDDNN";
+                //}
                 if (_fstiClient.ProcessId(itmb07, null))
                 {
                     ITMBResult.Items.Add("ITMB批号明细添加成功:");
@@ -1614,8 +1576,30 @@ namespace FSTIMAIN
                     return false;
                 }
             }
-            else if (fenlei == "P" || fenlei == "A")
-                ITMBResult.Items.Add("P类A类物料ITMB批号明细无需添加！");
+            else if (fenlei == "P")
+            {
+                ITMB07 itmb07 = new ITMB07();
+                itmb07.ItemNumber.Value = materialcode;
+                //itmb07.LastUsedLotCounter.Value = "000000000";
+                itmb07.LotNumberMask.Value = "XXXXXXXXXXXXXXXXXXXX";
+
+                if (_fstiClient.ProcessId(itmb07, null))
+                {
+                    ITMBResult.Items.Add("P类ITMB批号明细添加成功:");
+                    ITMBResult.Items.Add(_fstiClient.CDFResponse);
+                    ITMBResult.Items.Add("*************************************");
+
+                }
+                else
+                {
+                    ITMBResult.Items.Add("P类ITMB批号明细添加失败:");
+                    FSTIError itemError = _fstiClient.TransactionError;
+                    DumpErrorObject(itmb07, itemError, ITMBResult);
+                    return false;
+                }
+            }
+            else if (fenlei == "A")
+                ITMBResult.Items.Add("A类物料ITMB批号明细无需添加！");
             return true;
         }
         private bool AddItemMasterFileDetail(int rowIndex)//增加ITMB物料明细
@@ -4530,6 +4514,23 @@ namespace FSTIMAIN
                 this.dgvCustomer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 this.dgvCustomer.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
+        }
+
+        private void NumForSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter) return;
+         
+            List<ITMBliucheng> list1 = new List<ITMBliucheng>();
+                ITMBliucheng Vendor1 = TolistITMB(SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, "SELECT * FROM [dbo].[YW_ZJWLCB] where REV_INCIDENT=" + NumForSearch.Text.Trim()));
+                list1.Add(Vendor1);
+
+            dgvItmb.DataSource = list1;
+            for (int i = 0; i < this.dgvItmb.Columns.Count; i++)
+            {
+                this.dgvItmb.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                this.dgvItmb.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+            ITMBResult.Items.Clear();
         }
     }
 }
