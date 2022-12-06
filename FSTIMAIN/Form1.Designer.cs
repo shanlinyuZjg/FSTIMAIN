@@ -51,6 +51,8 @@
             this.AddBOM = new System.Windows.Forms.Button();
             this.BOM = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.TBaddItemsResult = new System.Windows.Forms.TextBox();
+            this.checkBoxUpdateItem = new System.Windows.Forms.CheckBox();
             this.ITMBfaqibumen = new System.Windows.Forms.Label();
             this.label69 = new System.Windows.Forms.Label();
             this.ItemNamedgv = new System.Windows.Forms.DataGridView();
@@ -205,6 +207,7 @@
             this.wuliaoqiyong = new System.Windows.Forms.ListBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.textConfig = new System.Windows.Forms.TextBox();
             this.lblPassword = new System.Windows.Forms.Label();
             this.lblConfig = new System.Windows.Forms.Label();
@@ -266,6 +269,8 @@
             this.BtUpdateStockNum = new System.Windows.Forms.Button();
             this.ExcelImport = new System.Windows.Forms.Button();
             this.TemplateDownload = new System.Windows.Forms.Button();
+            this.TbUpdateCost = new System.Windows.Forms.TextBox();
+            this.TbBOM = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -365,6 +370,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.PowderBlue;
+            this.tabPage1.Controls.Add(this.TbBOM);
             this.tabPage1.Controls.Add(this.BOMhanghao);
             this.tabPage1.Controls.Add(this.label37);
             this.tabPage1.Controls.Add(this.BOMliushuihao);
@@ -384,8 +390,10 @@
             // 
             // BOMhanghao
             // 
+            this.BOMhanghao.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.BOMhanghao.AutoSize = true;
-            this.BOMhanghao.Location = new System.Drawing.Point(554, 354);
+            this.BOMhanghao.Location = new System.Drawing.Point(554, 356);
             this.BOMhanghao.Name = "BOMhanghao";
             this.BOMhanghao.Size = new System.Drawing.Size(47, 12);
             this.BOMhanghao.TabIndex = 13;
@@ -393,8 +401,10 @@
             // 
             // label37
             // 
+            this.label37.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(495, 354);
+            this.label37.Location = new System.Drawing.Point(495, 356);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(41, 12);
             this.label37.TabIndex = 12;
@@ -402,8 +412,10 @@
             // 
             // BOMliushuihao
             // 
+            this.BOMliushuihao.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.BOMliushuihao.AutoSize = true;
-            this.BOMliushuihao.Location = new System.Drawing.Point(386, 354);
+            this.BOMliushuihao.Location = new System.Drawing.Point(386, 356);
             this.BOMliushuihao.Name = "BOMliushuihao";
             this.BOMliushuihao.Size = new System.Drawing.Size(65, 12);
             this.BOMliushuihao.TabIndex = 11;
@@ -411,8 +423,10 @@
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(327, 354);
+            this.label3.Location = new System.Drawing.Point(327, 356);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 10;
@@ -440,17 +454,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvBOMDetail.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.dgvBOMDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvBOMDetail.Location = new System.Drawing.Point(145, 370);
+            this.dgvBOMDetail.Location = new System.Drawing.Point(145, 377);
             this.dgvBOMDetail.Name = "dgvBOMDetail";
             this.dgvBOMDetail.RowTemplate.Height = 23;
-            this.dgvBOMDetail.Size = new System.Drawing.Size(1248, 390);
+            this.dgvBOMDetail.Size = new System.Drawing.Size(1248, 383);
             this.dgvBOMDetail.TabIndex = 8;
             this.dgvBOMDetail.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvBOMDetail_RowPostPaint);
             // 
             // ParentItem
             // 
+            this.ParentItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ParentItem.AutoSize = true;
-            this.ParentItem.Location = new System.Drawing.Point(220, 354);
+            this.ParentItem.Location = new System.Drawing.Point(220, 356);
             this.ParentItem.Name = "ParentItem";
             this.ParentItem.Size = new System.Drawing.Size(65, 12);
             this.ParentItem.TabIndex = 7;
@@ -458,8 +474,10 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(150, 354);
+            this.label1.Location = new System.Drawing.Point(150, 356);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 6;
@@ -552,6 +570,8 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.PowderBlue;
+            this.tabPage2.Controls.Add(this.TBaddItemsResult);
+            this.tabPage2.Controls.Add(this.checkBoxUpdateItem);
             this.tabPage2.Controls.Add(this.ITMBfaqibumen);
             this.tabPage2.Controls.Add(this.label69);
             this.tabPage2.Controls.Add(this.ItemNamedgv);
@@ -574,10 +594,29 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "物料添加";
             // 
+            // TBaddItemsResult
+            // 
+            this.TBaddItemsResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TBaddItemsResult.Location = new System.Drawing.Point(502, 570);
+            this.TBaddItemsResult.Name = "TBaddItemsResult";
+            this.TBaddItemsResult.Size = new System.Drawing.Size(891, 21);
+            this.TBaddItemsResult.TabIndex = 39;
+            // 
+            // checkBoxUpdateItem
+            // 
+            this.checkBoxUpdateItem.AutoSize = true;
+            this.checkBoxUpdateItem.Location = new System.Drawing.Point(162, 353);
+            this.checkBoxUpdateItem.Name = "checkBoxUpdateItem";
+            this.checkBoxUpdateItem.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxUpdateItem.TabIndex = 32;
+            this.checkBoxUpdateItem.Text = "修改";
+            this.checkBoxUpdateItem.UseVisualStyleBackColor = true;
+            // 
             // ITMBfaqibumen
             // 
             this.ITMBfaqibumen.AutoSize = true;
-            this.ITMBfaqibumen.Location = new System.Drawing.Point(699, 354);
+            this.ITMBfaqibumen.Location = new System.Drawing.Point(794, 354);
             this.ITMBfaqibumen.Name = "ITMBfaqibumen";
             this.ITMBfaqibumen.Size = new System.Drawing.Size(59, 12);
             this.ITMBfaqibumen.TabIndex = 38;
@@ -586,7 +625,7 @@
             // label69
             // 
             this.label69.AutoSize = true;
-            this.label69.Location = new System.Drawing.Point(629, 354);
+            this.label69.Location = new System.Drawing.Point(724, 354);
             this.label69.Name = "label69";
             this.label69.Size = new System.Drawing.Size(65, 12);
             this.label69.TabIndex = 37;
@@ -635,7 +674,7 @@
             // ITMBhanghao
             // 
             this.ITMBhanghao.AutoSize = true;
-            this.ITMBhanghao.Location = new System.Drawing.Point(533, 354);
+            this.ITMBhanghao.Location = new System.Drawing.Point(628, 354);
             this.ITMBhanghao.Name = "ITMBhanghao";
             this.ITMBhanghao.Size = new System.Drawing.Size(47, 12);
             this.ITMBhanghao.TabIndex = 33;
@@ -644,7 +683,7 @@
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(488, 354);
+            this.label38.Location = new System.Drawing.Point(583, 354);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(41, 12);
             this.label38.TabIndex = 32;
@@ -659,16 +698,16 @@
             this.groupBox5.Controls.Add(this.SubmitITMB);
             this.groupBox5.Controls.Add(this.GetITMB);
             this.groupBox5.ForeColor = System.Drawing.Color.Blue;
-            this.groupBox5.Location = new System.Drawing.Point(17, 184);
+            this.groupBox5.Location = new System.Drawing.Point(6, 184);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(122, 182);
+            this.groupBox5.Size = new System.Drawing.Size(133, 182);
             this.groupBox5.TabIndex = 31;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "操作区";
             // 
             // NumForSearch
             // 
-            this.NumForSearch.Location = new System.Drawing.Point(14, 157);
+            this.NumForSearch.Location = new System.Drawing.Point(16, 157);
             this.NumForSearch.Name = "NumForSearch";
             this.NumForSearch.Size = new System.Drawing.Size(100, 21);
             this.NumForSearch.TabIndex = 31;
@@ -677,7 +716,7 @@
             // UpdateITMB
             // 
             this.UpdateITMB.Enabled = false;
-            this.UpdateITMB.Location = new System.Drawing.Point(16, 75);
+            this.UpdateITMB.Location = new System.Drawing.Point(29, 75);
             this.UpdateITMB.Name = "UpdateITMB";
             this.UpdateITMB.Size = new System.Drawing.Size(75, 23);
             this.UpdateITMB.TabIndex = 27;
@@ -687,7 +726,7 @@
             // 
             // jihuoITMB
             // 
-            this.jihuoITMB.Location = new System.Drawing.Point(20, 131);
+            this.jihuoITMB.Location = new System.Drawing.Point(29, 131);
             this.jihuoITMB.Name = "jihuoITMB";
             this.jihuoITMB.Size = new System.Drawing.Size(75, 23);
             this.jihuoITMB.TabIndex = 30;
@@ -698,7 +737,7 @@
             // AddITMB
             // 
             this.AddITMB.Enabled = false;
-            this.AddITMB.Location = new System.Drawing.Point(16, 47);
+            this.AddITMB.Location = new System.Drawing.Point(29, 47);
             this.AddITMB.Name = "AddITMB";
             this.AddITMB.Size = new System.Drawing.Size(75, 23);
             this.AddITMB.TabIndex = 26;
@@ -709,7 +748,7 @@
             // SubmitITMB
             // 
             this.SubmitITMB.Enabled = false;
-            this.SubmitITMB.Location = new System.Drawing.Point(14, 103);
+            this.SubmitITMB.Location = new System.Drawing.Point(22, 103);
             this.SubmitITMB.Name = "SubmitITMB";
             this.SubmitITMB.Size = new System.Drawing.Size(88, 23);
             this.SubmitITMB.TabIndex = 29;
@@ -719,7 +758,7 @@
             // 
             // GetITMB
             // 
-            this.GetITMB.Location = new System.Drawing.Point(14, 19);
+            this.GetITMB.Location = new System.Drawing.Point(22, 19);
             this.GetITMB.Name = "GetITMB";
             this.GetITMB.Size = new System.Drawing.Size(88, 23);
             this.GetITMB.TabIndex = 28;
@@ -730,16 +769,16 @@
             // ITMBliushuihao
             // 
             this.ITMBliushuihao.AutoSize = true;
-            this.ITMBliushuihao.Location = new System.Drawing.Point(212, 354);
+            this.ITMBliushuihao.Location = new System.Drawing.Point(307, 354);
             this.ITMBliushuihao.Name = "ITMBliushuihao";
-            this.ITMBliushuihao.Size = new System.Drawing.Size(53, 12);
+            this.ITMBliushuihao.Size = new System.Drawing.Size(65, 12);
             this.ITMBliushuihao.TabIndex = 25;
-            this.ITMBliushuihao.Text = "liushuih";
+            this.ITMBliushuihao.Text = "liushuihao";
             // 
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(153, 354);
+            this.label29.Location = new System.Drawing.Point(248, 354);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(53, 12);
             this.label29.TabIndex = 24;
@@ -748,7 +787,7 @@
             // ITMBjieshoudanwei
             // 
             this.ITMBjieshoudanwei.AutoSize = true;
-            this.ITMBjieshoudanwei.Location = new System.Drawing.Point(347, 354);
+            this.ITMBjieshoudanwei.Location = new System.Drawing.Point(442, 354);
             this.ITMBjieshoudanwei.Name = "ITMBjieshoudanwei";
             this.ITMBjieshoudanwei.Size = new System.Drawing.Size(83, 12);
             this.ITMBjieshoudanwei.TabIndex = 23;
@@ -757,7 +796,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(277, 354);
+            this.label2.Location = new System.Drawing.Point(372, 354);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 12);
             this.label2.TabIndex = 22;
@@ -791,7 +830,7 @@
             this.dgvItmb.Name = "dgvItmb";
             this.dgvItmb.ReadOnly = true;
             this.dgvItmb.RowTemplate.Height = 23;
-            this.dgvItmb.Size = new System.Drawing.Size(1248, 166);
+            this.dgvItmb.Size = new System.Drawing.Size(1248, 163);
             this.dgvItmb.TabIndex = 20;
             this.dgvItmb.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItmb_CellDoubleClick);
             // 
@@ -2156,6 +2195,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.textConfig);
             this.groupBox1.Controls.Add(this.lblPassword);
             this.groupBox1.Controls.Add(this.lblConfig);
@@ -2172,6 +2212,16 @@
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "四班登录";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(75, 203);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 22;
+            this.button1.Text = "RPA弹窗";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textConfig
             // 
@@ -2615,6 +2665,7 @@
             // tabPage9
             // 
             this.tabPage9.BackColor = System.Drawing.Color.PowderBlue;
+            this.tabPage9.Controls.Add(this.TbUpdateCost);
             this.tabPage9.Controls.Add(this.dgvItemNumber);
             this.tabPage9.Controls.Add(this.ItmbUpdateRowNumber);
             this.tabPage9.Controls.Add(this.label68);
@@ -2650,7 +2701,7 @@
             // ItmbUpdateRowNumber
             // 
             this.ItmbUpdateRowNumber.AutoSize = true;
-            this.ItmbUpdateRowNumber.Location = new System.Drawing.Point(507, 362);
+            this.ItmbUpdateRowNumber.Location = new System.Drawing.Point(507, 364);
             this.ItmbUpdateRowNumber.Name = "ItmbUpdateRowNumber";
             this.ItmbUpdateRowNumber.Size = new System.Drawing.Size(47, 12);
             this.ItmbUpdateRowNumber.TabIndex = 46;
@@ -2659,7 +2710,7 @@
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Location = new System.Drawing.Point(462, 362);
+            this.label68.Location = new System.Drawing.Point(462, 364);
             this.label68.Name = "label68";
             this.label68.Size = new System.Drawing.Size(41, 12);
             this.label68.TabIndex = 45;
@@ -2700,16 +2751,16 @@
             // ItmbUpdateNumber
             // 
             this.ItmbUpdateNumber.AutoSize = true;
-            this.ItmbUpdateNumber.Location = new System.Drawing.Point(274, 362);
+            this.ItmbUpdateNumber.Location = new System.Drawing.Point(274, 364);
             this.ItmbUpdateNumber.Name = "ItmbUpdateNumber";
-            this.ItmbUpdateNumber.Size = new System.Drawing.Size(53, 12);
+            this.ItmbUpdateNumber.Size = new System.Drawing.Size(65, 12);
             this.ItmbUpdateNumber.TabIndex = 43;
-            this.ItmbUpdateNumber.Text = "liushuih";
+            this.ItmbUpdateNumber.Text = "liushuihao";
             // 
             // label70
             // 
             this.label70.AutoSize = true;
-            this.label70.Location = new System.Drawing.Point(215, 362);
+            this.label70.Location = new System.Drawing.Point(215, 364);
             this.label70.Name = "label70";
             this.label70.Size = new System.Drawing.Size(53, 12);
             this.label70.TabIndex = 42;
@@ -2723,10 +2774,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvItmbUpdateDetail.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.dgvItmbUpdateDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvItmbUpdateDetail.Location = new System.Drawing.Point(18, 378);
+            this.dgvItmbUpdateDetail.Location = new System.Drawing.Point(18, 385);
             this.dgvItmbUpdateDetail.Name = "dgvItmbUpdateDetail";
             this.dgvItmbUpdateDetail.RowTemplate.Height = 23;
-            this.dgvItmbUpdateDetail.Size = new System.Drawing.Size(1376, 288);
+            this.dgvItmbUpdateDetail.Size = new System.Drawing.Size(1376, 281);
             this.dgvItmbUpdateDetail.TabIndex = 39;
             this.dgvItmbUpdateDetail.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItmbUpdateDetail_CellClick);
             // 
@@ -2881,6 +2932,24 @@
             this.TemplateDownload.Text = "模板下载";
             this.TemplateDownload.UseVisualStyleBackColor = true;
             this.TemplateDownload.Click += new System.EventHandler(this.TemplateDownload_Click);
+            // 
+            // TbUpdateCost
+            // 
+            this.TbUpdateCost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TbUpdateCost.Location = new System.Drawing.Point(603, 360);
+            this.TbUpdateCost.Name = "TbUpdateCost";
+            this.TbUpdateCost.Size = new System.Drawing.Size(790, 21);
+            this.TbUpdateCost.TabIndex = 50;
+            // 
+            // TbBOM
+            // 
+            this.TbBOM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TbBOM.Location = new System.Drawing.Point(657, 352);
+            this.TbBOM.Name = "TbBOM";
+            this.TbBOM.Size = new System.Drawing.Size(736, 21);
+            this.TbBOM.TabIndex = 14;
             // 
             // Form1
             // 
@@ -3197,6 +3266,11 @@
         private System.Windows.Forms.Button btnGetPONumber;
         private System.Windows.Forms.Button GetCustomerprocessNotYet;
         private System.Windows.Forms.TextBox NumForSearch;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox checkBoxUpdateItem;
+        private System.Windows.Forms.TextBox TBaddItemsResult;
+        private System.Windows.Forms.TextBox TbUpdateCost;
+        private System.Windows.Forms.TextBox TbBOM;
     }
 }
 

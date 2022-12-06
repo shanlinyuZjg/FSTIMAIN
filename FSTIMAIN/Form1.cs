@@ -35,10 +35,10 @@ namespace FSTIMAIN
         private void Form1_Load(object sender, EventArgs e)//初始化登录四班账号
         {
             tabControl1.SelectedIndex = 5;//默认打开登录界面
-            ItemClass.SelectedIndex = 5;
+            ItemClass.SelectedIndex = 5;//物料类型全部
             ItemClasssh.SelectedIndex = 5;
             this.Show();
-            btnInitialize_Click(null, null);
+            btnInitialize_Click(null, null);//连接四班服务器
             this.textUserId.Focus();
 
         }
@@ -53,6 +53,8 @@ namespace FSTIMAIN
         }
         private void btnInitialize_Click(object sender, EventArgs e)//登录界面配置文件的初始化按钮
         {
+            string RpaSuccess = "四班服务器连接成功";
+            string RpaFail = "四班服务器连接失败";
             try
             {
                 if (_fstiClient != null)
@@ -79,43 +81,62 @@ namespace FSTIMAIN
                     // Logon is required, enable the logon button
                     btnLogon.Enabled = true;
                     btnLogon.Focus();
+                    btnInitialize.Enabled = false;
+                    MessageBox.Show(RpaSuccess);
                 }
                 else
                 {
                     toolStripStatusLabel1.Text = "ID:" + _fstiClient.UserId;
                     toolStripStatusLabel2.Text = "配置文件：" + textConfig.Text.Trim();
                     toolStripStatusLabel3.Text = "服务器:" + _fstiClient.ServerName;
+                    btnInitialize.Enabled = false;
+                    MessageBox.Show(RpaFail);
                 }
-                // Disable the Initialize button
-                btnInitialize.Enabled = false;
+                
             }
 
             catch (FSTIApplicationException exception)
             {
-                MessageBox.Show(exception.Message, "FSTIApplication Exception");
+                //MessageBox.Show(exception.Message, "FSTIApplication Exception");
                 _fstiClient.Terminate();
                 _fstiClient = null;
+                MessageBox.Show(RpaFail);
             }
         }
         private void btnLogon_Click(object sender, EventArgs e)//登录界面配置文件的登录按钮
         {
-            if (btnLogon.Enabled == false)
-            { MessageBox.Show("请先初始化！"); return; }
-            string message = null;     // used to hold a return message, from the logon
-            int status;         // receives the return value from the logon call
-            textUserId.Text = textUserId.Text.Trim();
-            textPassword.Text = textPassword.Text.Trim();
-            status = _fstiClient.Logon(textUserId.Text, textPassword.Text, ref message);
-            if (status > 0)
+            string RpaSuccess = "四班用户登录成功";
+            string RpaFail = "四班用户登录失败";
+            try
             {
-                MessageBox.Show("Invalid user id or password");
+                if (btnLogon.Enabled == false)
+                {
+                    MessageBox.Show("请先初始化！");
+                    //MessageBox.Show(RpaFail);//RPA不会执行这一步
+                    return;
+                }
+                string message = null;     // used to hold a return message, from the logon
+                int status;         // receives the return value from the logon call
+                textUserId.Text = textUserId.Text.Trim();
+                textPassword.Text = textPassword.Text.Trim();
+                status = _fstiClient.Logon(textUserId.Text, textPassword.Text, ref message);
+                if (status > 0)
+                {
+                    //MessageBox.Show("Invalid user id or password");
+                    MessageBox.Show(RpaFail);
+                }
+                else
+                {
+                    btnLogon.Enabled = false;
+                    toolStripStatusLabel1.Text = "ID:" + _fstiClient.UserId;
+                    toolStripStatusLabel2.Text = "配置文件：" + textConfig.Text.Trim();
+                    toolStripStatusLabel3.Text = "服务器:" + _fstiClient.ServerName;
+                    MessageBox.Show(RpaSuccess);
+                }
             }
-            else
+            catch
             {
-                btnLogon.Enabled = false;
-                toolStripStatusLabel1.Text = "ID:" + _fstiClient.UserId;
-                toolStripStatusLabel2.Text = "配置文件：" + textConfig.Text.Trim();
-                toolStripStatusLabel3.Text = "服务器:" + _fstiClient.ServerName;
+                MessageBox.Show(RpaFail);
             }
         }
         private void tabControl1_Click(object sender, EventArgs e)//切换tabControl1界面的事件
@@ -166,8 +187,8 @@ namespace FSTIMAIN
             bom1.摘要 = (string)(dt.Rows[0]["ZY"]);
             bom1.父物料号 = (string)(dt.Rows[0]["FWLH"]);
             bom1.物料描述 = (string)(dt.Rows[0]["WLMS"]);
-            if (dt.Rows.Count > 1)
-                MessageBox.Show(bom1.流水号 + "有多个相同的流水号");
+            //if (dt.Rows.Count > 1)
+            //    MessageBox.Show(bom1.流水号 + "有多个相同的流水号");
 
             return bom1;
         }
@@ -223,25 +244,28 @@ namespace FSTIMAIN
         }
         private void AddBOM_Click(object sender, EventArgs e)//增加BOM
         {
+            string RpaSuccess = "增加BOM成功";
+            string RpaFail = "增加BOM失败";
+            TbBOM.Text = string.Empty;
             if (toolStripStatusLabel1.Text == "未登录" || "ID:" + _fstiClient.UserId != toolStripStatusLabel1.Text)
             {
-                MessageBox.Show("请登录四班账号！");
+                TbBOM.Text += "请登录四班账号！";
+                MessageBox.Show(RpaFail);
                 return;
             }
             BOMResult.Items.Clear();
             if (dgvBOMDetail.Rows.Count == 0)
             {
-                MessageBox.Show("BOM信息为空！");
-                return;
+                TbBOM.Text += "BOM信息为空！";
+                //MessageBox.Show(RpaFail);
+                //return;
             }
-            //MessageBox.Show("当前共有" + dgvBOMDetail.Rows.Count + "条待添加数据！");
-            //string requiredquantity = string.Empty;
             int chenggong = 0;
             int shibai = 0;
             for (int i = 0; i < dgvBOMDetail.Rows.Count; i++)
             {
                 BILL00 myBill = new BILL00();
-                if (dgvBOMDetail["序号", i].Value.ToString() == "")
+                if (string.IsNullOrWhiteSpace(dgvBOMDetail["序号", i].Value.ToString()))
                     continue;
                 myBill.Parent.Value = ParentItem.Text.ToString();
                 myBill.PointOfUseID.Value = dgvBOMDetail["用于", i].Value.ToString();
@@ -294,8 +318,9 @@ namespace FSTIMAIN
                 }
 
             }
-            MessageBox.Show(string.Format("共{0}条数据，成功{1}条，失败{2}条。", dgvBOMDetail.Rows.Count, chenggong, shibai));
+            TbBOM.Text+=string.Format("增加BOM共{0}条数据，成功{1}条，失败{2}条。", dgvBOMDetail.Rows.Count, chenggong, shibai);
             BOM.Rows[Convert.ToInt32(BOMhanghao.Text) - 1].DefaultCellStyle.ForeColor = Color.Red;
+            
             #region  ITMB状态O
             ITMB01 myItmb = new ITMB01();
             myItmb.ItemNumber.Value = ParentItem.Text.ToString();
@@ -309,21 +334,27 @@ namespace FSTIMAIN
                 DumpErrorObject(myItmb, itemError, BOMResult);
             }
             #endregion
-            AddBOM.Enabled = false;
-            SubmitBOM.Enabled = true;
+            if (shibai > 0)
+            { MessageBox.Show(RpaFail); }
+            else
+            { MessageBox.Show(RpaSuccess); }
         }
         private void UpdateBOM_Click(object sender, EventArgs e)//修改BOM
         {
+            string RpaSuccess = "修改BOM成功";
+            string RpaFail = "修改BOM失败";
+            TbBOM.Text = string.Empty;
             if (toolStripStatusLabel1.Text == "未登录" || "ID:" + _fstiClient.UserId != toolStripStatusLabel1.Text)
             {
-                MessageBox.Show("请登录四班账号！");
+                TbBOM.Text += "请登录四班账号！";
+                MessageBox.Show(RpaFail);
                 return;
             }
             BOMResult.Items.Clear();
             if (dgvBOMDetail.Rows.Count == 0)
             {
-                MessageBox.Show("BOM信息为空！");
-                return;
+                TbBOM.Text += "BOM信息为空！";
+                //return;
             }
             #region 删除旧子项
             int shanchu = 0;
@@ -341,7 +372,7 @@ namespace FSTIMAIN
             for (int i = 0; i < dgvBOMDetail.Rows.Count; i++)
             {
                 BILL03 myBill = new BILL03();
-                if (dgvBOMDetail["序号", i].Value.ToString() == "")
+                if (string.IsNullOrWhiteSpace(dgvBOMDetail["序号", i].Value.ToString()))
                     continue;
                 myBill.Parent.Value = fuxiang;
                 int xuhao = Convert.ToInt32(dgvBOMDetail["序号", i].Value);//序号
@@ -391,9 +422,10 @@ namespace FSTIMAIN
             for (int i = 0; i < dgvBOMDetail.Rows.Count; i++)
             {
                 if (dgvBOMDetail["状态", i].Value.ToString() == "删除") continue;
-                BILL00 myBill = new BILL00();
-                if (dgvBOMDetail["序号", i].Value.ToString() == "")
+                if (string.IsNullOrWhiteSpace(dgvBOMDetail["序号", i].Value.ToString()))
                     continue;
+
+                BILL00 myBill = new BILL00();                
                 myBill.Parent.Value = ParentItem.Text.ToString();
                 myBill.PointOfUseID.Value = dgvBOMDetail["用于", i].Value.ToString();
                 myBill.OperationSequenceNumber.Value = dgvBOMDetail["序号", i].Value.ToString();
@@ -445,7 +477,7 @@ namespace FSTIMAIN
                 }
 
             }
-            MessageBox.Show(string.Format("删除成功{0}条旧子项，删除失败{4}条旧子项；增加{1}条新子项，成功{2}条，失败{3}条。", shanchu, dgvBOMDetail.Rows.Count, chenggong, shibai, shanchushibai));
+            TbBOM.Text+=string.Format("修改BOM删除旧子项成功{0}条，失败{1}条；增加新子项成功{2}条，失败{3}条。", shanchu, shanchushibai, chenggong, shibai);
             BOM.Rows[Convert.ToInt32(BOMhanghao.Text) - 1].DefaultCellStyle.ForeColor = Color.Red;
             #endregion
             #region  ITMB状态O
@@ -462,8 +494,10 @@ namespace FSTIMAIN
                 DumpErrorObject(myItmb, itemError, BOMResult);
             }
             #endregion
-            UpdateBOM.Enabled = false;
-            SubmitBOM.Enabled = true;
+            if (shanchushibai > 0 || shibai > 0)
+            { MessageBox.Show(RpaFail); }
+            else
+            { MessageBox.Show(RpaSuccess); }
         }
         private void jihuo_Click(object sender, EventArgs e)//激活增加BOM，更新BOM按钮
         {
@@ -1257,14 +1291,19 @@ namespace FSTIMAIN
         private void AddITMB_Click(object sender, EventArgs e)//增加物料成本按钮
         {
             ITMBResult.Items.Clear();
+            TBaddItemsResult.Text = string.Empty;
+            string RpaSuccess = "增加物料成功";
+            string RpaFail = "增加物料失败";
             if (dgvItmbDetail.Rows.Count == 0)
             {
-                MessageBox.Show("物料成本信息为空！");
+                TBaddItemsResult.Text = "无信息";
+                MessageBox.Show(RpaFail);
                 return;
             }
             if (toolStripStatusLabel1.Text == "未登录" || "ID:" + _fstiClient.UserId != toolStripStatusLabel1.Text)
             {
-                MessageBox.Show("请登录四班账号！");
+                TBaddItemsResult.Text = "四班未登录";
+                MessageBox.Show(RpaFail);
                 return;
             }
             int AllSuccess = 1;
@@ -1325,12 +1364,14 @@ namespace FSTIMAIN
                         //MessageBox.Show(string.Format("第{0}行物料({1})全部添加成功!", i + 1, materialcode));
                         //AddITMB.Enabled = false;
                         //SubmitITMB.Enabled = true;
+                        TBaddItemsResult.Text += string.Format("第{0}行物料({1})添加成功！", i + 1, materialcode);
                     }
                     else
                     {
                         dgvItmbDetail.Rows[i].HeaderCell.Style.BackColor = Color.Red;
                         dgvItmbDetail.Rows[i].Cells[0].Style.BackColor = Color.Red;
-                        MessageBox.Show(string.Format("第{0}行物料({1})部分添加失败!请检查！！！", i + 1, materialcode));
+                        //MessageBox.Show(string.Format("第{0}行物料({1})部分添加失败!请检查！！！", i + 1, materialcode));
+                        TBaddItemsResult.Text += string.Format("第{0}行物料({1})部分添加失败！", i + 1, materialcode);
                         AllSuccess = 0;
                     }
                 }
@@ -1338,19 +1379,19 @@ namespace FSTIMAIN
                 {
                     dgvItmbDetail.Rows[i].HeaderCell.Style.ForeColor = Color.Red;
                     dgvItmbDetail.Rows[i].Cells[0].Style.BackColor = Color.Red;
-                    MessageBox.Show("第" + (i + 1) + "条记录的ITMB添加失败！");
-
+                    //MessageBox.Show("第" + (i + 1) + "条记录的ITMB添加失败！");
+                    TBaddItemsResult.Text += "第" + (i + 1) + "条记录的ITMB添加失败！";
                     AllSuccess = 0;
                 }
             }
             dgvItmb.Rows[Convert.ToInt32(ITMBhanghao.Text) - 1].DefaultCellStyle.ForeColor = Color.Red;
             if (AllSuccess == 1)
             {
-                MessageBox.Show("添加成功");
+                MessageBox.Show(RpaSuccess);
             }
             else
             {
-                MessageBox.Show("部分添加失败，请检查！");
+                MessageBox.Show(RpaFail);
             }
         }
         private bool AddItemProductLineAndInventoryAccount(int rowIndex)//添加ITMC产品线及账号
@@ -1588,7 +1629,7 @@ namespace FSTIMAIN
                     ITMBResult.Items.Add("P类ITMB批号明细添加成功:");
                     ITMBResult.Items.Add(_fstiClient.CDFResponse);
                     ITMBResult.Items.Add("*************************************");
-
+                    
                 }
                 else
                 {
@@ -1672,12 +1713,14 @@ namespace FSTIMAIN
                     string materialtype = dgvItmbDetail["单位", rowIndex].Value.ToString().Trim();
                     if (materialtype == "")
                     {
-                        MessageBox.Show("物料单位为空，ITMB无法添加！");
+                        //MessageBox.Show("物料单位为空，ITMB无法添加！");
+                        TBaddItemsResult.Text += "物料单位为空。";
                         return false;
                     }
                     else if (materialtype.Length > 2)
                     {
-                        MessageBox.Show("物料单位长度不正确，ITMB无法添加！");
+                        //MessageBox.Show("物料单位长度不正确，ITMB无法添加！");
+                        TBaddItemsResult.Text += "物料单位长度大于2。";
                         return false;
                     }
                     else
@@ -1706,12 +1749,14 @@ namespace FSTIMAIN
                     string materialtype = dgvItmbDetail["单位", rowIndex].Value.ToString().Trim();
                     if (materialtype == "")
                     {
-                        MessageBox.Show("物料单位为空，ITMB无法添加！");
+                        //MessageBox.Show("物料单位为空，ITMB无法添加！");
+                        TBaddItemsResult.Text += "物料单位为空。";
                         return false;
                     }
                     else if (materialtype.Length > 2)
                     {
-                        MessageBox.Show("物料单位长度不正确，ITMB无法添加！");
+                        //MessageBox.Show("物料单位长度不正确，ITMB无法添加！");
+                        TBaddItemsResult.Text += "物料单位长度大于2。";
                         return false;
                     }
                     else
@@ -1740,12 +1785,14 @@ namespace FSTIMAIN
                     string materialtype = dgvItmbDetail["单位", rowIndex].Value.ToString().Trim();
                     if (materialtype == "")
                     {
-                        MessageBox.Show("物料单位为空，ITMB无法添加！");
+                        //MessageBox.Show("物料单位为空，ITMB无法添加！");
+                        TBaddItemsResult.Text += "物料单位为空。";
                         return false;
                     }
                     else if (materialtype.Length > 2)
                     {
-                        MessageBox.Show("物料单位长度不正确，ITMB无法添加！");
+                        //MessageBox.Show("物料单位长度不正确，ITMB无法添加！");
+                        TBaddItemsResult.Text += "物料单位长度大约2。";
                         return false;
                     }
                     else
@@ -1772,14 +1819,19 @@ namespace FSTIMAIN
             }
             catch (Exception ex)
             {
-                MessageBox.Show("增加ITMB主文件失败：" + ex.Message);
+                //MessageBox.Show("增加ITMB主文件失败：" + ex.Message);
+                TBaddItemsResult.Text += "增加ITMB主文件失败：" + ex.Message;
                 return false;
 
             }
         }
         private void UpdateITMB_Click(object sender, EventArgs e)//修改物料成本按钮
         {
-            MessageBox.Show("请打开流程，手动修改，谢谢！");
+            MessageBox.Show("请打开流程，手动修改！");
+            MessageBox.Show("增加物料数据检查通过");
+            MessageBox.Show("增加物料数据检查未通过");
+            MessageBox.Show("增加物料成功");
+            MessageBox.Show("增加物料失败");
         }
         private bool AddGlAVALL(int rowIndex, string productline, string stritemnumber)//添加所有GLAV账号及CNFA
         {
@@ -1860,183 +1912,191 @@ namespace FSTIMAIN
         }
         private void dgvItmb_CellDoubleClick(object sender, DataGridViewCellEventArgs e)//物料成本流程列表的cell双击事件
         {
-            ITMBResult.Items.Clear();
-
             int rowindex = e.RowIndex;
-            if (rowindex != -1)
+            if (rowindex == -1)
             {
-                ItemName.Text = "";
-                ItemNamedgv.DataSource = null;
-                if (dgvItmb.Rows[rowindex].DefaultCellStyle.ForeColor != Color.Red)
+                return;
+            }
+            ITMBResult.Items.Clear();
+            TBaddItemsResult.Text = string.Empty;
+
+            string RpaSuccess = "增加物料数据检查通过";
+            string RpaFail = "增加物料数据检查未通过";
+            ItemName.Text = "";
+            ItemNamedgv.DataSource = null;
+            if (dgvItmb.Rows[rowindex].DefaultCellStyle.ForeColor != Color.Red)
+            {
+                dgvItmb.Rows[rowindex].DefaultCellStyle.ForeColor = Color.Blue;
+                for (int a = 0; a < dgvItmb.Rows.Count; a++)
                 {
-                    dgvItmb.Rows[rowindex].DefaultCellStyle.ForeColor = Color.Blue;
-                    for (int a = 0; a < dgvItmb.Rows.Count; a++)
-                    {
-                        if (a != rowindex && dgvItmb.Rows[a].DefaultCellStyle.ForeColor != Color.Red)
-                            dgvItmb.Rows[a].DefaultCellStyle.ForeColor = Color.Black;
-                    }
+                    if (a != rowindex && dgvItmb.Rows[a].DefaultCellStyle.ForeColor != Color.Red)
+                        dgvItmb.Rows[a].DefaultCellStyle.ForeColor = Color.Black;
                 }
-                ITMBjieshoudanwei.Text = dgvItmb.Rows[rowindex].Cells["接收单位"].Value.ToString().Trim();
-                ITMBliushuihao.Text = dgvItmb.Rows[rowindex].Cells["流水号"].Value.ToString().Trim();
-                ITMBfaqibumen.Text = dgvItmb.Rows[rowindex].Cells["发起部门"].Value.ToString().Trim();
-                ITMBhanghao.Text = (rowindex + 1).ToString();
-                string ParentGuid = dgvItmb.Rows[rowindex].Cells["ParentGuid"].Value.ToString();
+            }
+            ITMBjieshoudanwei.Text = dgvItmb.Rows[rowindex].Cells["接收单位"].Value.ToString().Trim();
+            ITMBliushuihao.Text = dgvItmb.Rows[rowindex].Cells["流水号"].Value.ToString().Trim();
+            ITMBfaqibumen.Text = dgvItmb.Rows[rowindex].Cells["发起部门"].Value.ToString().Trim();
+            ITMBhanghao.Text = (rowindex + 1).ToString();
+            string ParentGuid = dgvItmb.Rows[rowindex].Cells["ParentGuid"].Value.ToString();
 
-                dgvItmbDetail.DataSource = toITMBITMC(SqlHelper.ExecuteDataTable("SELECT ltrim(rtrim(WLBM1))  as 物料代码,WLMS as 物料描述,DW as 单位,ltrim(rtrim(KGYDM)) as 库管员代码,upper(ltrim(rtrim(JHY))) as 计划采购,YX as 运行,FIX,JY as 检验,PLDHTS as 批量订货天数,ZXPLDH as 最小批量订货,PLDHBS as 批量订货倍数,PLDHSM as 批量订货数目,QSGZZX as 起始工作中心,YXK as 优先库,W as 位," +
-                    "CLF as 材料费,HJ as 合计,CPX as 产品线,KCZH as 库存账号,XSZH as 销售账号,CBZH as 成本账号,YCM as 预测码,YCJD as 预测阶段 FROM YW_ZJWLCB_EX where ParentGuid = '" + ParentGuid + "'"));
-                for (int i = 0; i < this.dgvItmbDetail.Columns.Count; i++)
+            dgvItmbDetail.DataSource = toITMBITMC(SqlHelper.ExecuteDataTable("SELECT ltrim(rtrim(WLBM1))  as 物料代码,WLMS as 物料描述,SBDW as 单位,ltrim(rtrim(KGYDM)) as 库管员代码,upper(ltrim(rtrim(JHY))) as 计划采购,YX as 运行,FIX,JY as 检验,PLDHTS as 批量订货天数,ZXPLDH as 最小批量订货,PLDHBS as 批量订货倍数,PLDHSM as 批量订货数目,QSGZZX as 起始工作中心,YXK as 优先库,W as 位," +
+                "CLF as 材料费,HJ as 合计,CPX as 产品线,KCZH as 库存账号,XSZH as 销售账号,CBZH as 成本账号,YCM as 预测码,YCJD as 预测阶段 FROM YW_ZJWLCB_EX where ParentGuid = '" + ParentGuid + "'"));
+            for (int i = 0; i < this.dgvItmbDetail.Columns.Count; i++)
+            {
+                this.dgvItmbDetail.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                this.dgvItmbDetail.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+            if (dgvItmb.Rows[rowindex].Cells["申请方式"].Value.ToString() == "增加")
+            { AddITMB.Enabled = true; UpdateITMB.Enabled = false; }
+            if (dgvItmb.Rows[rowindex].Cells["申请方式"].Value.ToString() == "修改")
+            { UpdateITMB.Enabled = true; AddITMB.Enabled = false; }
+            #region 若物料名称超出四班字符数上限，弹出提示
+
+            for (int i = 0; i < this.dgvItmbDetail.Rows.Count; i++)
+            {
+                String Item = dgvItmbDetail["物料描述", i].Value.ToString().Trim();
+                String ItemNum = dgvItmbDetail["物料代码", i].Value.ToString().Trim();
+                String fenlei = ItemNum.Length>0? ItemNum.Substring(0, 1):string.Empty;
+
+                if (ItemNum == "" || Item == "" || dgvItmbDetail["单位", i].Value.ToString().Trim() == "" || dgvItmbDetail["计划采购", i].Value.ToString().Trim() == "" || dgvItmbDetail["运行", i].Value.ToString().Trim() == "" || dgvItmbDetail["FIX", i].Value.ToString().Trim() == "" || dgvItmbDetail["批量订货天数", i].Value.ToString().Trim() == "" || dgvItmbDetail["最小批量订货", i].Value.ToString().Trim() == "")
                 {
-                    this.dgvItmbDetail.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                    this.dgvItmbDetail.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    //dgvItmbDetail.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["物料代码"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["物料描述"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["单位"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["计划采购"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["运行"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["FIX"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["批量订货天数"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["最小批量订货"].Style.BackColor = Color.Red;
+
                 }
-                if (dgvItmb.Rows[rowindex].Cells["申请方式"].Value.ToString() == "增加")
-                { AddITMB.Enabled = true; UpdateITMB.Enabled = false; }
-                if (dgvItmb.Rows[rowindex].Cells["申请方式"].Value.ToString() == "修改")
-                { UpdateITMB.Enabled = true; AddITMB.Enabled = false; }
-                #region 若物料名称超出四班字符数上限，弹出提示
-
-                for (int i = 0; i < this.dgvItmbDetail.Rows.Count; i++)
+                if (dgvItmbDetail["库管员代码", i].Value.ToString().Trim() == "" || dgvItmbDetail["优先库", i].Value.ToString().Trim() == "" || dgvItmbDetail["位", i].Value.ToString().Trim() == "" || dgvItmbDetail["产品线", i].Value.ToString().Trim() == "" || dgvItmbDetail["库存账号", i].Value.ToString().Trim() == "")
                 {
-                    String Item = dgvItmbDetail["物料描述", i].Value.ToString().Trim();
-                    String ItemNum = dgvItmbDetail["物料代码", i].Value.ToString().Trim();
-                    String fenlei = "1";
-                    try
-                    {
-                        fenlei = ItemNum.Substring(0, 1);
-                    }
-                    catch
-                    {
+                    //dgvItmbDetail.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["库管员代码"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["优先库"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["位"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["产品线"].Style.BackColor = Color.Red;
+                    dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
 
-
-                    }
-                    if (Item == "" || dgvItmbDetail["单位", i].Value.ToString().Trim() == "" || dgvItmbDetail["计划采购", i].Value.ToString().Trim() == "" || dgvItmbDetail["运行", i].Value.ToString().Trim() == "" || dgvItmbDetail["FIX", i].Value.ToString().Trim() == "" || dgvItmbDetail["批量订货天数", i].Value.ToString().Trim() == "" || dgvItmbDetail["最小批量订货", i].Value.ToString().Trim() == "")
+                }
+                if (dgvItmb.Rows[rowindex].Cells["制购类型"].Value.ToString().Trim().Substring(0, 1) == "M")
+                {
+                    if (dgvItmbDetail["起始工作中心", i].Value.ToString().Trim() == "" || dgvItmbDetail["销售账号", i].Value.ToString().Trim() == "" || dgvItmbDetail["成本账号", i].Value.ToString().Trim() == "")
                     {
-                        //dgvItmbDetail.Rows[i].DefaultCellStyle.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["物料描述"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["单位"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["计划采购"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["运行"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["FIX"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["批量订货天数"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["最小批量订货"].Style.BackColor = Color.Red;
-
+                        dgvItmbDetail.Rows[i].Cells["起始工作中心"].Style.BackColor = Color.Red;
+                        dgvItmbDetail.Rows[i].Cells["销售账号"].Style.BackColor = Color.Red;
+                        dgvItmbDetail.Rows[i].Cells["成本账号"].Style.BackColor = Color.Red;
                     }
-                    if (ItemNum == "" || dgvItmbDetail["库管员代码", i].Value.ToString().Trim() == "" || dgvItmbDetail["优先库", i].Value.ToString().Trim() == "" || dgvItmbDetail["位", i].Value.ToString().Trim() == "" || dgvItmbDetail["产品线", i].Value.ToString().Trim() == "" || dgvItmbDetail["库存账号", i].Value.ToString().Trim() == "")
+                    if (dgvItmbDetail["批量订货数目", i].Value.ToString().Trim() == "")
                     {
-                        //dgvItmbDetail.Rows[i].DefaultCellStyle.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["物料代码"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["库管员代码"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["优先库"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["位"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["产品线"].Style.BackColor = Color.Red;
-                        dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
-
-                    }
-                    if (dgvItmb.Rows[rowindex].Cells["制购类型"].Value.ToString().Trim().Substring(0, 1) == "M")
-                    {
-                        if (dgvItmbDetail["起始工作中心", i].Value.ToString().Trim() == "" || dgvItmbDetail["销售账号", i].Value.ToString().Trim() == "" || dgvItmbDetail["成本账号", i].Value.ToString().Trim() == "")
-                        {
-                            dgvItmbDetail.Rows[i].Cells["起始工作中心"].Style.BackColor = Color.Red;
-                            dgvItmbDetail.Rows[i].Cells["销售账号"].Style.BackColor = Color.Red;
-                            dgvItmbDetail.Rows[i].Cells["成本账号"].Style.BackColor = Color.Red;
-                        }
-                        if (dgvItmbDetail["批量订货数目", i].Value.ToString().Trim() == "")
-                        {
-                            MessageBox.Show("第" + (i + 1) + "行[批量订货数目]有误，请检查！");
-                            dgvItmbDetail.Rows[i].Cells["批量订货数目"].Style.BackColor = Color.Red;
-                        }
-                        else
-                        {
-                            try
-                            {
-                                if (Convert.ToDecimal(dgvItmbDetail["批量订货数目", i].Value.ToString().Trim()) <= 1)
-                                {
-                                    MessageBox.Show("第" + (i + 1) + "行[批量订货数目]<= 1，请检查！");
-                                    dgvItmbDetail.Rows[i].Cells["批量订货数目"].Style.BackColor = Color.Red;
-                                }
-                            }
-                            catch
-                            {
-                                MessageBox.Show("第" + (i + 1) + "行[批量订货数目]有误，请检查！");
-                                dgvItmbDetail.Rows[i].Cells["批量订货数目"].Style.BackColor = Color.Red;
-                            }
-                        }
+                        //MessageBox.Show("第" + (i + 1) + "行[批量订货数目]有误，请检查！");
+                        dgvItmbDetail.Rows[i].Cells["批量订货数目"].Style.BackColor = Color.Red;
+                        TBaddItemsResult.Text += "第" + (i + 1) + "行[批量订货数目]有误。";
                     }
                     else
                     {
-                        if (dgvItmbDetail["材料费", i].Value == null || dgvItmbDetail["材料费", i].Value.ToString().Trim() == "")
+                        try
                         {
-                            dgvItmbDetail.Rows[i].Cells["材料费"].Style.BackColor = Color.Red;
+                            if (Convert.ToDecimal(dgvItmbDetail["批量订货数目", i].Value.ToString().Trim()) <= 1)
+                            {
+                                //MessageBox.Show("第" + (i + 1) + "行[批量订货数目]<= 1，请检查！");
+                                dgvItmbDetail.Rows[i].Cells["批量订货数目"].Style.BackColor = Color.Red;
+                                TBaddItemsResult.Text += "第" + (i + 1) + "行[批量订货数目]有误。";
+                            }
                         }
-                    }
-                    if (fenlei == "M")
-                    {
-                        if (dgvItmbDetail["产品线", i].Value.ToString().Trim() + "-121100" != dgvItmbDetail["库存账号", i].Value.ToString().Trim())
+                        catch
                         {
-                            MessageBox.Show("第" + (i + 1) + "行:M类物料库存账号不是121100");
-                            dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
+                            //MessageBox.Show("第" + (i + 1) + "行[批量订货数目]有误，请检查！");
+                            dgvItmbDetail.Rows[i].Cells["批量订货数目"].Style.BackColor = Color.Red;
+                            TBaddItemsResult.Text += "第" + (i + 1) + "行[批量订货数目]有误。";
                         }
-                    }
-                    if (fenlei == "A")
-                    {
-                        if (dgvItmbDetail["产品线", i].Value.ToString().Trim() + "-123100" != dgvItmbDetail["库存账号", i].Value.ToString().Trim())
-                        {
-                            MessageBox.Show("第" + (i + 1) + "行:A类物料库存账号不是123100");
-                            dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
-                        }
-                    }
-                    if (fenlei == "P")
-                    {
-                        if (dgvItmbDetail["产品线", i].Value.ToString().Trim() + "-122100" != dgvItmbDetail["库存账号", i].Value.ToString().Trim())
-                        {
-                            MessageBox.Show("第" + (i + 1) + "行:P类物料库存账号不是122100");
-                            dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
-                        }
-                    }
-                    if (fenlei == "F")
-                    {
-                        if (dgvItmbDetail["产品线", i].Value.ToString().Trim() + "-124300" != dgvItmbDetail["库存账号", i].Value.ToString().Trim())
-                        {
-                            MessageBox.Show("第" + (i + 1) + "行:F类物料库存账号不是124300");
-                            dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
-                        }
-                    }
-                    if (fenlei == "S")
-                    {
-                        if (dgvItmbDetail["产品线", i].Value.ToString().Trim() + "-124100" != dgvItmbDetail["库存账号", i].Value.ToString().Trim())
-                        {
-                            MessageBox.Show("第" + (i + 1) + "行:S类物料库存账号不是124100");
-                            dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
-                        }
-                    }
-                    if (dgvItmbDetail["位", i].Value.ToString().Trim().Length % 2 == 1)
-                    {
-                        dgvItmbDetail.Rows[i].Cells["位"].Style.BackColor = Color.Red;
-                        MessageBox.Show("第" + (i + 1) + "行:库位的位数不是偶数，请录入四班后修改(前面补0)");
-                    }
-                    if (StrLength(Item) > 70)
-                    {
-                        MessageBox.Show("第" + (i + 1) + "行[物料描述]超出字符数限制");
-                        dgvItmbDetail.Rows[i].Cells["物料描述"].Style.BackColor = Color.Red;
-                    }
-                    if (Item.Contains(' ') || Item.Contains('（') || Item.Contains('）') || Item.ToUpper() != Item)
-                    {
-                        MessageBox.Show("第" + (i + 1) + "行[物料描述]不符合ERP物料描述规范");
-                        dgvItmbDetail.Rows[i].Cells["物料描述"].Style.BackColor = Color.Red;
                     }
                 }
-                #endregion
-                for (int y = 0; y < this.dgvItmbDetail.Rows.Count; y++)
+                else
                 {
-                    for (int x = 0; x < this.dgvItmbDetail.Columns.Count; x++)
+                    if (dgvItmbDetail["材料费", i].Value == null || dgvItmbDetail["材料费", i].Value.ToString().Trim() == "")
                     {
-                        if (dgvItmbDetail.Rows[y].Cells[x].Style.BackColor == Color.Red)
-                        {
-                            MessageBox.Show("信息有误已红色标示，请检查！"); return;
-                        }
+                        dgvItmbDetail.Rows[i].Cells["材料费"].Style.BackColor = Color.Red;
+                    }
+                }
+                if (fenlei == "M")
+                {
+                    if (dgvItmbDetail["产品线", i].Value.ToString().Trim() + "-121100" != dgvItmbDetail["库存账号", i].Value.ToString().Trim())
+                    {
+                        //MessageBox.Show("第" + (i + 1) + "行:M类物料库存账号不是121100");
+                        dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
+                        TBaddItemsResult.Text += "第" + (i + 1) + "行:M类物料库存账号不是121100。";
+                    }
+                }
+                if (fenlei == "A")
+                {
+                    if (dgvItmbDetail["产品线", i].Value.ToString().Trim() + "-123100" != dgvItmbDetail["库存账号", i].Value.ToString().Trim())
+                    {
+                        //MessageBox.Show("第" + (i + 1) + "行:A类物料库存账号不是123100");
+                        dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
+                        TBaddItemsResult.Text += "第" + (i + 1) + "行:M类物料库存账号不是123100。";
+                    }
+                }
+                if (fenlei == "P")
+                {
+                    if (dgvItmbDetail["产品线", i].Value.ToString().Trim() + "-122100" != dgvItmbDetail["库存账号", i].Value.ToString().Trim())
+                    {
+                        //MessageBox.Show("第" + (i + 1) + "行:P类物料库存账号不是122100");
+                        dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
+                        TBaddItemsResult.Text += "第" + (i + 1) + "行:M类物料库存账号不是122100。";
+                    }
+                }
+                if (fenlei == "F")
+                {
+                    if (dgvItmbDetail["产品线", i].Value.ToString().Trim() + "-124300" != dgvItmbDetail["库存账号", i].Value.ToString().Trim())
+                    {
+                        //MessageBox.Show("第" + (i + 1) + "行:F类物料库存账号不是124300");
+                        dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
+                        TBaddItemsResult.Text += "第" + (i + 1) + "行:M类物料库存账号不是124300。";
+                    }
+                }
+                if (fenlei == "S")
+                {
+                    if (dgvItmbDetail["产品线", i].Value.ToString().Trim() + "-124100" != dgvItmbDetail["库存账号", i].Value.ToString().Trim())
+                    {
+                        //MessageBox.Show("第" + (i + 1) + "行:S类物料库存账号不是124100");
+                        dgvItmbDetail.Rows[i].Cells["库存账号"].Style.BackColor = Color.Red;
+                        TBaddItemsResult.Text += "第" + (i + 1) + "行:M类物料库存账号不是124100。";
+                    }
+                }
+                if (dgvItmbDetail["位", i].Value.ToString().Trim().Length % 2 == 1)
+                {
+                    dgvItmbDetail.Rows[i].Cells["位"].Style.BackColor = Color.Red;
+                    //MessageBox.Show("第" + (i + 1) + "行:库位的位数不是偶数，请录入四班后修改(前面补0)");
+                    TBaddItemsResult.Text += "第" + (i + 1) + "行:库位的位数不是偶数，请录入四班后修改(前面补0)。";
+                }
+                if (StrLength(Item) > 70)
+                {
+                    //MessageBox.Show("第" + (i + 1) + "行[物料描述]超出字符数限制");
+                    dgvItmbDetail.Rows[i].Cells["物料描述"].Style.BackColor = Color.Red;
+                    TBaddItemsResult.Text += "第" + (i + 1) + "行[物料描述]超出字符数限制。";
+                }
+                if (Item.Contains(' ') || Item.Contains('（') || Item.Contains('）') || Item.ToUpper() != Item)
+                {
+                    //MessageBox.Show("第" + (i + 1) + "行[物料描述]不符合ERP物料描述规范");
+                    dgvItmbDetail.Rows[i].Cells["物料描述"].Style.BackColor = Color.Red;
+                    TBaddItemsResult.Text += "第" + (i + 1) + "行[物料描述]不符合ERP物料描述规范。";
+                }
+            }
+            #endregion
+            for (int y = 0; y < this.dgvItmbDetail.Rows.Count; y++)
+            {
+                for (int x = 0; x < this.dgvItmbDetail.Columns.Count; x++)
+                {
+                    if (dgvItmbDetail.Rows[y].Cells[x].Style.BackColor == Color.Red)
+                    {
+                        MessageBox.Show(RpaFail); return;
                     }
                 }
             }
+            MessageBox.Show(RpaSuccess);
         }
         /// <summary>
         /// 获得字符串的区分中英文的字符长度
@@ -2106,8 +2166,13 @@ namespace FSTIMAIN
             foreach (DataRow dr in Incidents.Rows)
             {
                 ITMBliucheng Vendor1 = TolistITMB(SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, "SELECT * FROM [dbo].[YW_ZJWLCB] where REV_INCIDENT=" + dr[0]));
-                list1.Add(Vendor1);
-
+                if (checkBoxUpdateItem.Checked)
+                { list1.Add(Vendor1); }
+                else
+                {
+                    if (Vendor1.申请方式 == "增加")
+                    { list1.Add(Vendor1); }
+                }
             }
 
             dgvItmb.DataSource = list1;
@@ -2138,7 +2203,7 @@ namespace FSTIMAIN
 
             if (dt.Rows.Count != 1)
             {
-                MessageBox.Show(bom1.流水号 + "有0个或多个的流水号");
+                //MessageBox.Show(bom1.流水号 + "有0个或多个的流水号");
             }
             return bom1;
 
@@ -3211,9 +3276,7 @@ namespace FSTIMAIN
                     control.Text = null;
                 }
             }
-            #endregion
-            AddSubCustomer Asc = new AddSubCustomer("ZJG","ZJGname","软件");
-            Asc.ShowDialog();
+            #endregion;
         }
 
         private void ActiveCustomer_Click(object sender, EventArgs e)
@@ -3604,7 +3667,6 @@ namespace FSTIMAIN
             DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY标准成本修改流程' and (STEPLABEL = '系统管理员维护')");
 
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
-            List<ITMBliucheng> list1 = new List<ITMBliucheng>();
             string Sqlstr = "SELECT REV_INCIDENT 流水号,ZY 摘要,REV_CREATER_NAME 申请人,REV_CREATER_DPT 申请部门,REV_CREATER_DATE 申请时间,REV_CID  FROM [dbo].[YW_RY_BZCBXG] where REV_INCIDENT=-123";
             foreach (DataRow dr in Incidents.Rows)
             {
@@ -3623,21 +3685,26 @@ namespace FSTIMAIN
         private void ItmbUpdate_Click(object sender, EventArgs e)//修改成本
         {
             ItmbUpdateResult.Items.Clear();
+            TbUpdateCost.Text = string.Empty;
+            string RpaSuccess = "修改成本成功";
+            string RpaFail = "修改成本失败";
             if (dgvItmbUpdateDetail.Rows.Count == 0)
             {
-                MessageBox.Show("物料成本信息为空！");
+                TbUpdateCost.Text += "物料成本信息为空！";
+                MessageBox.Show(RpaFail);
                 return;
             }
             if (toolStripStatusLabel1.Text == "未登录" || "ID:" + _fstiClient.UserId != toolStripStatusLabel1.Text)
             {
-                MessageBox.Show("请登录四班账号！");
+                TbUpdateCost.Text += "请登录四班账号！";
+                MessageBox.Show(RpaFail);
                 return;
             }
             int a = 1;
             for (int i = 0; i < dgvItmbUpdateDetail.Rows.Count; i++)
             {
                 string itemcode = dgvItmbUpdateDetail["物料代码", i].Value.ToString().Trim();
-                string fenlei = itemcode.Substring(0, 1).ToUpper();
+                
                 #region 修改成本
                 ITMC01 myItmb = new ITMC01();
                 myItmb.ItemNumber.Value = itemcode;
@@ -3653,7 +3720,7 @@ namespace FSTIMAIN
                     dgvItmbUpdateDetail["修改后成本", i].Style.BackColor = Color.Red;
                     dgvItmbUpdateDetail["产品线", i].Style.BackColor = Color.Red;
                     dgvItmbUpdateDetail["库存账号", i].Style.BackColor = Color.Red;
-                    MessageBox.Show(string.Format("第{0}行(修改后成本)不是数值请检查:" + ex.Message, (i + 1)));
+                    TbUpdateCost.Text += string.Format("第{0}行修改后的成本不是数值!", (i + 1));
                     continue;
                 }
                 //myItmb.AtThisLevelLaborCost.Value = Convert.ToDecimal(dgvBOM["人工费", i].Value.ToString().Trim()).ToString("0.000000000");
@@ -3674,11 +3741,15 @@ namespace FSTIMAIN
                     a = 0;
                     dgvItmbUpdateDetail["修改后成本", i].Style.BackColor = Color.Red;
                     ItmbUpdateResult.Items.Add(string.Format("第{0}行ITMC成本修改失败!", (i + 1)));
+                    TbUpdateCost.Text += string.Format("第{0}行ITMC成本修改失败!", (i + 1));
                     FSTIError itemError = _fstiClient.TransactionError;
                     DumpErrorObject(myItmb, itemError, ItmbUpdateResult);
                 }
                 #endregion 修改成本
+
                 #region 修改账号
+                /*
+                string fenlei = itemcode.Substring(0, 1).ToUpper();
                 if (fenlei == "M")
                 {
                     if (dgvItmbUpdateDetail["产品线", i].Value.ToString().Trim() + "-121100" != dgvItmbUpdateDetail["库存账号", i].Value.ToString().Trim())
@@ -3732,15 +3803,17 @@ namespace FSTIMAIN
                     FSTIError itemError = _fstiClient.TransactionError;
                     DumpErrorObject(myItmc, itemError, ItmbUpdateResult);
                 }
+                */
                 #endregion 修改账号
+
             }
             if (a == 1)
             {
                 dgvItmbUpdate.Rows[Convert.ToInt32(ItmbUpdateRowNumber.Text) - 1].DefaultCellStyle.ForeColor = Color.Red;
-                MessageBox.Show("全部修改成功！");
+                MessageBox.Show(RpaSuccess);
             }
             if (a == 0)
-                MessageBox.Show("部分删除失败！已红色标注请检查！！！");
+                MessageBox.Show(RpaFail);
         }
 
         private void dgvItmbUpdate_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -4531,6 +4604,14 @@ namespace FSTIMAIN
                 this.dgvItmb.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
             ITMBResult.Items.Clear();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("四班服务器连接成功");
+            MessageBox.Show("四班服务器连接失败");
+            MessageBox.Show("四班用户登录成功");
+            MessageBox.Show("四班用户登录失败");
         }
     }
 }
