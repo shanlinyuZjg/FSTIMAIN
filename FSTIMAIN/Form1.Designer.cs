@@ -35,6 +35,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.TbBOM = new System.Windows.Forms.TextBox();
             this.BOMhanghao = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
             this.BOMliushuihao = new System.Windows.Forms.Label();
@@ -75,6 +76,8 @@
             this.dgvItmb = new System.Windows.Forms.DataGridView();
             this.ITMBResult = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.TbVendor = new System.Windows.Forms.TextBox();
+            this.CbUpdateVendor = new System.Windows.Forms.CheckBox();
             this.Vendorhanghao = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.Vendorliushuihao = new System.Windows.Forms.Label();
@@ -137,8 +140,9 @@
             this.VendorResult = new System.Windows.Forms.ListBox();
             this.dgvVendor = new System.Windows.Forms.DataGridView();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.CbUpdateCustomer = new System.Windows.Forms.CheckBox();
+            this.TbCustomer = new System.Windows.Forms.TextBox();
             this.label64 = new System.Windows.Forms.Label();
-            this.rbnChildCustomer = new System.Windows.Forms.RadioButton();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.tbProvince = new System.Windows.Forms.TextBox();
             this.label49 = new System.Windows.Forms.Label();
@@ -180,7 +184,6 @@
             this.tbUniteAccount = new System.Windows.Forms.TextBox();
             this.label61 = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
-            this.rbnParentCustomer = new System.Windows.Forms.RadioButton();
             this.customerhanghao = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
             this.customerliushuihao = new System.Windows.Forms.Label();
@@ -247,6 +250,7 @@
             this.dgvItmbDetailsh = new System.Windows.Forms.DataGridView();
             this.dgvItmbsh = new System.Windows.Forms.DataGridView();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.TbUpdateCost = new System.Windows.Forms.TextBox();
             this.dgvItemNumber = new System.Windows.Forms.DataGridView();
             this.ItmbUpdateRowNumber = new System.Windows.Forms.Label();
             this.label68 = new System.Windows.Forms.Label();
@@ -269,8 +273,7 @@
             this.BtUpdateStockNum = new System.Windows.Forms.Button();
             this.ExcelImport = new System.Windows.Forms.Button();
             this.TemplateDownload = new System.Windows.Forms.Button();
-            this.TbUpdateCost = new System.Windows.Forms.TextBox();
-            this.TbBOM = new System.Windows.Forms.TextBox();
+            this.CbChildCustomer = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -321,7 +324,7 @@
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 794);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 709);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1409, 22);
             this.statusStrip1.TabIndex = 0;
@@ -362,7 +365,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1409, 794);
+            this.tabControl1.Size = new System.Drawing.Size(1409, 709);
             this.tabControl1.TabIndex = 1;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.Click += new System.EventHandler(this.tabControl1_Click);
@@ -384,16 +387,25 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1401, 768);
+            this.tabPage1.Size = new System.Drawing.Size(1401, 683);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "BOM添加";
+            // 
+            // TbBOM
+            // 
+            this.TbBOM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TbBOM.Location = new System.Drawing.Point(657, 307);
+            this.TbBOM.Name = "TbBOM";
+            this.TbBOM.Size = new System.Drawing.Size(736, 21);
+            this.TbBOM.TabIndex = 14;
             // 
             // BOMhanghao
             // 
             this.BOMhanghao.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BOMhanghao.AutoSize = true;
-            this.BOMhanghao.Location = new System.Drawing.Point(554, 356);
+            this.BOMhanghao.Location = new System.Drawing.Point(554, 311);
             this.BOMhanghao.Name = "BOMhanghao";
             this.BOMhanghao.Size = new System.Drawing.Size(47, 12);
             this.BOMhanghao.TabIndex = 13;
@@ -404,7 +416,7 @@
             this.label37.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(495, 356);
+            this.label37.Location = new System.Drawing.Point(495, 311);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(41, 12);
             this.label37.TabIndex = 12;
@@ -415,7 +427,7 @@
             this.BOMliushuihao.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BOMliushuihao.AutoSize = true;
-            this.BOMliushuihao.Location = new System.Drawing.Point(386, 356);
+            this.BOMliushuihao.Location = new System.Drawing.Point(386, 311);
             this.BOMliushuihao.Name = "BOMliushuihao";
             this.BOMliushuihao.Size = new System.Drawing.Size(65, 12);
             this.BOMliushuihao.TabIndex = 11;
@@ -426,7 +438,7 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(327, 356);
+            this.label3.Location = new System.Drawing.Point(327, 311);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 10;
@@ -442,7 +454,7 @@
             this.BOMResult.Location = new System.Drawing.Point(6, 6);
             this.BOMResult.Name = "BOMResult";
             this.BOMResult.ScrollAlwaysVisible = true;
-            this.BOMResult.Size = new System.Drawing.Size(1389, 172);
+            this.BOMResult.Size = new System.Drawing.Size(1389, 124);
             this.BOMResult.TabIndex = 9;
             // 
             // dgvBOMDetail
@@ -454,10 +466,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvBOMDetail.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.dgvBOMDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvBOMDetail.Location = new System.Drawing.Point(145, 377);
+            this.dgvBOMDetail.Location = new System.Drawing.Point(145, 332);
             this.dgvBOMDetail.Name = "dgvBOMDetail";
             this.dgvBOMDetail.RowTemplate.Height = 23;
-            this.dgvBOMDetail.Size = new System.Drawing.Size(1248, 383);
+            this.dgvBOMDetail.Size = new System.Drawing.Size(1248, 345);
             this.dgvBOMDetail.TabIndex = 8;
             this.dgvBOMDetail.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvBOMDetail_RowPostPaint);
             // 
@@ -466,7 +478,7 @@
             this.ParentItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ParentItem.AutoSize = true;
-            this.ParentItem.Location = new System.Drawing.Point(220, 356);
+            this.ParentItem.Location = new System.Drawing.Point(220, 311);
             this.ParentItem.Name = "ParentItem";
             this.ParentItem.Size = new System.Drawing.Size(65, 12);
             this.ParentItem.TabIndex = 7;
@@ -477,7 +489,7 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(150, 356);
+            this.label1.Location = new System.Drawing.Point(150, 311);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 6;
@@ -491,7 +503,7 @@
             this.groupBox2.Controls.Add(this.GetBOm);
             this.groupBox2.Controls.Add(this.AddBOM);
             this.groupBox2.ForeColor = System.Drawing.Color.Blue;
-            this.groupBox2.Location = new System.Drawing.Point(15, 370);
+            this.groupBox2.Location = new System.Drawing.Point(15, 325);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(122, 199);
             this.groupBox2.TabIndex = 5;
@@ -559,7 +571,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BOM.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.BOM.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.BOM.Location = new System.Drawing.Point(6, 184);
+            this.BOM.Location = new System.Drawing.Point(6, 139);
             this.BOM.Name = "BOM";
             this.BOM.ReadOnly = true;
             this.BOM.RowTemplate.Height = 23;
@@ -590,7 +602,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1401, 768);
+            this.tabPage2.Size = new System.Drawing.Size(1401, 683);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "物料添加";
             // 
@@ -606,7 +618,7 @@
             // checkBoxUpdateItem
             // 
             this.checkBoxUpdateItem.AutoSize = true;
-            this.checkBoxUpdateItem.Location = new System.Drawing.Point(162, 353);
+            this.checkBoxUpdateItem.Location = new System.Drawing.Point(162, 352);
             this.checkBoxUpdateItem.Name = "checkBoxUpdateItem";
             this.checkBoxUpdateItem.Size = new System.Drawing.Size(48, 16);
             this.checkBoxUpdateItem.TabIndex = 32;
@@ -644,7 +656,7 @@
             this.ItemNamedgv.Name = "ItemNamedgv";
             this.ItemNamedgv.ReadOnly = true;
             this.ItemNamedgv.RowTemplate.Height = 23;
-            this.ItemNamedgv.Size = new System.Drawing.Size(1376, 150);
+            this.ItemNamedgv.Size = new System.Drawing.Size(1376, 80);
             this.ItemNamedgv.TabIndex = 36;
             // 
             // ItemClass
@@ -851,6 +863,8 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.PowderBlue;
+            this.tabPage3.Controls.Add(this.TbVendor);
+            this.tabPage3.Controls.Add(this.CbUpdateVendor);
             this.tabPage3.Controls.Add(this.Vendorhanghao);
             this.tabPage3.Controls.Add(this.label39);
             this.tabPage3.Controls.Add(this.Vendorliushuihao);
@@ -864,14 +878,33 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1401, 768);
+            this.tabPage3.Size = new System.Drawing.Size(1401, 683);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "供应商";
+            // 
+            // TbVendor
+            // 
+            this.TbVendor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TbVendor.Location = new System.Drawing.Point(806, 376);
+            this.TbVendor.Name = "TbVendor";
+            this.TbVendor.Size = new System.Drawing.Size(587, 21);
+            this.TbVendor.TabIndex = 21;
+            // 
+            // CbUpdateVendor
+            // 
+            this.CbUpdateVendor.AutoSize = true;
+            this.CbUpdateVendor.Location = new System.Drawing.Point(169, 378);
+            this.CbUpdateVendor.Name = "CbUpdateVendor";
+            this.CbUpdateVendor.Size = new System.Drawing.Size(84, 16);
+            this.CbUpdateVendor.TabIndex = 20;
+            this.CbUpdateVendor.Text = "修改供应商";
+            this.CbUpdateVendor.UseVisualStyleBackColor = true;
             // 
             // Vendorhanghao
             // 
             this.Vendorhanghao.AutoSize = true;
-            this.Vendorhanghao.Location = new System.Drawing.Point(629, 412);
+            this.Vendorhanghao.Location = new System.Drawing.Point(688, 380);
             this.Vendorhanghao.Name = "Vendorhanghao";
             this.Vendorhanghao.Size = new System.Drawing.Size(47, 12);
             this.Vendorhanghao.TabIndex = 19;
@@ -880,7 +913,7 @@
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(570, 412);
+            this.label39.Location = new System.Drawing.Point(629, 380);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(41, 12);
             this.label39.TabIndex = 18;
@@ -889,7 +922,7 @@
             // Vendorliushuihao
             // 
             this.Vendorliushuihao.AutoSize = true;
-            this.Vendorliushuihao.Location = new System.Drawing.Point(454, 412);
+            this.Vendorliushuihao.Location = new System.Drawing.Point(513, 380);
             this.Vendorliushuihao.Name = "Vendorliushuihao";
             this.Vendorliushuihao.Size = new System.Drawing.Size(65, 12);
             this.Vendorliushuihao.TabIndex = 17;
@@ -898,7 +931,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(395, 412);
+            this.label25.Location = new System.Drawing.Point(454, 380);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(53, 12);
             this.label25.TabIndex = 16;
@@ -907,7 +940,7 @@
             // VendorItem
             // 
             this.VendorItem.AutoSize = true;
-            this.VendorItem.Location = new System.Drawing.Point(303, 412);
+            this.VendorItem.Location = new System.Drawing.Point(362, 380);
             this.VendorItem.Name = "VendorItem";
             this.VendorItem.Size = new System.Drawing.Size(65, 12);
             this.VendorItem.TabIndex = 15;
@@ -916,7 +949,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(220, 412);
+            this.label27.Location = new System.Drawing.Point(279, 380);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(77, 12);
             this.label27.TabIndex = 14;
@@ -970,16 +1003,16 @@
             this.groupBox4.Controls.Add(this.tbVendorCurrencyCode);
             this.groupBox4.Controls.Add(this.tbVendorAccountant);
             this.groupBox4.Controls.Add(this.tbVendorAccountantPhone);
-            this.groupBox4.Location = new System.Drawing.Point(145, 423);
+            this.groupBox4.Location = new System.Drawing.Point(145, 403);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(1248, 323);
+            this.groupBox4.Size = new System.Drawing.Size(1248, 250);
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "供应商信息";
             // 
             // GYSBZ
             // 
-            this.GYSBZ.Location = new System.Drawing.Point(839, 90);
+            this.GYSBZ.Location = new System.Drawing.Point(839, 49);
             this.GYSBZ.Name = "GYSBZ";
             this.GYSBZ.Size = new System.Drawing.Size(225, 21);
             this.GYSBZ.TabIndex = 50;
@@ -987,7 +1020,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(771, 94);
+            this.label28.Location = new System.Drawing.Point(771, 53);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(65, 12);
             this.label28.TabIndex = 49;
@@ -996,7 +1029,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(572, 290);
+            this.label24.Location = new System.Drawing.Point(572, 214);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(29, 12);
             this.label24.TabIndex = 46;
@@ -1005,7 +1038,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(801, 289);
+            this.label26.Location = new System.Drawing.Point(801, 214);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(41, 12);
             this.label26.TabIndex = 45;
@@ -1013,14 +1046,14 @@
             // 
             // Vendormiaoshu
             // 
-            this.Vendormiaoshu.Location = new System.Drawing.Point(602, 283);
+            this.Vendormiaoshu.Location = new System.Drawing.Point(602, 210);
             this.Vendormiaoshu.Name = "Vendormiaoshu";
             this.Vendormiaoshu.Size = new System.Drawing.Size(193, 21);
             this.Vendormiaoshu.TabIndex = 48;
             // 
             // Vendorzuzhihao
             // 
-            this.Vendorzuzhihao.Location = new System.Drawing.Point(849, 283);
+            this.Vendorzuzhihao.Location = new System.Drawing.Point(849, 210);
             this.Vendorzuzhihao.Name = "Vendorzuzhihao";
             this.Vendorzuzhihao.Size = new System.Drawing.Size(100, 21);
             this.Vendorzuzhihao.TabIndex = 47;
@@ -1034,7 +1067,7 @@
             "M-原料供",
             "P-包材供",
             "S-服务供"});
-            this.cbVendorClass.Location = new System.Drawing.Point(895, 141);
+            this.cbVendorClass.Location = new System.Drawing.Point(895, 89);
             this.cbVendorClass.Name = "cbVendorClass";
             this.cbVendorClass.Size = new System.Drawing.Size(103, 20);
             this.cbVendorClass.TabIndex = 44;
@@ -1048,7 +1081,7 @@
             "D-银行汇票",
             "G-GIRO/BACS（银行直接转账制度）",
             "T-银行划款"});
-            this.cbPaymentForm.Location = new System.Drawing.Point(513, 144);
+            this.cbPaymentForm.Location = new System.Drawing.Point(513, 89);
             this.cbPaymentForm.Name = "cbPaymentForm";
             this.cbPaymentForm.Size = new System.Drawing.Size(140, 20);
             this.cbPaymentForm.TabIndex = 43;
@@ -1060,7 +1093,7 @@
             "S-特定条款",
             "M-月结账户",
             "D-折扣天数"});
-            this.cbStandardTerm.Location = new System.Drawing.Point(742, 143);
+            this.cbStandardTerm.Location = new System.Drawing.Point(742, 89);
             this.cbStandardTerm.Name = "cbStandardTerm";
             this.cbStandardTerm.Size = new System.Drawing.Size(91, 20);
             this.cbStandardTerm.TabIndex = 42;
@@ -1072,7 +1105,7 @@
             "L-本币",
             "F-外币",
             "R-比率"});
-            this.cbMoneyType.Location = new System.Drawing.Point(137, 143);
+            this.cbMoneyType.Location = new System.Drawing.Point(137, 89);
             this.cbMoneyType.Name = "cbMoneyType";
             this.cbMoneyType.Size = new System.Drawing.Size(72, 20);
             this.cbMoneyType.TabIndex = 41;
@@ -1084,7 +1117,7 @@
             "A-可用",
             "I-停用",
             "P-淘汰"});
-            this.cbVendorState.Location = new System.Drawing.Point(399, 93);
+            this.cbVendorState.Location = new System.Drawing.Point(399, 49);
             this.cbVendorState.Name = "cbVendorState";
             this.cbVendorState.Size = new System.Drawing.Size(72, 20);
             this.cbVendorState.TabIndex = 40;
@@ -1092,7 +1125,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(60, 50);
+            this.label5.Location = new System.Drawing.Point(60, 20);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 12);
             this.label5.TabIndex = 21;
@@ -1101,7 +1134,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(82, 243);
+            this.label15.Location = new System.Drawing.Point(82, 175);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(29, 12);
             this.label15.TabIndex = 20;
@@ -1110,7 +1143,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(269, 242);
+            this.label16.Location = new System.Drawing.Point(269, 175);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(53, 12);
             this.label16.TabIndex = 19;
@@ -1119,7 +1152,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(818, 50);
+            this.label6.Location = new System.Drawing.Point(818, 20);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 12);
             this.label6.TabIndex = 18;
@@ -1128,7 +1161,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(491, 97);
+            this.label7.Location = new System.Drawing.Point(491, 53);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(65, 12);
             this.label7.TabIndex = 17;
@@ -1136,7 +1169,7 @@
             // 
             // tbVendorTaxCode
             // 
-            this.tbVendorTaxCode.Location = new System.Drawing.Point(695, 189);
+            this.tbVendorTaxCode.Location = new System.Drawing.Point(695, 130);
             this.tbVendorTaxCode.Name = "tbVendorTaxCode";
             this.tbVendorTaxCode.Size = new System.Drawing.Size(193, 21);
             this.tbVendorTaxCode.TabIndex = 38;
@@ -1144,7 +1177,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(60, 288);
+            this.label18.Location = new System.Drawing.Point(60, 214);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(77, 12);
             this.label18.TabIndex = 23;
@@ -1152,7 +1185,7 @@
             // 
             // tbVendorBankAccount
             // 
-            this.tbVendorBankAccount.Location = new System.Drawing.Point(427, 189);
+            this.tbVendorBankAccount.Location = new System.Drawing.Point(427, 130);
             this.tbVendorBankAccount.Name = "tbVendorBankAccount";
             this.tbVendorBankAccount.Size = new System.Drawing.Size(193, 21);
             this.tbVendorBankAccount.TabIndex = 37;
@@ -1160,7 +1193,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(362, 99);
+            this.label8.Location = new System.Drawing.Point(362, 53);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(29, 12);
             this.label8.TabIndex = 14;
@@ -1168,7 +1201,7 @@
             // 
             // tbVendorDepositBank
             // 
-            this.tbVendorDepositBank.Location = new System.Drawing.Point(119, 189);
+            this.tbVendorDepositBank.Location = new System.Drawing.Point(119, 130);
             this.tbVendorDepositBank.Name = "tbVendorDepositBank";
             this.tbVendorDepositBank.Size = new System.Drawing.Size(234, 21);
             this.tbVendorDepositBank.TabIndex = 36;
@@ -1177,7 +1210,7 @@
             // 
             this.分类.AutoSize = true;
             this.分类.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.分类.Location = new System.Drawing.Point(854, 146);
+            this.分类.Location = new System.Drawing.Point(854, 93);
             this.分类.Name = "分类";
             this.分类.Size = new System.Drawing.Size(29, 12);
             this.分类.TabIndex = 12;
@@ -1185,7 +1218,7 @@
             // 
             // tbVendorContact
             // 
-            this.tbVendorContact.Location = new System.Drawing.Point(609, 44);
+            this.tbVendorContact.Location = new System.Drawing.Point(609, 16);
             this.tbVendorContact.Name = "tbVendorContact";
             this.tbVendorContact.Size = new System.Drawing.Size(193, 21);
             this.tbVendorContact.TabIndex = 35;
@@ -1193,7 +1226,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(314, 287);
+            this.label19.Location = new System.Drawing.Point(314, 214);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(77, 12);
             this.label19.TabIndex = 10;
@@ -1201,7 +1234,7 @@
             // 
             // tbVendorzhaiyao
             // 
-            this.tbVendorzhaiyao.Location = new System.Drawing.Point(533, 236);
+            this.tbVendorzhaiyao.Location = new System.Drawing.Point(533, 171);
             this.tbVendorzhaiyao.Name = "tbVendorzhaiyao";
             this.tbVendorzhaiyao.Size = new System.Drawing.Size(269, 21);
             this.tbVendorzhaiyao.TabIndex = 34;
@@ -1209,7 +1242,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(252, 146);
+            this.label9.Location = new System.Drawing.Point(252, 93);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(53, 12);
             this.label9.TabIndex = 5;
@@ -1217,7 +1250,7 @@
             // 
             // tbVendorAddress
             // 
-            this.tbVendorAddress.Location = new System.Drawing.Point(129, 94);
+            this.tbVendorAddress.Location = new System.Drawing.Point(129, 49);
             this.tbVendorAddress.Name = "tbVendorAddress";
             this.tbVendorAddress.Size = new System.Drawing.Size(221, 21);
             this.tbVendorAddress.TabIndex = 32;
@@ -1225,7 +1258,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(441, 146);
+            this.label10.Location = new System.Drawing.Point(441, 93);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 12);
             this.label10.TabIndex = 7;
@@ -1233,7 +1266,7 @@
             // 
             // tbVendorName
             // 
-            this.tbVendorName.Location = new System.Drawing.Point(338, 44);
+            this.tbVendorName.Location = new System.Drawing.Point(338, 16);
             this.tbVendorName.Name = "tbVendorName";
             this.tbVendorName.Size = new System.Drawing.Size(193, 21);
             this.tbVendorName.TabIndex = 31;
@@ -1241,7 +1274,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(674, 146);
+            this.label11.Location = new System.Drawing.Point(674, 93);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(53, 12);
             this.label11.TabIndex = 15;
@@ -1249,7 +1282,7 @@
             // 
             // tbVendorPayeeName
             // 
-            this.tbVendorPayeeName.Location = new System.Drawing.Point(557, 91);
+            this.tbVendorPayeeName.Location = new System.Drawing.Point(557, 49);
             this.tbVendorPayeeName.Name = "tbVendorPayeeName";
             this.tbVendorPayeeName.Size = new System.Drawing.Size(197, 21);
             this.tbVendorPayeeName.TabIndex = 39;
@@ -1257,7 +1290,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(60, 145);
+            this.label12.Location = new System.Drawing.Point(60, 93);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(53, 12);
             this.label12.TabIndex = 24;
@@ -1266,7 +1299,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(640, 193);
+            this.label13.Location = new System.Drawing.Point(640, 134);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(47, 12);
             this.label13.TabIndex = 6;
@@ -1275,7 +1308,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(271, 50);
+            this.label14.Location = new System.Drawing.Point(271, 20);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(65, 12);
             this.label14.TabIndex = 8;
@@ -1284,7 +1317,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(555, 50);
+            this.label17.Location = new System.Drawing.Point(555, 20);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(41, 12);
             this.label17.TabIndex = 9;
@@ -1292,7 +1325,7 @@
             // 
             // tbVendorContactPhone
             // 
-            this.tbVendorContactPhone.Location = new System.Drawing.Point(887, 44);
+            this.tbVendorContactPhone.Location = new System.Drawing.Point(887, 16);
             this.tbVendorContactPhone.Name = "tbVendorContactPhone";
             this.tbVendorContactPhone.Size = new System.Drawing.Size(112, 21);
             this.tbVendorContactPhone.TabIndex = 26;
@@ -1300,7 +1333,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(58, 100);
+            this.label20.Location = new System.Drawing.Point(58, 53);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(65, 12);
             this.label20.TabIndex = 11;
@@ -1309,7 +1342,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(359, 193);
+            this.label21.Location = new System.Drawing.Point(359, 134);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(53, 12);
             this.label21.TabIndex = 13;
@@ -1318,7 +1351,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(60, 193);
+            this.label22.Location = new System.Drawing.Point(60, 134);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(53, 12);
             this.label22.TabIndex = 16;
@@ -1326,7 +1359,7 @@
             // 
             // tbPayableAccountWithoutInvoice
             // 
-            this.tbPayableAccountWithoutInvoice.Location = new System.Drawing.Point(403, 283);
+            this.tbPayableAccountWithoutInvoice.Location = new System.Drawing.Point(403, 210);
             this.tbPayableAccountWithoutInvoice.Name = "tbPayableAccountWithoutInvoice";
             this.tbPayableAccountWithoutInvoice.Size = new System.Drawing.Size(153, 21);
             this.tbPayableAccountWithoutInvoice.TabIndex = 25;
@@ -1334,7 +1367,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(497, 240);
+            this.label23.Location = new System.Drawing.Point(497, 175);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(29, 12);
             this.label23.TabIndex = 22;
@@ -1342,35 +1375,35 @@
             // 
             // tbPayableAccountWithInvoice
             // 
-            this.tbPayableAccountWithInvoice.Location = new System.Drawing.Point(157, 283);
+            this.tbPayableAccountWithInvoice.Location = new System.Drawing.Point(157, 210);
             this.tbPayableAccountWithInvoice.Name = "tbPayableAccountWithInvoice";
             this.tbPayableAccountWithInvoice.Size = new System.Drawing.Size(150, 21);
             this.tbPayableAccountWithInvoice.TabIndex = 27;
             // 
             // tbVendorCode
             // 
-            this.tbVendorCode.Location = new System.Drawing.Point(143, 44);
+            this.tbVendorCode.Location = new System.Drawing.Point(143, 16);
             this.tbVendorCode.Name = "tbVendorCode";
             this.tbVendorCode.Size = new System.Drawing.Size(112, 21);
             this.tbVendorCode.TabIndex = 28;
             // 
             // tbVendorCurrencyCode
             // 
-            this.tbVendorCurrencyCode.Location = new System.Drawing.Point(317, 143);
+            this.tbVendorCurrencyCode.Location = new System.Drawing.Point(317, 89);
             this.tbVendorCurrencyCode.Name = "tbVendorCurrencyCode";
             this.tbVendorCurrencyCode.Size = new System.Drawing.Size(89, 21);
             this.tbVendorCurrencyCode.TabIndex = 29;
             // 
             // tbVendorAccountant
             // 
-            this.tbVendorAccountant.Location = new System.Drawing.Point(143, 236);
+            this.tbVendorAccountant.Location = new System.Drawing.Point(143, 171);
             this.tbVendorAccountant.Name = "tbVendorAccountant";
             this.tbVendorAccountant.Size = new System.Drawing.Size(112, 21);
             this.tbVendorAccountant.TabIndex = 33;
             // 
             // tbVendorAccountantPhone
             // 
-            this.tbVendorAccountantPhone.Location = new System.Drawing.Point(338, 236);
+            this.tbVendorAccountantPhone.Location = new System.Drawing.Point(338, 171);
             this.tbVendorAccountantPhone.Name = "tbVendorAccountantPhone";
             this.tbVendorAccountantPhone.Size = new System.Drawing.Size(112, 21);
             this.tbVendorAccountantPhone.TabIndex = 30;
@@ -1383,7 +1416,7 @@
             this.groupBox3.Controls.Add(this.GetVendor);
             this.groupBox3.Controls.Add(this.AddVendor);
             this.groupBox3.ForeColor = System.Drawing.Color.Blue;
-            this.groupBox3.Location = new System.Drawing.Point(15, 423);
+            this.groupBox3.Location = new System.Drawing.Point(15, 387);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(122, 199);
             this.groupBox3.TabIndex = 12;
@@ -1454,7 +1487,7 @@
             this.VendorResult.Location = new System.Drawing.Point(6, 6);
             this.VendorResult.Name = "VendorResult";
             this.VendorResult.ScrollAlwaysVisible = true;
-            this.VendorResult.Size = new System.Drawing.Size(1387, 172);
+            this.VendorResult.Size = new System.Drawing.Size(1387, 136);
             this.VendorResult.TabIndex = 11;
             // 
             // dgvVendor
@@ -1465,7 +1498,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvVendor.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.dgvVendor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvVendor.Location = new System.Drawing.Point(6, 184);
+            this.dgvVendor.Location = new System.Drawing.Point(6, 148);
             this.dgvVendor.Name = "dgvVendor";
             this.dgvVendor.ReadOnly = true;
             this.dgvVendor.RowTemplate.Height = 23;
@@ -1476,10 +1509,10 @@
             // tabPage7
             // 
             this.tabPage7.BackColor = System.Drawing.Color.PowderBlue;
+            this.tabPage7.Controls.Add(this.CbUpdateCustomer);
+            this.tabPage7.Controls.Add(this.TbCustomer);
             this.tabPage7.Controls.Add(this.label64);
-            this.tabPage7.Controls.Add(this.rbnChildCustomer);
             this.tabPage7.Controls.Add(this.groupBox7);
-            this.tabPage7.Controls.Add(this.rbnParentCustomer);
             this.tabPage7.Controls.Add(this.customerhanghao);
             this.tabPage7.Controls.Add(this.label40);
             this.tabPage7.Controls.Add(this.customerliushuihao);
@@ -1492,30 +1525,37 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1401, 768);
+            this.tabPage7.Size = new System.Drawing.Size(1401, 683);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "客户";
+            // 
+            // CbUpdateCustomer
+            // 
+            this.CbUpdateCustomer.AutoSize = true;
+            this.CbUpdateCustomer.Location = new System.Drawing.Point(169, 444);
+            this.CbUpdateCustomer.Name = "CbUpdateCustomer";
+            this.CbUpdateCustomer.Size = new System.Drawing.Size(72, 16);
+            this.CbUpdateCustomer.TabIndex = 29;
+            this.CbUpdateCustomer.Text = "修改客户";
+            this.CbUpdateCustomer.UseVisualStyleBackColor = true;
+            // 
+            // TbCustomer
+            // 
+            this.TbCustomer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TbCustomer.Location = new System.Drawing.Point(900, 441);
+            this.TbCustomer.Name = "TbCustomer";
+            this.TbCustomer.Size = new System.Drawing.Size(493, 21);
+            this.TbCustomer.TabIndex = 28;
             // 
             // label64
             // 
             this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(731, 444);
+            this.label64.Location = new System.Drawing.Point(685, 444);
             this.label64.Name = "label64";
             this.label64.Size = new System.Drawing.Size(203, 12);
             this.label64.TabIndex = 27;
             this.label64.Text = "默认应收账款账号：合并账号-113100";
-            // 
-            // rbnChildCustomer
-            // 
-            this.rbnChildCustomer.AutoSize = true;
-            this.rbnChildCustomer.Checked = true;
-            this.rbnChildCustomer.Location = new System.Drawing.Point(28, 685);
-            this.rbnChildCustomer.Name = "rbnChildCustomer";
-            this.rbnChildCustomer.Size = new System.Drawing.Size(59, 16);
-            this.rbnChildCustomer.TabIndex = 0;
-            this.rbnChildCustomer.TabStop = true;
-            this.rbnChildCustomer.Text = "子客户";
-            this.rbnChildCustomer.UseVisualStyleBackColor = true;
             // 
             // groupBox7
             // 
@@ -1559,16 +1599,16 @@
             this.groupBox7.Controls.Add(this.tbUniteAccount);
             this.groupBox7.Controls.Add(this.label61);
             this.groupBox7.Controls.Add(this.label62);
-            this.groupBox7.Location = new System.Drawing.Point(136, 459);
+            this.groupBox7.Location = new System.Drawing.Point(136, 469);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(1084, 261);
+            this.groupBox7.Size = new System.Drawing.Size(1084, 201);
             this.groupBox7.TabIndex = 26;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "客户信息";
             // 
             // tbProvince
             // 
-            this.tbProvince.Location = new System.Drawing.Point(707, 234);
+            this.tbProvince.Location = new System.Drawing.Point(707, 170);
             this.tbProvince.Name = "tbProvince";
             this.tbProvince.Size = new System.Drawing.Size(147, 21);
             this.tbProvince.TabIndex = 22;
@@ -1576,7 +1616,7 @@
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(624, 237);
+            this.label49.Location = new System.Drawing.Point(624, 173);
             this.label49.Name = "label49";
             this.label49.Size = new System.Drawing.Size(77, 12);
             this.label49.TabIndex = 21;
@@ -1584,7 +1624,7 @@
             // 
             // tBCustBZ
             // 
-            this.tBCustBZ.Location = new System.Drawing.Point(74, 234);
+            this.tBCustBZ.Location = new System.Drawing.Point(74, 170);
             this.tBCustBZ.Name = "tBCustBZ";
             this.tBCustBZ.Size = new System.Drawing.Size(543, 21);
             this.tBCustBZ.TabIndex = 20;
@@ -1592,7 +1632,7 @@
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(19, 237);
+            this.label36.Location = new System.Drawing.Point(19, 173);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(29, 12);
             this.label36.TabIndex = 19;
@@ -1606,7 +1646,7 @@
             "本币",
             "外币",
             "比率"});
-            this.cbMoney.Location = new System.Drawing.Point(823, 88);
+            this.cbMoney.Location = new System.Drawing.Point(823, 58);
             this.cbMoney.Name = "cbMoney";
             this.cbMoney.Size = new System.Drawing.Size(53, 20);
             this.cbMoney.TabIndex = 18;
@@ -1625,14 +1665,14 @@
             "药店",
             "医院",
             "¹«Ë¾"});
-            this.cbIndustry.Location = new System.Drawing.Point(619, 88);
+            this.cbIndustry.Location = new System.Drawing.Point(619, 58);
             this.cbIndustry.Name = "cbIndustry";
             this.cbIndustry.Size = new System.Drawing.Size(116, 20);
             this.cbIndustry.TabIndex = 18;
             // 
             // tbCustAddress
             // 
-            this.tbCustAddress.Location = new System.Drawing.Point(673, 139);
+            this.tbCustAddress.Location = new System.Drawing.Point(673, 97);
             this.tbCustAddress.Name = "tbCustAddress";
             this.tbCustAddress.Size = new System.Drawing.Size(356, 21);
             this.tbCustAddress.TabIndex = 4;
@@ -1640,7 +1680,7 @@
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(604, 142);
+            this.label45.Location = new System.Drawing.Point(604, 100);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(53, 12);
             this.label45.TabIndex = 3;
@@ -1649,7 +1689,7 @@
             // label46
             // 
             this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(211, 36);
+            this.label46.Location = new System.Drawing.Point(211, 21);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(53, 12);
             this.label46.TabIndex = 3;
@@ -1657,21 +1697,21 @@
             // 
             // tbTaxCode
             // 
-            this.tbTaxCode.Location = new System.Drawing.Point(659, 197);
+            this.tbTaxCode.Location = new System.Drawing.Point(659, 133);
             this.tbTaxCode.Name = "tbTaxCode";
             this.tbTaxCode.Size = new System.Drawing.Size(195, 21);
             this.tbTaxCode.TabIndex = 4;
             // 
             // tbBankAccount
             // 
-            this.tbBankAccount.Location = new System.Drawing.Point(422, 197);
+            this.tbBankAccount.Location = new System.Drawing.Point(422, 133);
             this.tbBankAccount.Name = "tbBankAccount";
             this.tbBankAccount.Size = new System.Drawing.Size(195, 21);
             this.tbBankAccount.TabIndex = 4;
             // 
             // tbCustomerCode
             // 
-            this.tbCustomerCode.Location = new System.Drawing.Point(99, 34);
+            this.tbCustomerCode.Location = new System.Drawing.Point(99, 19);
             this.tbCustomerCode.Name = "tbCustomerCode";
             this.tbCustomerCode.Size = new System.Drawing.Size(110, 21);
             this.tbCustomerCode.TabIndex = 17;
@@ -1679,7 +1719,7 @@
             // 
             // tbCustomerName
             // 
-            this.tbCustomerName.Location = new System.Drawing.Point(279, 34);
+            this.tbCustomerName.Location = new System.Drawing.Point(279, 19);
             this.tbCustomerName.Name = "tbCustomerName";
             this.tbCustomerName.Size = new System.Drawing.Size(302, 21);
             this.tbCustomerName.TabIndex = 17;
@@ -1687,7 +1727,7 @@
             // label99
             // 
             this.label99.AutoSize = true;
-            this.label99.Location = new System.Drawing.Point(24, 142);
+            this.label99.Location = new System.Drawing.Point(24, 100);
             this.label99.Name = "label99";
             this.label99.Size = new System.Drawing.Size(41, 12);
             this.label99.TabIndex = 3;
@@ -1696,7 +1736,7 @@
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(619, 37);
+            this.label47.Location = new System.Drawing.Point(619, 22);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(29, 12);
             this.label47.TabIndex = 3;
@@ -1705,7 +1745,7 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(551, 89);
+            this.label48.Location = new System.Drawing.Point(551, 59);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(53, 12);
             this.label48.TabIndex = 3;
@@ -1714,7 +1754,7 @@
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(767, 91);
+            this.label50.Location = new System.Drawing.Point(767, 61);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(53, 12);
             this.label50.TabIndex = 3;
@@ -1723,7 +1763,7 @@
             // label51
             // 
             this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(762, 36);
+            this.label51.Location = new System.Drawing.Point(762, 21);
             this.label51.Name = "label51";
             this.label51.Size = new System.Drawing.Size(53, 12);
             this.label51.TabIndex = 3;
@@ -1731,70 +1771,70 @@
             // 
             // tbBankOfDeposit
             // 
-            this.tbBankOfDeposit.Location = new System.Drawing.Point(74, 198);
+            this.tbBankOfDeposit.Location = new System.Drawing.Point(74, 134);
             this.tbBankOfDeposit.Name = "tbBankOfDeposit";
             this.tbBankOfDeposit.Size = new System.Drawing.Size(285, 21);
             this.tbBankOfDeposit.TabIndex = 4;
             // 
             // tbAccountantPhone
             // 
-            this.tbAccountantPhone.Location = new System.Drawing.Point(832, 34);
+            this.tbAccountantPhone.Location = new System.Drawing.Point(832, 19);
             this.tbAccountantPhone.Name = "tbAccountantPhone";
             this.tbAccountantPhone.Size = new System.Drawing.Size(109, 21);
             this.tbAccountantPhone.TabIndex = 4;
             // 
             // tbContactPerson
             // 
-            this.tbContactPerson.Location = new System.Drawing.Point(80, 139);
+            this.tbContactPerson.Location = new System.Drawing.Point(80, 97);
             this.tbContactPerson.Name = "tbContactPerson";
             this.tbContactPerson.Size = new System.Drawing.Size(87, 21);
             this.tbContactPerson.TabIndex = 4;
             // 
             // tbCustomerCurrencyCode
             // 
-            this.tbCustomerCurrencyCode.Location = new System.Drawing.Point(946, 86);
+            this.tbCustomerCurrencyCode.Location = new System.Drawing.Point(946, 56);
             this.tbCustomerCurrencyCode.Name = "tbCustomerCurrencyCode";
             this.tbCustomerCurrencyCode.Size = new System.Drawing.Size(83, 21);
             this.tbCustomerCurrencyCode.TabIndex = 4;
             // 
             // tbContactFax
             // 
-            this.tbContactFax.Location = new System.Drawing.Point(496, 139);
+            this.tbContactFax.Location = new System.Drawing.Point(496, 97);
             this.tbContactFax.Name = "tbContactFax";
             this.tbContactFax.Size = new System.Drawing.Size(102, 21);
             this.tbContactFax.TabIndex = 4;
             // 
             // tbAccountantName
             // 
-            this.tbAccountantName.Location = new System.Drawing.Point(660, 34);
+            this.tbAccountantName.Location = new System.Drawing.Point(660, 19);
             this.tbAccountantName.Name = "tbAccountantName";
             this.tbAccountantName.Size = new System.Drawing.Size(87, 21);
             this.tbAccountantName.TabIndex = 4;
             // 
             // tbContactTelephone
             // 
-            this.tbContactTelephone.Location = new System.Drawing.Point(209, 139);
+            this.tbContactTelephone.Location = new System.Drawing.Point(209, 97);
             this.tbContactTelephone.Name = "tbContactTelephone";
             this.tbContactTelephone.Size = new System.Drawing.Size(107, 21);
             this.tbContactTelephone.TabIndex = 4;
             // 
             // tbPostcode
             // 
-            this.tbPostcode.Location = new System.Drawing.Point(367, 139);
+            this.tbPostcode.Location = new System.Drawing.Point(367, 97);
             this.tbPostcode.Name = "tbPostcode";
             this.tbPostcode.Size = new System.Drawing.Size(87, 21);
             this.tbPostcode.TabIndex = 4;
             // 
             // tbSalesmanCode
             // 
-            this.tbSalesmanCode.Location = new System.Drawing.Point(217, 86);
+            this.tbSalesmanCode.Location = new System.Drawing.Point(217, 56);
             this.tbSalesmanCode.Name = "tbSalesmanCode";
             this.tbSalesmanCode.Size = new System.Drawing.Size(52, 21);
             this.tbSalesmanCode.TabIndex = 4;
             // 
             // tbSalesmanName
             // 
-            this.tbSalesmanName.Location = new System.Drawing.Point(81, 87);
+            this.tbSalesmanName.Location = new System.Drawing.Point(81, 57);
             this.tbSalesmanName.Name = "tbSalesmanName";
             this.tbSalesmanName.Size = new System.Drawing.Size(52, 21);
             this.tbSalesmanName.TabIndex = 4;
@@ -1802,7 +1842,7 @@
             // label52
             // 
             this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(624, 200);
+            this.label52.Location = new System.Drawing.Point(624, 136);
             this.label52.Name = "label52";
             this.label52.Size = new System.Drawing.Size(29, 12);
             this.label52.TabIndex = 3;
@@ -1811,7 +1851,7 @@
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(364, 201);
+            this.label53.Location = new System.Drawing.Point(364, 137);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(53, 12);
             this.label53.TabIndex = 3;
@@ -1820,7 +1860,7 @@
             // label54
             // 
             this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(6, 201);
+            this.label54.Location = new System.Drawing.Point(6, 137);
             this.label54.Name = "label54";
             this.label54.Size = new System.Drawing.Size(53, 12);
             this.label54.TabIndex = 3;
@@ -1829,7 +1869,7 @@
             // label55
             // 
             this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(888, 91);
+            this.label55.Location = new System.Drawing.Point(888, 61);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(53, 12);
             this.label55.TabIndex = 3;
@@ -1838,7 +1878,7 @@
             // label56
             // 
             this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(459, 144);
+            this.label56.Location = new System.Drawing.Point(459, 102);
             this.label56.Name = "label56";
             this.label56.Size = new System.Drawing.Size(29, 12);
             this.label56.TabIndex = 3;
@@ -1847,7 +1887,7 @@
             // label57
             // 
             this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(174, 142);
+            this.label57.Location = new System.Drawing.Point(174, 100);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(29, 12);
             this.label57.TabIndex = 3;
@@ -1856,7 +1896,7 @@
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(330, 143);
+            this.label58.Location = new System.Drawing.Point(330, 101);
             this.label58.Name = "label58";
             this.label58.Size = new System.Drawing.Size(29, 12);
             this.label58.TabIndex = 3;
@@ -1865,7 +1905,7 @@
             // label59
             // 
             this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(136, 90);
+            this.label59.Location = new System.Drawing.Point(136, 60);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(65, 12);
             this.label59.TabIndex = 3;
@@ -1874,7 +1914,7 @@
             // label60
             // 
             this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(27, 90);
+            this.label60.Location = new System.Drawing.Point(27, 60);
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(41, 12);
             this.label60.TabIndex = 3;
@@ -1884,7 +1924,7 @@
             // 
             this.tbUniteAccount.BackColor = System.Drawing.Color.White;
             this.tbUniteAccount.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.tbUniteAccount.Location = new System.Drawing.Point(353, 87);
+            this.tbUniteAccount.Location = new System.Drawing.Point(353, 57);
             this.tbUniteAccount.Name = "tbUniteAccount";
             this.tbUniteAccount.ReadOnly = true;
             this.tbUniteAccount.Size = new System.Drawing.Size(180, 21);
@@ -1894,7 +1934,7 @@
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(289, 89);
+            this.label61.Location = new System.Drawing.Point(289, 59);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(53, 12);
             this.label61.TabIndex = 3;
@@ -1903,26 +1943,16 @@
             // label62
             // 
             this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(33, 37);
+            this.label62.Location = new System.Drawing.Point(33, 22);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(53, 12);
             this.label62.TabIndex = 3;
             this.label62.Text = "客户编码";
             // 
-            // rbnParentCustomer
-            // 
-            this.rbnParentCustomer.AutoSize = true;
-            this.rbnParentCustomer.Location = new System.Drawing.Point(28, 655);
-            this.rbnParentCustomer.Name = "rbnParentCustomer";
-            this.rbnParentCustomer.Size = new System.Drawing.Size(59, 16);
-            this.rbnParentCustomer.TabIndex = 0;
-            this.rbnParentCustomer.Text = "主客户";
-            this.rbnParentCustomer.UseVisualStyleBackColor = true;
-            // 
             // customerhanghao
             // 
             this.customerhanghao.AutoSize = true;
-            this.customerhanghao.Location = new System.Drawing.Point(647, 444);
+            this.customerhanghao.Location = new System.Drawing.Point(627, 444);
             this.customerhanghao.Name = "customerhanghao";
             this.customerhanghao.Size = new System.Drawing.Size(47, 12);
             this.customerhanghao.TabIndex = 25;
@@ -1931,7 +1961,7 @@
             // label40
             // 
             this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(588, 444);
+            this.label40.Location = new System.Drawing.Point(574, 444);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(41, 12);
             this.label40.TabIndex = 24;
@@ -1940,7 +1970,7 @@
             // customerliushuihao
             // 
             this.customerliushuihao.AutoSize = true;
-            this.customerliushuihao.Location = new System.Drawing.Point(472, 444);
+            this.customerliushuihao.Location = new System.Drawing.Point(499, 444);
             this.customerliushuihao.Name = "customerliushuihao";
             this.customerliushuihao.Size = new System.Drawing.Size(65, 12);
             this.customerliushuihao.TabIndex = 23;
@@ -1949,7 +1979,7 @@
             // label42
             // 
             this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(413, 444);
+            this.label42.Location = new System.Drawing.Point(440, 444);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(53, 12);
             this.label42.TabIndex = 22;
@@ -1958,7 +1988,7 @@
             // customercode
             // 
             this.customercode.AutoSize = true;
-            this.customercode.Location = new System.Drawing.Point(308, 444);
+            this.customercode.Location = new System.Drawing.Point(350, 444);
             this.customercode.Name = "customercode";
             this.customercode.Size = new System.Drawing.Size(77, 12);
             this.customercode.TabIndex = 21;
@@ -1967,7 +1997,7 @@
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(238, 444);
+            this.label44.Location = new System.Drawing.Point(278, 444);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(65, 12);
             this.label44.TabIndex = 20;
@@ -1975,6 +2005,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.CbChildCustomer);
             this.groupBox6.Controls.Add(this.GetCustomerprocessNotYet);
             this.groupBox6.Controls.Add(this.ActiveCustomer);
             this.groupBox6.Controls.Add(this.UpdateCustomer);
@@ -1983,14 +2014,14 @@
             this.groupBox6.ForeColor = System.Drawing.Color.Blue;
             this.groupBox6.Location = new System.Drawing.Point(8, 444);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(122, 199);
+            this.groupBox6.Size = new System.Drawing.Size(122, 226);
             this.groupBox6.TabIndex = 13;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "操作区";
             // 
             // GetCustomerprocessNotYet
             // 
-            this.GetCustomerprocessNotYet.Location = new System.Drawing.Point(6, 57);
+            this.GetCustomerprocessNotYet.Location = new System.Drawing.Point(6, 52);
             this.GetCustomerprocessNotYet.Name = "GetCustomerprocessNotYet";
             this.GetCustomerprocessNotYet.Size = new System.Drawing.Size(110, 23);
             this.GetCustomerprocessNotYet.TabIndex = 9;
@@ -2000,7 +2031,7 @@
             // 
             // ActiveCustomer
             // 
-            this.ActiveCustomer.Location = new System.Drawing.Point(20, 166);
+            this.ActiveCustomer.Location = new System.Drawing.Point(24, 145);
             this.ActiveCustomer.Name = "ActiveCustomer";
             this.ActiveCustomer.Size = new System.Drawing.Size(75, 23);
             this.ActiveCustomer.TabIndex = 8;
@@ -2011,7 +2042,7 @@
             // UpdateCustomer
             // 
             this.UpdateCustomer.Enabled = false;
-            this.UpdateCustomer.Location = new System.Drawing.Point(16, 125);
+            this.UpdateCustomer.Location = new System.Drawing.Point(17, 114);
             this.UpdateCustomer.Name = "UpdateCustomer";
             this.UpdateCustomer.Size = new System.Drawing.Size(89, 23);
             this.UpdateCustomer.TabIndex = 4;
@@ -2021,7 +2052,7 @@
             // 
             // GetCustomerprocess
             // 
-            this.GetCustomerprocess.Location = new System.Drawing.Point(8, 21);
+            this.GetCustomerprocess.Location = new System.Drawing.Point(7, 21);
             this.GetCustomerprocess.Name = "GetCustomerprocess";
             this.GetCustomerprocess.Size = new System.Drawing.Size(108, 23);
             this.GetCustomerprocess.TabIndex = 5;
@@ -2032,7 +2063,7 @@
             // AddCustomer
             // 
             this.AddCustomer.Enabled = false;
-            this.AddCustomer.Location = new System.Drawing.Point(16, 96);
+            this.AddCustomer.Location = new System.Drawing.Point(17, 83);
             this.AddCustomer.Name = "AddCustomer";
             this.AddCustomer.Size = new System.Drawing.Size(89, 23);
             this.AddCustomer.TabIndex = 3;
@@ -2086,7 +2117,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1401, 768);
+            this.tabPage4.Size = new System.Drawing.Size(1401, 683);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "物料启用";
             // 
@@ -2189,7 +2220,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1401, 768);
+            this.tabPage6.Size = new System.Drawing.Size(1401, 683);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "登录";
             // 
@@ -2318,14 +2349,14 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1401, 768);
+            this.tabPage5.Size = new System.Drawing.Size(1401, 683);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "每日检查";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::FSTIMAIN.Properties.Resources.每日检查start;
-            this.pictureBox1.Location = new System.Drawing.Point(1114, 589);
+            this.pictureBox1.Location = new System.Drawing.Point(1114, 472);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(285, 171);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -2335,7 +2366,7 @@
             // 
             // daochuExcel
             // 
-            this.daochuExcel.Location = new System.Drawing.Point(1282, 531);
+            this.daochuExcel.Location = new System.Drawing.Point(1282, 414);
             this.daochuExcel.Name = "daochuExcel";
             this.daochuExcel.Size = new System.Drawing.Size(73, 23);
             this.daochuExcel.TabIndex = 14;
@@ -2354,7 +2385,7 @@
             "chengbenCheck",
             "zhanghaoCheck",
             "PLDHSMCheck"});
-            this.comboBox1.Location = new System.Drawing.Point(1132, 533);
+            this.comboBox1.Location = new System.Drawing.Point(1132, 416);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(144, 20);
             this.comboBox1.TabIndex = 13;
@@ -2365,17 +2396,17 @@
             this.PLDHSMCheck.AllowUserToDeleteRows = false;
             this.PLDHSMCheck.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.PLDHSMCheck.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.PLDHSMCheck.Location = new System.Drawing.Point(555, 513);
+            this.PLDHSMCheck.Location = new System.Drawing.Point(555, 422);
             this.PLDHSMCheck.Name = "PLDHSMCheck";
             this.PLDHSMCheck.ReadOnly = true;
             this.PLDHSMCheck.RowTemplate.Height = 23;
-            this.PLDHSMCheck.Size = new System.Drawing.Size(558, 249);
+            this.PLDHSMCheck.Size = new System.Drawing.Size(558, 255);
             this.PLDHSMCheck.TabIndex = 12;
             // 
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(555, 498);
+            this.label35.Location = new System.Drawing.Point(555, 407);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(215, 12);
             this.label35.TabIndex = 11;
@@ -2384,7 +2415,7 @@
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(1049, 229);
+            this.label34.Location = new System.Drawing.Point(1049, 193);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(179, 12);
             this.label34.TabIndex = 10;
@@ -2393,7 +2424,7 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(6, 498);
+            this.label33.Location = new System.Drawing.Point(6, 407);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(77, 12);
             this.label33.TabIndex = 9;
@@ -2405,11 +2436,11 @@
             this.chengbenCheck.AllowUserToDeleteRows = false;
             this.chengbenCheck.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.chengbenCheck.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.chengbenCheck.Location = new System.Drawing.Point(1052, 244);
+            this.chengbenCheck.Location = new System.Drawing.Point(1052, 208);
             this.chengbenCheck.Name = "chengbenCheck";
             this.chengbenCheck.ReadOnly = true;
             this.chengbenCheck.RowTemplate.Height = 23;
-            this.chengbenCheck.Size = new System.Drawing.Size(346, 249);
+            this.chengbenCheck.Size = new System.Drawing.Size(346, 190);
             this.chengbenCheck.TabIndex = 8;
             // 
             // zhanghaoCheck
@@ -2418,17 +2449,17 @@
             this.zhanghaoCheck.AllowUserToDeleteRows = false;
             this.zhanghaoCheck.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.zhanghaoCheck.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.zhanghaoCheck.Location = new System.Drawing.Point(4, 513);
+            this.zhanghaoCheck.Location = new System.Drawing.Point(4, 422);
             this.zhanghaoCheck.Name = "zhanghaoCheck";
             this.zhanghaoCheck.ReadOnly = true;
             this.zhanghaoCheck.RowTemplate.Height = 23;
-            this.zhanghaoCheck.Size = new System.Drawing.Size(545, 249);
+            this.zhanghaoCheck.Size = new System.Drawing.Size(545, 255);
             this.zhanghaoCheck.TabIndex = 7;
             // 
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(2, 229);
+            this.label32.Location = new System.Drawing.Point(2, 193);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(383, 12);
             this.label32.TabIndex = 6;
@@ -2440,11 +2471,11 @@
             this.VendorCheck.AllowUserToDeleteRows = false;
             this.VendorCheck.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.VendorCheck.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.VendorCheck.Location = new System.Drawing.Point(4, 244);
+            this.VendorCheck.Location = new System.Drawing.Point(4, 208);
             this.VendorCheck.Name = "VendorCheck";
             this.VendorCheck.ReadOnly = true;
             this.VendorCheck.RowTemplate.Height = 23;
-            this.VendorCheck.Size = new System.Drawing.Size(1047, 249);
+            this.VendorCheck.Size = new System.Drawing.Size(1047, 190);
             this.VendorCheck.TabIndex = 5;
             // 
             // SSIICKECK
@@ -2457,7 +2488,7 @@
             this.SSIICKECK.Name = "SSIICKECK";
             this.SSIICKECK.ReadOnly = true;
             this.SSIICKECK.RowTemplate.Height = 23;
-            this.SSIICKECK.Size = new System.Drawing.Size(346, 195);
+            this.SSIICKECK.Size = new System.Drawing.Size(346, 157);
             this.SSIICKECK.TabIndex = 4;
             // 
             // xunikucun
@@ -2470,7 +2501,7 @@
             this.xunikucun.Name = "xunikucun";
             this.xunikucun.ReadOnly = true;
             this.xunikucun.RowTemplate.Height = 23;
-            this.xunikucun.Size = new System.Drawing.Size(1049, 195);
+            this.xunikucun.Size = new System.Drawing.Size(1049, 157);
             this.xunikucun.TabIndex = 3;
             // 
             // label30
@@ -2521,7 +2552,7 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(1401, 768);
+            this.tabPage8.Size = new System.Drawing.Size(1401, 683);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "物料审核";
             // 
@@ -2534,11 +2565,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ItemNamedgvsh.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.ItemNamedgvsh.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ItemNamedgvsh.Location = new System.Drawing.Point(12, 516);
+            this.ItemNamedgvsh.Location = new System.Drawing.Point(12, 436);
             this.ItemNamedgvsh.Name = "ItemNamedgvsh";
             this.ItemNamedgvsh.ReadOnly = true;
             this.ItemNamedgvsh.RowTemplate.Height = 23;
-            this.ItemNamedgvsh.Size = new System.Drawing.Size(1376, 246);
+            this.ItemNamedgvsh.Size = new System.Drawing.Size(1376, 241);
             this.ItemNamedgvsh.TabIndex = 48;
             // 
             // ItemClasssh
@@ -2552,14 +2583,14 @@
             "P",
             "A",
             "全部"});
-            this.ItemClasssh.Location = new System.Drawing.Point(400, 489);
+            this.ItemClasssh.Location = new System.Drawing.Point(400, 409);
             this.ItemClasssh.Name = "ItemClasssh";
             this.ItemClasssh.Size = new System.Drawing.Size(63, 20);
             this.ItemClasssh.TabIndex = 47;
             // 
             // ItemNamesh
             // 
-            this.ItemNamesh.Location = new System.Drawing.Point(60, 489);
+            this.ItemNamesh.Location = new System.Drawing.Point(60, 409);
             this.ItemNamesh.Name = "ItemNamesh";
             this.ItemNamesh.Size = new System.Drawing.Size(334, 21);
             this.ItemNamesh.TabIndex = 46;
@@ -2568,7 +2599,7 @@
             // ITMBhanghaosh
             // 
             this.ITMBhanghaosh.AutoSize = true;
-            this.ITMBhanghaosh.Location = new System.Drawing.Point(501, 233);
+            this.ITMBhanghaosh.Location = new System.Drawing.Point(501, 185);
             this.ITMBhanghaosh.Name = "ITMBhanghaosh";
             this.ITMBhanghaosh.Size = new System.Drawing.Size(47, 12);
             this.ITMBhanghaosh.TabIndex = 45;
@@ -2588,7 +2619,7 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(456, 233);
+            this.label63.Location = new System.Drawing.Point(456, 185);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(41, 12);
             this.label63.TabIndex = 44;
@@ -2597,7 +2628,7 @@
             // ITMBliushuihaosh
             // 
             this.ITMBliushuihaosh.AutoSize = true;
-            this.ITMBliushuihaosh.Location = new System.Drawing.Point(180, 233);
+            this.ITMBliushuihaosh.Location = new System.Drawing.Point(180, 185);
             this.ITMBliushuihaosh.Name = "ITMBliushuihaosh";
             this.ITMBliushuihaosh.Size = new System.Drawing.Size(53, 12);
             this.ITMBliushuihaosh.TabIndex = 42;
@@ -2606,7 +2637,7 @@
             // label65
             // 
             this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(121, 233);
+            this.label65.Location = new System.Drawing.Point(121, 185);
             this.label65.Name = "label65";
             this.label65.Size = new System.Drawing.Size(53, 12);
             this.label65.TabIndex = 41;
@@ -2615,7 +2646,7 @@
             // ITMBjieshoudanweish
             // 
             this.ITMBjieshoudanweish.AutoSize = true;
-            this.ITMBjieshoudanweish.Location = new System.Drawing.Point(315, 233);
+            this.ITMBjieshoudanweish.Location = new System.Drawing.Point(315, 185);
             this.ITMBjieshoudanweish.Name = "ITMBjieshoudanweish";
             this.ITMBjieshoudanweish.Size = new System.Drawing.Size(83, 12);
             this.ITMBjieshoudanweish.TabIndex = 40;
@@ -2624,7 +2655,7 @@
             // label67
             // 
             this.label67.AutoSize = true;
-            this.label67.Location = new System.Drawing.Point(245, 233);
+            this.label67.Location = new System.Drawing.Point(245, 185);
             this.label67.Name = "label67";
             this.label67.Size = new System.Drawing.Size(65, 12);
             this.label67.TabIndex = 39;
@@ -2638,11 +2669,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvItmbDetailsh.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.dgvItmbDetailsh.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvItmbDetailsh.Location = new System.Drawing.Point(12, 249);
+            this.dgvItmbDetailsh.Location = new System.Drawing.Point(12, 201);
             this.dgvItmbDetailsh.Name = "dgvItmbDetailsh";
             this.dgvItmbDetailsh.ReadOnly = true;
             this.dgvItmbDetailsh.RowTemplate.Height = 23;
-            this.dgvItmbDetailsh.Size = new System.Drawing.Size(1376, 234);
+            this.dgvItmbDetailsh.Size = new System.Drawing.Size(1376, 201);
             this.dgvItmbDetailsh.TabIndex = 38;
             this.dgvItmbDetailsh.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItmbDetailsh_CellClick);
             // 
@@ -2658,7 +2689,7 @@
             this.dgvItmbsh.Name = "dgvItmbsh";
             this.dgvItmbsh.ReadOnly = true;
             this.dgvItmbsh.RowTemplate.Height = 23;
-            this.dgvItmbsh.Size = new System.Drawing.Size(1265, 221);
+            this.dgvItmbsh.Size = new System.Drawing.Size(1265, 172);
             this.dgvItmbsh.TabIndex = 37;
             this.dgvItmbsh.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItmbsh_CellDoubleClick);
             // 
@@ -2678,9 +2709,18 @@
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(1401, 768);
+            this.tabPage9.Size = new System.Drawing.Size(1401, 683);
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "修改成本";
+            // 
+            // TbUpdateCost
+            // 
+            this.TbUpdateCost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TbUpdateCost.Location = new System.Drawing.Point(603, 328);
+            this.TbUpdateCost.Name = "TbUpdateCost";
+            this.TbUpdateCost.Size = new System.Drawing.Size(790, 21);
+            this.TbUpdateCost.TabIndex = 50;
             // 
             // dgvItemNumber
             // 
@@ -2691,17 +2731,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvItemNumber.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.dgvItemNumber.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvItemNumber.Location = new System.Drawing.Point(18, 672);
+            this.dgvItemNumber.Location = new System.Drawing.Point(17, 558);
             this.dgvItemNumber.Name = "dgvItemNumber";
             this.dgvItemNumber.ReadOnly = true;
             this.dgvItemNumber.RowTemplate.Height = 23;
-            this.dgvItemNumber.Size = new System.Drawing.Size(1376, 83);
+            this.dgvItemNumber.Size = new System.Drawing.Size(1376, 119);
             this.dgvItemNumber.TabIndex = 49;
             // 
             // ItmbUpdateRowNumber
             // 
             this.ItmbUpdateRowNumber.AutoSize = true;
-            this.ItmbUpdateRowNumber.Location = new System.Drawing.Point(507, 364);
+            this.ItmbUpdateRowNumber.Location = new System.Drawing.Point(507, 332);
             this.ItmbUpdateRowNumber.Name = "ItmbUpdateRowNumber";
             this.ItmbUpdateRowNumber.Size = new System.Drawing.Size(47, 12);
             this.ItmbUpdateRowNumber.TabIndex = 46;
@@ -2710,7 +2750,7 @@
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Location = new System.Drawing.Point(462, 364);
+            this.label68.Location = new System.Drawing.Point(462, 332);
             this.label68.Name = "label68";
             this.label68.Size = new System.Drawing.Size(41, 12);
             this.label68.TabIndex = 45;
@@ -2721,7 +2761,7 @@
             this.groupBox8.Controls.Add(this.ItmbUpdate);
             this.groupBox8.Controls.Add(this.GetItmbUpdate);
             this.groupBox8.ForeColor = System.Drawing.Color.Blue;
-            this.groupBox8.Location = new System.Drawing.Point(18, 192);
+            this.groupBox8.Location = new System.Drawing.Point(18, 158);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(122, 166);
             this.groupBox8.TabIndex = 44;
@@ -2751,7 +2791,7 @@
             // ItmbUpdateNumber
             // 
             this.ItmbUpdateNumber.AutoSize = true;
-            this.ItmbUpdateNumber.Location = new System.Drawing.Point(274, 364);
+            this.ItmbUpdateNumber.Location = new System.Drawing.Point(274, 332);
             this.ItmbUpdateNumber.Name = "ItmbUpdateNumber";
             this.ItmbUpdateNumber.Size = new System.Drawing.Size(65, 12);
             this.ItmbUpdateNumber.TabIndex = 43;
@@ -2760,7 +2800,7 @@
             // label70
             // 
             this.label70.AutoSize = true;
-            this.label70.Location = new System.Drawing.Point(215, 364);
+            this.label70.Location = new System.Drawing.Point(215, 332);
             this.label70.Name = "label70";
             this.label70.Size = new System.Drawing.Size(53, 12);
             this.label70.TabIndex = 42;
@@ -2774,10 +2814,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvItmbUpdateDetail.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.dgvItmbUpdateDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvItmbUpdateDetail.Location = new System.Drawing.Point(18, 385);
+            this.dgvItmbUpdateDetail.Location = new System.Drawing.Point(18, 353);
             this.dgvItmbUpdateDetail.Name = "dgvItmbUpdateDetail";
             this.dgvItmbUpdateDetail.RowTemplate.Height = 23;
-            this.dgvItmbUpdateDetail.Size = new System.Drawing.Size(1376, 281);
+            this.dgvItmbUpdateDetail.Size = new System.Drawing.Size(1376, 199);
             this.dgvItmbUpdateDetail.TabIndex = 39;
             this.dgvItmbUpdateDetail.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItmbUpdateDetail_CellClick);
             // 
@@ -2789,7 +2829,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvItmbUpdate.BackgroundColor = System.Drawing.Color.PowderBlue;
             this.dgvItmbUpdate.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvItmbUpdate.Location = new System.Drawing.Point(146, 192);
+            this.dgvItmbUpdate.Location = new System.Drawing.Point(146, 158);
             this.dgvItmbUpdate.Name = "dgvItmbUpdate";
             this.dgvItmbUpdate.ReadOnly = true;
             this.dgvItmbUpdate.RowTemplate.Height = 23;
@@ -2808,7 +2848,7 @@
             this.ItmbUpdateResult.Name = "ItmbUpdateResult";
             this.ItmbUpdateResult.ScrollAlwaysVisible = true;
             this.ItmbUpdateResult.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.ItmbUpdateResult.Size = new System.Drawing.Size(1387, 172);
+            this.ItmbUpdateResult.Size = new System.Drawing.Size(1387, 136);
             this.ItmbUpdateResult.TabIndex = 37;
             // 
             // tabPage10
@@ -2826,7 +2866,7 @@
             this.tabPage10.Location = new System.Drawing.Point(4, 22);
             this.tabPage10.Name = "tabPage10";
             this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage10.Size = new System.Drawing.Size(1401, 768);
+            this.tabPage10.Size = new System.Drawing.Size(1401, 683);
             this.tabPage10.TabIndex = 9;
             this.tabPage10.Text = "修改库管员代码";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -2933,30 +2973,23 @@
             this.TemplateDownload.UseVisualStyleBackColor = true;
             this.TemplateDownload.Click += new System.EventHandler(this.TemplateDownload_Click);
             // 
-            // TbUpdateCost
+            // CbChildCustomer
             // 
-            this.TbUpdateCost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TbUpdateCost.Location = new System.Drawing.Point(603, 360);
-            this.TbUpdateCost.Name = "TbUpdateCost";
-            this.TbUpdateCost.Size = new System.Drawing.Size(790, 21);
-            this.TbUpdateCost.TabIndex = 50;
-            // 
-            // TbBOM
-            // 
-            this.TbBOM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TbBOM.Location = new System.Drawing.Point(657, 352);
-            this.TbBOM.Name = "TbBOM";
-            this.TbBOM.Size = new System.Drawing.Size(736, 21);
-            this.TbBOM.TabIndex = 14;
+            this.CbChildCustomer.AutoSize = true;
+            this.CbChildCustomer.Enabled = false;
+            this.CbChildCustomer.Location = new System.Drawing.Point(21, 184);
+            this.CbChildCustomer.Name = "CbChildCustomer";
+            this.CbChildCustomer.Size = new System.Drawing.Size(84, 16);
+            this.CbChildCustomer.TabIndex = 10;
+            this.CbChildCustomer.Text = "增加子客户";
+            this.CbChildCustomer.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PowderBlue;
-            this.ClientSize = new System.Drawing.Size(1409, 816);
+            this.ClientSize = new System.Drawing.Size(1409, 731);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2992,6 +3025,7 @@
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomer)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
@@ -3215,8 +3249,6 @@
         private System.Windows.Forms.TextBox tbUniteAccount;
         private System.Windows.Forms.Label label61;
         private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.RadioButton rbnChildCustomer;
-        private System.Windows.Forms.RadioButton rbnParentCustomer;
         private System.Windows.Forms.TextBox tBCustBZ;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label43;
@@ -3271,6 +3303,11 @@
         private System.Windows.Forms.TextBox TBaddItemsResult;
         private System.Windows.Forms.TextBox TbUpdateCost;
         private System.Windows.Forms.TextBox TbBOM;
+        private System.Windows.Forms.TextBox TbCustomer;
+        private System.Windows.Forms.CheckBox CbUpdateCustomer;
+        private System.Windows.Forms.TextBox TbVendor;
+        private System.Windows.Forms.CheckBox CbUpdateVendor;
+        private System.Windows.Forms.CheckBox CbChildCustomer;
     }
 }
 
