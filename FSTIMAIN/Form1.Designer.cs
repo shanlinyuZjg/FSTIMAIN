@@ -59,6 +59,7 @@
             this.ITMBhanghao = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.NumForSearch = new System.Windows.Forms.TextBox();
             this.UpdateITMB = new System.Windows.Forms.Button();
             this.jihuoITMB = new System.Windows.Forms.Button();
             this.AddITMB = new System.Windows.Forms.Button();
@@ -135,7 +136,6 @@
             this.dgvVendor = new System.Windows.Forms.DataGridView();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.label64 = new System.Windows.Forms.Label();
-            this.rbnChildCustomer = new System.Windows.Forms.RadioButton();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.tbProvince = new System.Windows.Forms.TextBox();
             this.label49 = new System.Windows.Forms.Label();
@@ -177,7 +177,6 @@
             this.tbUniteAccount = new System.Windows.Forms.TextBox();
             this.label61 = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
-            this.rbnParentCustomer = new System.Windows.Forms.RadioButton();
             this.customerhanghao = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
             this.customerliushuihao = new System.Windows.Forms.Label();
@@ -265,6 +264,7 @@
             this.BtUpdateStockNum = new System.Windows.Forms.Button();
             this.ExcelImport = new System.Windows.Forms.Button();
             this.TemplateDownload = new System.Windows.Forms.Button();
+            this.CbChildCustomer = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -576,7 +576,7 @@
             // ITMBfaqibumen
             // 
             this.ITMBfaqibumen.AutoSize = true;
-            this.ITMBfaqibumen.Location = new System.Drawing.Point(672, 354);
+            this.ITMBfaqibumen.Location = new System.Drawing.Point(699, 354);
             this.ITMBfaqibumen.Name = "ITMBfaqibumen";
             this.ITMBfaqibumen.Size = new System.Drawing.Size(59, 12);
             this.ITMBfaqibumen.TabIndex = 38;
@@ -585,7 +585,7 @@
             // label69
             // 
             this.label69.AutoSize = true;
-            this.label69.Location = new System.Drawing.Point(602, 354);
+            this.label69.Location = new System.Drawing.Point(629, 354);
             this.label69.Name = "label69";
             this.label69.Size = new System.Drawing.Size(65, 12);
             this.label69.TabIndex = 37;
@@ -634,7 +634,7 @@
             // ITMBhanghao
             // 
             this.ITMBhanghao.AutoSize = true;
-            this.ITMBhanghao.Location = new System.Drawing.Point(506, 354);
+            this.ITMBhanghao.Location = new System.Drawing.Point(533, 354);
             this.ITMBhanghao.Name = "ITMBhanghao";
             this.ITMBhanghao.Size = new System.Drawing.Size(47, 12);
             this.ITMBhanghao.TabIndex = 33;
@@ -643,7 +643,7 @@
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(461, 354);
+            this.label38.Location = new System.Drawing.Point(488, 354);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(41, 12);
             this.label38.TabIndex = 32;
@@ -651,6 +651,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.NumForSearch);
             this.groupBox5.Controls.Add(this.UpdateITMB);
             this.groupBox5.Controls.Add(this.jihuoITMB);
             this.groupBox5.Controls.Add(this.AddITMB);
@@ -659,15 +660,23 @@
             this.groupBox5.ForeColor = System.Drawing.Color.Blue;
             this.groupBox5.Location = new System.Drawing.Point(17, 184);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(122, 166);
+            this.groupBox5.Size = new System.Drawing.Size(122, 182);
             this.groupBox5.TabIndex = 31;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "操作区";
             // 
+            // NumForSearch
+            // 
+            this.NumForSearch.Location = new System.Drawing.Point(14, 157);
+            this.NumForSearch.Name = "NumForSearch";
+            this.NumForSearch.Size = new System.Drawing.Size(100, 21);
+            this.NumForSearch.TabIndex = 31;
+            this.NumForSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NumForSearch_KeyDown);
+            // 
             // UpdateITMB
             // 
             this.UpdateITMB.Enabled = false;
-            this.UpdateITMB.Location = new System.Drawing.Point(16, 79);
+            this.UpdateITMB.Location = new System.Drawing.Point(16, 75);
             this.UpdateITMB.Name = "UpdateITMB";
             this.UpdateITMB.Size = new System.Drawing.Size(75, 23);
             this.UpdateITMB.TabIndex = 27;
@@ -677,7 +686,7 @@
             // 
             // jihuoITMB
             // 
-            this.jihuoITMB.Location = new System.Drawing.Point(20, 137);
+            this.jihuoITMB.Location = new System.Drawing.Point(20, 131);
             this.jihuoITMB.Name = "jihuoITMB";
             this.jihuoITMB.Size = new System.Drawing.Size(75, 23);
             this.jihuoITMB.TabIndex = 30;
@@ -688,7 +697,7 @@
             // AddITMB
             // 
             this.AddITMB.Enabled = false;
-            this.AddITMB.Location = new System.Drawing.Point(16, 50);
+            this.AddITMB.Location = new System.Drawing.Point(16, 47);
             this.AddITMB.Name = "AddITMB";
             this.AddITMB.Size = new System.Drawing.Size(75, 23);
             this.AddITMB.TabIndex = 26;
@@ -699,7 +708,7 @@
             // SubmitITMB
             // 
             this.SubmitITMB.Enabled = false;
-            this.SubmitITMB.Location = new System.Drawing.Point(14, 109);
+            this.SubmitITMB.Location = new System.Drawing.Point(14, 103);
             this.SubmitITMB.Name = "SubmitITMB";
             this.SubmitITMB.Size = new System.Drawing.Size(88, 23);
             this.SubmitITMB.TabIndex = 29;
@@ -720,7 +729,7 @@
             // ITMBliushuihao
             // 
             this.ITMBliushuihao.AutoSize = true;
-            this.ITMBliushuihao.Location = new System.Drawing.Point(185, 354);
+            this.ITMBliushuihao.Location = new System.Drawing.Point(212, 354);
             this.ITMBliushuihao.Name = "ITMBliushuihao";
             this.ITMBliushuihao.Size = new System.Drawing.Size(53, 12);
             this.ITMBliushuihao.TabIndex = 25;
@@ -729,7 +738,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(126, 354);
+            this.label29.Location = new System.Drawing.Point(153, 354);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(53, 12);
             this.label29.TabIndex = 24;
@@ -738,7 +747,7 @@
             // ITMBjieshoudanwei
             // 
             this.ITMBjieshoudanwei.AutoSize = true;
-            this.ITMBjieshoudanwei.Location = new System.Drawing.Point(320, 354);
+            this.ITMBjieshoudanwei.Location = new System.Drawing.Point(347, 354);
             this.ITMBjieshoudanwei.Name = "ITMBjieshoudanwei";
             this.ITMBjieshoudanwei.Size = new System.Drawing.Size(83, 12);
             this.ITMBjieshoudanwei.TabIndex = 23;
@@ -747,7 +756,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(250, 354);
+            this.label2.Location = new System.Drawing.Point(277, 354);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 12);
             this.label2.TabIndex = 22;
@@ -1427,10 +1436,9 @@
             // tabPage7
             // 
             this.tabPage7.BackColor = System.Drawing.Color.PowderBlue;
+            this.tabPage7.Controls.Add(this.CbChildCustomer);
             this.tabPage7.Controls.Add(this.label64);
-            this.tabPage7.Controls.Add(this.rbnChildCustomer);
             this.tabPage7.Controls.Add(this.groupBox7);
-            this.tabPage7.Controls.Add(this.rbnParentCustomer);
             this.tabPage7.Controls.Add(this.customerhanghao);
             this.tabPage7.Controls.Add(this.label40);
             this.tabPage7.Controls.Add(this.customerliushuihao);
@@ -1455,18 +1463,6 @@
             this.label64.Size = new System.Drawing.Size(203, 12);
             this.label64.TabIndex = 27;
             this.label64.Text = "默认应收账款账号：合并账号-113100";
-            // 
-            // rbnChildCustomer
-            // 
-            this.rbnChildCustomer.AutoSize = true;
-            this.rbnChildCustomer.Checked = true;
-            this.rbnChildCustomer.Location = new System.Drawing.Point(28, 685);
-            this.rbnChildCustomer.Name = "rbnChildCustomer";
-            this.rbnChildCustomer.Size = new System.Drawing.Size(59, 16);
-            this.rbnChildCustomer.TabIndex = 0;
-            this.rbnChildCustomer.TabStop = true;
-            this.rbnChildCustomer.Text = "子客户";
-            this.rbnChildCustomer.UseVisualStyleBackColor = true;
             // 
             // groupBox7
             // 
@@ -1622,7 +1618,7 @@
             // 
             // tbCustomerCode
             // 
-            this.tbCustomerCode.Location = new System.Drawing.Point(99, 34);
+            this.tbCustomerCode.Location = new System.Drawing.Point(95, 34);
             this.tbCustomerCode.Name = "tbCustomerCode";
             this.tbCustomerCode.Size = new System.Drawing.Size(110, 21);
             this.tbCustomerCode.TabIndex = 17;
@@ -1859,16 +1855,6 @@
             this.label62.Size = new System.Drawing.Size(53, 12);
             this.label62.TabIndex = 3;
             this.label62.Text = "客户编码";
-            // 
-            // rbnParentCustomer
-            // 
-            this.rbnParentCustomer.AutoSize = true;
-            this.rbnParentCustomer.Location = new System.Drawing.Point(28, 655);
-            this.rbnParentCustomer.Name = "rbnParentCustomer";
-            this.rbnParentCustomer.Size = new System.Drawing.Size(59, 16);
-            this.rbnParentCustomer.TabIndex = 0;
-            this.rbnParentCustomer.Text = "主客户";
-            this.rbnParentCustomer.UseVisualStyleBackColor = true;
             // 
             // customerhanghao
             // 
@@ -2202,7 +2188,7 @@
             this.textUserId.Location = new System.Drawing.Point(248, 129);
             this.textUserId.Name = "textUserId";
             this.textUserId.Size = new System.Drawing.Size(125, 21);
-            this.textUserId.TabIndex = 16;
+            this.textUserId.TabIndex = 1;
             this.textUserId.TextChanged += new System.EventHandler(this.textUserId_TextChanged);
             // 
             // btnLogon
@@ -2222,7 +2208,7 @@
             this.textPassword.Name = "textPassword";
             this.textPassword.PasswordChar = '*';
             this.textPassword.Size = new System.Drawing.Size(125, 21);
-            this.textPassword.TabIndex = 17;
+            this.textPassword.TabIndex = 2;
             this.textPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textPassword_KeyDown);
             // 
             // btnInitialize
@@ -2872,6 +2858,17 @@
             this.TemplateDownload.UseVisualStyleBackColor = true;
             this.TemplateDownload.Click += new System.EventHandler(this.TemplateDownload_Click);
             // 
+            // CbChildCustomer
+            // 
+            this.CbChildCustomer.AutoSize = true;
+            this.CbChildCustomer.Enabled = false;
+            this.CbChildCustomer.Location = new System.Drawing.Point(37, 657);
+            this.CbChildCustomer.Name = "CbChildCustomer";
+            this.CbChildCustomer.Size = new System.Drawing.Size(60, 16);
+            this.CbChildCustomer.TabIndex = 28;
+            this.CbChildCustomer.Text = "子客户";
+            this.CbChildCustomer.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2899,6 +2896,7 @@
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ItemNamedgv)).EndInit();
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItmbDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItmb)).EndInit();
             this.tabPage3.ResumeLayout(false);
@@ -3135,8 +3133,6 @@
         private System.Windows.Forms.TextBox tbUniteAccount;
         private System.Windows.Forms.Label label61;
         private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.RadioButton rbnChildCustomer;
-        private System.Windows.Forms.RadioButton rbnParentCustomer;
         private System.Windows.Forms.TextBox tBCustBZ;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label43;
@@ -3185,6 +3181,8 @@
         private System.Windows.Forms.Label label66;
         private System.Windows.Forms.Button btnGetPONumber;
         private System.Windows.Forms.Button GetCustomerprocessNotYet;
+        private System.Windows.Forms.TextBox NumForSearch;
+        private System.Windows.Forms.CheckBox CbChildCustomer;
     }
 }
 

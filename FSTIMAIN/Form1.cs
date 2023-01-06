@@ -38,60 +38,9 @@ namespace FSTIMAIN
             ItemClass.SelectedIndex = 5;
             ItemClasssh.SelectedIndex = 5;
             this.Show();
-            this.textPassword.Focus();
-            #region 注释
-            //try
-            //{
-            //    _fstiClient = new FSTIClient();
+            btnInitialize_Click(null, null);
+            this.textUserId.Focus();
 
-            //    // call InitializeByConfigFile
-            //    // second parameter == true is to participate in unified logon
-            //    // third parameter == false, no support for impersonation is needed
-            //    string fscfg = @"Z:\mfgsys\fs.cfg";
-            //    _fstiClient.InitializeByConfigFile(fscfg, true, false);
-
-            //    // Since this program is participating in unified logon, need to
-            //    // check if a logon is required.
-            //    if (_fstiClient.IsLogonRequired)
-            //    {
-            //        string message = null;     // used to hold a return message, from the logon
-            //        int status;         // receives the return value from the logon call
-
-            //        status = _fstiClient.Logon("ZJG", "123321", ref message);
-            //        if (status > 0)
-            //        {
-            //            MessageBox.Show("Invalid user id or password");
-            //            toolStripStatusLabel1.Text = "未登录";
-            //            toolStripStatusLabel2.Text = "";
-            //            toolStripStatusLabel3.Text = "";
-            //        }
-            //        else
-            //        {
-            //            toolStripStatusLabel1.Text = "ID:"+ _fstiClient.UserId;
-            //            toolStripStatusLabel2.Text = "配置文件：" + fscfg;
-            //            toolStripStatusLabel3.Text = "服务器:" + _fstiClient.ServerName;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        toolStripStatusLabel1.Text = "ID:" + _fstiClient.UserId;
-            //        toolStripStatusLabel2.Text = "配置文件：" + fscfg;
-            //        toolStripStatusLabel3.Text = "服务器:"+ _fstiClient.ServerName;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    toolStripStatusLabel1.Text = "未登录";
-            //    toolStripStatusLabel2.Text = "";
-            //    toolStripStatusLabel3.Text = "";
-            //    if (_fstiClient != null)
-            //    {
-            //        _fstiClient.Terminate();
-            //        _fstiClient = null;
-            //    }
-            //    MessageBox.Show(ex.Message);
-            //}
-            #endregion
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)//关闭程序时，退出登录
@@ -245,7 +194,7 @@ namespace FSTIMAIN
                 BOMhanghao.Text = (rowindex + 1).ToString();
                 string ParentGuid = BOM.Rows[rowindex].Cells["ParentGuid"].Value.ToString();
 
-                dgvBOMDetail.DataSource = SqlHelper.ExecuteDataTable("SELECT upper(ltrim(rtrim(YY))) as 用于,upper(ltrim(rtrim(XH))) as 序号,upper(ltrim(rtrim(ZX))) as 子项,upper(ltrim(rtrim(ZL))) as 子类,upper(ltrim(rtrim(SL))) as 数量,upper(ltrim(rtrim(LL))) as 量类,upper(ltrim(rtrim(DW))) as 单位,upper(ltrim(rtrim(SHX))) as 生效,upper(ltrim(rtrim(SX))) as 失效,upper(ltrim(rtrim(SH))) as 损耗 FROM YW_JXSYSQ_EX where ParentGuid = '" + ParentGuid + "'");
+                dgvBOMDetail.DataSource = SqlHelper.ExecuteDataTable("SELECT ZT as 状态, upper(ltrim(rtrim(YY))) as 用于,upper(ltrim(rtrim(XH))) as 序号,upper(ltrim(rtrim(ZX))) as 子项,upper(ltrim(rtrim(ZL))) as 子类,upper(ltrim(rtrim(SL))) as 数量,upper(ltrim(rtrim(LL))) as 量类,upper(ltrim(rtrim(DW))) as 单位,upper(ltrim(rtrim(SHX))) as 生效,upper(ltrim(rtrim(SX))) as 失效,upper(ltrim(rtrim(SH))) as 损耗 FROM YW_JXSYSQ_EX where ParentGuid = '" + ParentGuid + "'");
                 if (BOM.Rows[rowindex].Cells["申请方式"].Value.ToString() == "增加")
                 { AddBOM.Enabled = true; UpdateBOM.Enabled = false; }
                 if (BOM.Rows[rowindex].Cells["申请方式"].Value.ToString() == "修改")
@@ -441,6 +390,7 @@ namespace FSTIMAIN
             int shibai = 0;
             for (int i = 0; i < dgvBOMDetail.Rows.Count; i++)
             {
+                if (dgvBOMDetail["状态", i].Value.ToString() == "删除") continue;
                 BILL00 myBill = new BILL00();
                 if (dgvBOMDetail["序号", i].Value.ToString() == "")
                     continue;
@@ -1548,7 +1498,12 @@ namespace FSTIMAIN
             myItmb.InspectionLeadTimeDays.Value = dgvItmbDetail["检验", rowIndex].Value.ToString();
             myItmb.PreferredStockroom.Value = dgvItmbDetail["优先库", rowIndex].Value.ToString();
             myItmb.PreferredBin.Value = dgvItmbDetail["位", rowIndex].Value.ToString();
-            if (dgvItmbDetail["单位", rowIndex].Value.ToString().Trim().ToUpper() == "KG")
+            string dgvItemUM = dgvItmbDetail["单位", rowIndex].Value.ToString().Trim().ToUpper();
+            if (dgvItemUM == "BI")
+            { myItmb.DecimalPrecision.Value = "3"; }
+            if (dgvItemUM == "KG"|| dgvItemUM == "L" || dgvItemUM == "M" || dgvItemUM == "C" || dgvItemUM == "S" || dgvItemUM == "T")
+            { myItmb.DecimalPrecision.Value = "2"; }
+            if (dgvItemUM == "WA"|| dgvItemUM == "WG")
             { myItmb.DecimalPrecision.Value = "4"; }
             myItmb.LotSizeMinimum.Value = dgvItmbDetail["最小批量订货", rowIndex].Value.ToString();
             myItmb.LotSizeMultiplier.Value = dgvItmbDetail["批量订货倍数", rowIndex].Value.ToString();
@@ -1598,7 +1553,14 @@ namespace FSTIMAIN
                 itmb07.IsLotTraceItemFIFO.Value = "Y";
                 itmb07.BackflushPolicy.Value = "N";
                 //itmb07.LastUsedLotCounter.Value = "000000000";
-                //itmb07.LotNumberMask.Value = "YYMMDDNN";
+                //if (fenlei == "M")
+                //{
+                    itmb07.LotNumberMask.Value = "XXXXXXXXXXXXXXXXXXXX";
+                //}
+                //else
+                //{
+                //    itmb07.LotNumberMask.Value = "YYMMDDNN";
+                //}
                 if (_fstiClient.ProcessId(itmb07, null))
                 {
                     ITMBResult.Items.Add("ITMB批号明细添加成功:");
@@ -1614,8 +1576,30 @@ namespace FSTIMAIN
                     return false;
                 }
             }
-            else if (fenlei == "P" || fenlei == "A")
-                ITMBResult.Items.Add("P类A类物料ITMB批号明细无需添加！");
+            else if (fenlei == "P")
+            {
+                ITMB07 itmb07 = new ITMB07();
+                itmb07.ItemNumber.Value = materialcode;
+                //itmb07.LastUsedLotCounter.Value = "000000000";
+                itmb07.LotNumberMask.Value = "XXXXXXXXXXXXXXXXXXXX";
+
+                if (_fstiClient.ProcessId(itmb07, null))
+                {
+                    ITMBResult.Items.Add("P类ITMB批号明细添加成功:");
+                    ITMBResult.Items.Add(_fstiClient.CDFResponse);
+                    ITMBResult.Items.Add("*************************************");
+
+                }
+                else
+                {
+                    ITMBResult.Items.Add("P类ITMB批号明细添加失败:");
+                    FSTIError itemError = _fstiClient.TransactionError;
+                    DumpErrorObject(itmb07, itemError, ITMBResult);
+                    return false;
+                }
+            }
+            else if (fenlei == "A")
+                ITMBResult.Items.Add("A类物料ITMB批号明细无需添加！");
             return true;
         }
         private bool AddItemMasterFileDetail(int rowIndex)//增加ITMB物料明细
@@ -2486,91 +2470,85 @@ namespace FSTIMAIN
                 }
             }
             #endregion
-            if (rowindex != -1)
-                if (dgvCustomer.Rows[rowindex].Cells["类型"].Value.ToString() == "客户信息修改")
-                { MessageBox.Show("请手工修改客户信息");return; }
+            if (rowindex == -1) return;
+            CbChildCustomer.Checked = false;
+            if (dgvCustomer.Rows[rowindex].Cells["类型"].Value.ToString() == "客户信息修改")
+            { MessageBox.Show("请手工修改客户信息"); return; }
+
+            if (dgvCustomer.Rows[rowindex].DefaultCellStyle.ForeColor != Color.Red)
             {
-                if (dgvCustomer.Rows[rowindex].DefaultCellStyle.ForeColor != Color.Red)
+                dgvCustomer.Rows[rowindex].DefaultCellStyle.ForeColor = Color.Blue;
+                for (int a = 0; a < dgvCustomer.Rows.Count; a++)
                 {
-                    dgvCustomer.Rows[rowindex].DefaultCellStyle.ForeColor = Color.Blue;
-                    for (int a = 0; a < dgvCustomer.Rows.Count; a++)
-                    {
-                        if (a != rowindex && dgvCustomer.Rows[a].DefaultCellStyle.ForeColor != Color.Red)
-                            dgvCustomer.Rows[a].DefaultCellStyle.ForeColor = Color.Black;
-                    }
+                    if (a != rowindex && dgvCustomer.Rows[a].DefaultCellStyle.ForeColor != Color.Red)
+                        dgvCustomer.Rows[a].DefaultCellStyle.ForeColor = Color.Black;
                 }
-                customercode.Text = dgvCustomer.Rows[rowindex].Cells["客户代码"].Value.ToString().Trim().ToUpper();
-                customerliushuihao.Text = dgvCustomer.Rows[rowindex].Cells["流水号"].Value.ToString().Trim().ToUpper();
-                customerhanghao.Text = (rowindex + 1).ToString();
-                #region 
-                if (dgvCustomer["类型", rowindex].Value.ToString() == "新开户")
+            }
+            customercode.Text = dgvCustomer.Rows[rowindex].Cells["客户代码"].Value.ToString().Trim().ToUpper();
+            customerliushuihao.Text = dgvCustomer.Rows[rowindex].Cells["流水号"].Value.ToString().Trim().ToUpper();
+            customerhanghao.Text = (rowindex + 1).ToString();
+            #region 
+            if (dgvCustomer["类型", rowindex].Value.ToString() == "新开户")
+            {
+
+                tbCustomerCode.Text = dgvCustomer["客户代码", rowindex].Value.ToString().Trim();
+                tbCustomerName.Text = dgvCustomer["客户名称", rowindex].Value.ToString().Trim();
+                tbCustAddress.Text = dgvCustomer["客户地址", rowindex].Value.ToString().Trim();
+                tbUniteAccount.Text = dgvCustomer["合并账户", rowindex].Value.ToString().Trim();
+                tbPostcode.Text = dgvCustomer["邮编", rowindex].Value.ToString().Trim();
+                tbProvince.Text = dgvCustomer["客户所在省份", rowindex].Value.ToString().Trim().Trim();
+
+
+                if (string.IsNullOrWhiteSpace(dgvCustomer["总经理", rowindex].Value.ToString()))
                 {
-
-                    tbCustomerCode.Text = dgvCustomer["客户代码", rowindex].Value.ToString().Trim();
-                    tbCustomerName.Text = dgvCustomer["客户名称", rowindex].Value.ToString().Trim();
-                    tbCustAddress.Text = dgvCustomer["客户地址", rowindex].Value.ToString().Trim();
-                    tbUniteAccount.Text = dgvCustomer["合并账户", rowindex].Value.ToString().Trim();
-                    tbPostcode.Text = dgvCustomer["邮编", rowindex].Value.ToString().Trim();
-                    tbProvince.Text = dgvCustomer["客户所在省份", rowindex].Value.ToString().Trim().Trim();
-
-
-                    if (string.IsNullOrWhiteSpace(dgvCustomer["总经理", rowindex].Value.ToString()) )
-                    {
-                        tbContactPerson.Text = dgvCustomer["财务经理", rowindex].Value.ToString().Trim();
-                    }
-                    else
-                    {
-                        tbContactPerson.Text = dgvCustomer["总经理", rowindex].Value.ToString().Trim();
-                    }
-                    int al = dgvCustomer["公司类型", rowindex].Value.ToString().Trim().Length;
-                    if (al > 1)
-                        cbIndustry.Text = dgvCustomer["公司类型", rowindex].Value.ToString().Trim().Substring(al - 2, 2);
-                    else
-                        cbIndustry.Text = dgvCustomer["公司类型", rowindex].Value.ToString().Trim();
-
-                    if (dgvCustomer["货币类型", rowindex].Value.ToString().Trim()=="00000")
-                    {
-                        tbCustomerCurrencyCode.Text = "00000";
-                        cbMoney.Text = "本币";
-                        
-                    }
-                    else
-                    {
-                        //美元（USD）、欧元(EURO)、瑞士法郎（CHF）  本币（00000）
-                        tbCustomerCurrencyCode.Text = dgvCustomer["货币类型", rowindex].Value.ToString().Trim();
-                        cbMoney.Text = "外币";
-                        cbIndustry.Text = "外贸公司";
-                    }
-
-                    tbContactTelephone.Text = dgvCustomer["电话", rowindex].Value.ToString().Trim();
-                    tbContactFax.Text = dgvCustomer["传真", rowindex].Value.ToString().Trim();
-                    tbSalesmanName.Text = dgvCustomer["业务员", rowindex].Value.ToString().Trim();
-                    tbSalesmanCode.Text = dgvCustomer["业务代码", rowindex].Value.ToString().Trim();
-                    tbBankOfDeposit.Text = dgvCustomer["开户银行", rowindex].Value.ToString().Trim();
-                    tbBankAccount.Text = dgvCustomer["银行账户", rowindex].Value.ToString().Replace(" ", "").Trim();
-                    tbTaxCode.Text = dgvCustomer["税号", rowindex].Value.ToString().Trim();
-                    tbAccountantName.Text = dgvCustomer["会计", rowindex].Value.ToString().Trim();
-                    tbAccountantPhone.Text = dgvCustomer["会计电话", rowindex].Value.ToString().Trim();
-
-                    tBCustBZ.Text = dgvCustomer["备注", rowindex].Value.ToString().Trim();
-                    if (StrLength(tbProvince.Text) > 10)
-                    { MessageBox.Show("客户所在省份大于10个字符(5个汉字)，请编辑！"); }
-                }
-                if (tbCustomerCode.Text.Trim().Length == 7)
-                {
-
-                    rbnChildCustomer.Checked = true;
+                    tbContactPerson.Text = dgvCustomer["财务经理", rowindex].Value.ToString().Trim();
                 }
                 else
-                { rbnParentCustomer.Checked = true; }
-                #endregion
-                if (dgvCustomer.Rows[rowindex].Cells["类型"].Value.ToString() == "新开户")
-                { AddCustomer.Enabled = true; UpdateCustomer.Enabled = false; }
-                if (dgvCustomer.Rows[rowindex].Cells["类型"].Value.ToString() == "客户信息修改")
-                { UpdateCustomer.Enabled = true; AddCustomer.Enabled = false; }
-                string Customercode1 = tbCustomerCode.Text.Trim();
-                tbUniteAccount.Text = "1A" + Customercode1.Substring(6, 1) + Customercode1.Substring(0, 1) + "-" + Customercode1.Substring(1, 2) + "-" + Customercode1.Substring(3, 3);
+                {
+                    tbContactPerson.Text = dgvCustomer["总经理", rowindex].Value.ToString().Trim();
+                }
+                int al = dgvCustomer["公司类型", rowindex].Value.ToString().Trim().Length;
+                if (al > 1)
+                    cbIndustry.Text = dgvCustomer["公司类型", rowindex].Value.ToString().Trim().Substring(al - 2, 2);
+                else
+                    cbIndustry.Text = dgvCustomer["公司类型", rowindex].Value.ToString().Trim();
+
+                if (dgvCustomer["货币类型", rowindex].Value.ToString().Trim() == "00000")
+                {
+                    tbCustomerCurrencyCode.Text = "00000";
+                    cbMoney.Text = "本币";
+
+                }
+                else
+                {
+                    //美元（USD）、欧元(EURO)、瑞士法郎（CHF）  本币（00000）
+                    tbCustomerCurrencyCode.Text = dgvCustomer["货币类型", rowindex].Value.ToString().Trim();
+                    cbMoney.Text = "外币";
+                    cbIndustry.Text = "外贸公司";
+                }
+
+                tbContactTelephone.Text = dgvCustomer["电话", rowindex].Value.ToString().Trim();
+                tbContactFax.Text = dgvCustomer["传真", rowindex].Value.ToString().Trim();
+                tbSalesmanName.Text = dgvCustomer["业务员", rowindex].Value.ToString().Trim();
+                tbSalesmanCode.Text = dgvCustomer["业务代码", rowindex].Value.ToString().Trim();
+                tbBankOfDeposit.Text = dgvCustomer["开户银行", rowindex].Value.ToString().Trim();
+                tbBankAccount.Text = dgvCustomer["银行账户", rowindex].Value.ToString().Replace(" ", "").Trim();
+                tbTaxCode.Text = dgvCustomer["税号", rowindex].Value.ToString().Trim();
+                tbAccountantName.Text = dgvCustomer["会计", rowindex].Value.ToString().Trim();
+                tbAccountantPhone.Text = dgvCustomer["会计电话", rowindex].Value.ToString().Trim();
+
+                tBCustBZ.Text = dgvCustomer["备注", rowindex].Value.ToString().Trim();
+                if (StrLength(tbProvince.Text) > 10)
+                { MessageBox.Show("客户所在省份大于10个字符(5个汉字)，请编辑！"); }
             }
+            #endregion
+            if (dgvCustomer.Rows[rowindex].Cells["类型"].Value.ToString() == "新开户")
+            { AddCustomer.Enabled = true; UpdateCustomer.Enabled = false; }
+            if (dgvCustomer.Rows[rowindex].Cells["类型"].Value.ToString() == "客户信息修改")
+            { UpdateCustomer.Enabled = true; AddCustomer.Enabled = false; }
+            string Customercode1 = tbCustomerCode.Text.Trim();
+            tbUniteAccount.Text = "1A" + Customercode1.Substring(6, 1) + Customercode1.Substring(0, 1) + "-" + Customercode1.Substring(1, 2) + "-" + Customercode1.Substring(3, 3);
+
         }
 
         private void AddCustomer_Click(object sender, EventArgs e)//增加客户button
@@ -2664,27 +2642,83 @@ namespace FSTIMAIN
                 }
             }
             #endregion
-
             listBoxCustomer.Items.Clear();
-            AddCustomer.Enabled = false;
-            if (rbnChildCustomer.Checked)
+            if (CbChildCustomer.Checked)
             {
-                int i = 0;
-                using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
+                //int i = 0;
+                //using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
+                //{
+                //    using (OleDbCommand cmd = new OleDbCommand(@"select CustomerName,CustomerAddress1,CustomerContact,CustomerContactPhone,CustomerContactFax,AccountingContact,              AccountingContactPhone,AccountingContactFax,CustomerControllingCode,CustomerCurrencyCode, BankReference1,BankReference2,FederalPrimaryTaxExemptCertificateNumber  from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn))
+                //    {
+                //        conn.Open();
+                //        DataTable dt = new DataTable();
+                //        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                //        da.Fill(dt);
+                //        i = dt.Rows.Count;
+                //        conn.Close();
+                //    }
+
+                //}
+                //i==0  表示没有主客户
+                listBoxCustomer.Items.Add("开始增加子客户------->-------->------->-------->");
+                if (AddChildCustomer() == true)
                 {
-                    using (OleDbCommand cmd = new OleDbCommand(@"select CustomerName,CustomerAddress1,CustomerContact,CustomerContactPhone,CustomerContactFax,AccountingContact,              AccountingContactPhone,AccountingContactFax,CustomerControllingCode,CustomerCurrencyCode, BankReference1,BankReference2,FederalPrimaryTaxExemptCertificateNumber  from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn))
+                    listBoxCustomer.Items.Add("----------->---------->----------->增加子客户成功<<<");
+                    MessageBox.Show("子客户添加成功！");
+                    #region 检查是否有重复的客户名称
+                    using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
                     {
                         conn.Open();
-                        DataTable dt = new DataTable();
-                        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                        da.Fill(dt);
-                        i = dt.Rows.Count;
-                        conn.Close();
+                        SqlCommand cmd = new SqlCommand("select CustomerName from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn);
+                        object vendornamelading = cmd.ExecuteScalar();
+                        if (vendornamelading == null)
+                        { MessageBox.Show("没有该客户的记录!"); }
+                        else
+                        {
+                            string CustomerName = vendornamelading.ToString();
+                            cmd = new SqlCommand("select CustomerID from _NoLock_FS_Customer where CustomerName = '" + CustomerName + "'", conn);
+                            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                            DataTable dtcust = new DataTable();
+                            sda.Fill(dtcust);
+                            foreach (DataRow dr in dtcust.Rows)
+                            {
+                                if (dr["CustomerID"].ToString().Trim().Substring(0, 6) != tbCustomerCode.Text.Trim().Substring(0, 6))
+                                {
+                                    MessageBox.Show("有多个相同客户名称的记录，请检查！");
+                                    MessageBox.Show("有多个相同客户名称的记录，请检查！");
+                                }
+                            }
+                        }
+                    }
+                    #endregion
+                    #region 客户信息groupBox7信息清空
+                    foreach (Control control in groupBox7.Controls)
+                    {
+                        if (!(control is Label))
+                        {
+                            control.Text = null;
+                        }
+                    }
+                    #endregion
+                    try
+                    {
+                        dgvCustomer.Rows[Convert.ToInt32(customerhanghao.Text) - 1].DefaultCellStyle.ForeColor = Color.Red;
+                    }
+                    catch (Exception)
+                    {
+
                     }
 
                 }
-                if (i == 0)//i==0  表示没有主客户
+                else
                 {
+
+                    listBoxCustomer.Items.Add("----------->---------->----------->增加子客户失败<<<");
+                    MessageBox.Show(" 子客户添加失败！");
+                }
+            }
+            else  //BPM流程需要添加客户及子客户
+            {
                     listBoxCustomer.Items.Add("开始增加主客户-->");
                     if (AddCustomerCompany())
                     {
@@ -2697,7 +2731,7 @@ namespace FSTIMAIN
                         MessageBox.Show("主客户录入失败！请检查！！！");
                         return;
                     }
-                }
+                
                 listBoxCustomer.Items.Add("开始增加子客户------->-------->------->-------->");
 
                 if (AddChildCustomer() == true)
@@ -2758,47 +2792,7 @@ namespace FSTIMAIN
                 }
 
             }
-            if (rbnParentCustomer.Checked)
-            {
-                listBoxCustomer.Items.Add("开始增加主客户------->-------->------->-------->");
-                if (AddCustomerCompany() == true)
-                {
-                    listBoxCustomer.Items.Add("----------->---------->----------->增加主客户成功！<<<");
-                    MessageBox.Show("主客户添加成功！");
-                    #region 检查是否有重复的客户名称
-                    using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
-                    {
-                        conn.Open();
-                        SqlCommand cmd = new SqlCommand("select CustomerName from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn);
-                        object vendornamelading = cmd.ExecuteScalar();
-                        if (vendornamelading == null)
-                        { MessageBox.Show("没有该客户的记录!"); }
-                        else
-                        {
-                            string CustomerName = vendornamelading.ToString();
-                            cmd = new SqlCommand("select CustomerID from _NoLock_FS_Customer where CustomerName = '" + CustomerName + "'", conn);
-                            SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                            DataTable dtcust = new DataTable();
-                            sda.Fill(dtcust);
-                            foreach (DataRow dr in dtcust.Rows)
-                            {
-                                if (dr["CustomerID"].ToString().Trim().Substring(0, 6) != tbCustomerCode.Text.Trim().Substring(0, 6))
-                                {
-                                    MessageBox.Show("有多个相同客户名称的记录，请检查！");
-                                    MessageBox.Show("有多个相同客户名称的记录，请检查！");
-                                }
-                            }
-                        }
-                    }
-                    #endregion
-
-                }
-                else
-                {
-                    listBoxCustomer.Items.Add("----------->---------->----------->增加主客户失败！<<<");
-                    MessageBox.Show("主客户添加失败！");
-                }
-            }
+           
         }
         int linshiindex = -100;
         private bool AddChildCustomer()//程序增加子客户
@@ -3133,6 +3127,7 @@ namespace FSTIMAIN
             //Encoding GB2312 = Encoding.GetEncoding("gb2312");
             //Encoding ISO88591 = Encoding.GetEncoding("iso-8859-1");
             AddCustomer.Enabled = false;
+            CbChildCustomer.Checked = true;
             string CustomerCode = tbCustomerCode.Text.ToString().Trim().ToUpper();
             tbCustomerCode.Text = CustomerCode;
             int i = CustomerCode.Length;//获得客户代码的长度 
@@ -3144,12 +3139,9 @@ namespace FSTIMAIN
                         ct.Text = "";
                 }
                 tbCustomerCode.Text = CustomerCode;
-                rbnParentCustomer.Checked = true;
             }
             else if (i == 7)//代码长度为7位，表示添加的为子公司，需要查询主公司的信息
             {
-                rbnChildCustomer.Checked = true;
-
                 string ParentCustomerCode = CustomerCode.Substring(0, 6);
                 string strsql = "select CustomerName,CustomerAddress1,CustomerAddress2,CustomerZip,CustomerContact,CustomerContactPhone,CustomerContactFax,AccountingContact, AccountingContactPhone,AccountingContactFax,CSR,SalesRegion,TradeClassName,CustomerControllingCode,CustomerCurrencyCode, BankReference1,BankReference2,FederalPrimaryTaxExemptCertificateNumber  from _NoLock_FS_Customer where CustomerID = '" + ParentCustomerCode + "'";
                 using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
@@ -3228,8 +3220,6 @@ namespace FSTIMAIN
                 }
             }
             #endregion
-            AddSubCustomer Asc = new AddSubCustomer("ZJG","ZJGname","软件");
-            Asc.ShowDialog();
         }
 
         private void ActiveCustomer_Click(object sender, EventArgs e)
@@ -4110,6 +4100,7 @@ namespace FSTIMAIN
                 MessageBox.Show("请登录四班账号！");
                 return;
             }
+            CbChildCustomer.Checked = true;
             Thread tread = new Thread(UpdateZikehu);
             tread.IsBackground = true;//变为后台程序，随主窗体结束线程
             tread.Start(dgvUpdateStockNum);
@@ -4133,7 +4124,7 @@ namespace FSTIMAIN
                 });
                 if (CustomerCode.Length == 7)//代码长度为7位，表示添加的为子公司，需要查询主公司的信息
                 {
-                    rbnChildCustomer.Checked = true;
+                    
 
                     string ParentCustomerCode = CustomerCode.Substring(0, 6);
                     string strsql = "select CustomerName,CustomerAddress1,CustomerAddress2,CustomerZip,CustomerContact,CustomerContactPhone,CustomerContactFax,AccountingContact, AccountingContactPhone,AccountingContactFax,CSR,SalesRegion,TradeClassName,CustomerControllingCode,CustomerCurrencyCode, BankReference1,BankReference2,FederalPrimaryTaxExemptCertificateNumber  from _NoLock_FS_Customer where CustomerID = '" + ParentCustomerCode + "'";
@@ -4299,37 +4290,98 @@ namespace FSTIMAIN
 
             listBoxCustomer.Items.Clear();
             AddCustomer.Enabled = false;
-            if (rbnChildCustomer.Checked)
+            if (CbChildCustomer.Checked)
             {
-                int i = 0;
-                using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
+                //int i = 0;
+                //using (OleDbConnection conn = new OleDbConnection(SqlHelper.FSDBMRSQLOLEDB))
+                //{
+                //    using (OleDbCommand cmd = new OleDbCommand(@"select CustomerName,CustomerAddress1,CustomerContact,CustomerContactPhone,CustomerContactFax,AccountingContact,              AccountingContactPhone,AccountingContactFax,CustomerControllingCode,CustomerCurrencyCode, BankReference1,BankReference2,FederalPrimaryTaxExemptCertificateNumber  from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn))
+                //    {
+                //        conn.Open();
+                //        DataTable dt = new DataTable();
+                //        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                //        da.Fill(dt);
+                //        i = dt.Rows.Count;
+                //        conn.Close();
+                //    }
+
+                //}
+                //if (i == 0)
+                listBoxCustomer.Items.Add("开始增加子客户------->-------->------->-------->");
+
+                if (AddChildCustomer() == true)
                 {
-                    using (OleDbCommand cmd = new OleDbCommand(@"select CustomerName,CustomerAddress1,CustomerContact,CustomerContactPhone,CustomerContactFax,AccountingContact,              AccountingContactPhone,AccountingContactFax,CustomerControllingCode,CustomerCurrencyCode, BankReference1,BankReference2,FederalPrimaryTaxExemptCertificateNumber  from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn))
+
+                    listBoxCustomer.Items.Add("----------->---------->----------->增加子客户成功<<<");
+                    //MessageBox.Show("子客户添加成功！");
+                    dgvUpdateStockNum["状态", index].Value = "1";
+                    #region 检查是否有重复的客户名称
+                    using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
                     {
                         conn.Open();
-                        DataTable dt = new DataTable();
-                        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                        da.Fill(dt);
-                        i = dt.Rows.Count;
-                        conn.Close();
+                        SqlCommand cmd = new SqlCommand("select CustomerName from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn);
+                        object vendornamelading = cmd.ExecuteScalar();
+                        if (vendornamelading == null)
+                        { MessageBox.Show("没有该客户的记录!"); }
+                        else
+                        {
+                            string CustomerName = vendornamelading.ToString();
+                            cmd = new SqlCommand("select CustomerID from _NoLock_FS_Customer where CustomerName = '" + CustomerName + "'", conn);
+                            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                            DataTable dtcust = new DataTable();
+                            sda.Fill(dtcust);
+                            foreach (DataRow dr in dtcust.Rows)
+                            {
+                                if (dr["CustomerID"].ToString().Trim().Substring(0, 6) != tbCustomerCode.Text.Trim().Substring(0, 6))
+                                {
+                                    MessageBox.Show("有多个相同客户名称的记录，请检查！");
+                                    MessageBox.Show("有多个相同客户名称的记录，请检查！");
+                                }
+                            }
+                        }
+                    }
+                    #endregion
+                    #region 客户信息groupBox7信息清空
+                    foreach (Control control in groupBox7.Controls)
+                    {
+                        if (!(control is Label))
+                        {
+                            control.Text = null;
+                        }
+                    }
+                    #endregion
+                    try
+                    {
+                        dgvCustomer.Rows[Convert.ToInt32(customerhanghao.Text) - 1].DefaultCellStyle.ForeColor = Color.Red;
+                    }
+                    catch (Exception)
+                    {
+
                     }
 
                 }
-                if (i == 0)
+                else
                 {
-                    listBoxCustomer.Items.Add("开始增加主客户-->");
-                    if (AddCustomerCompany())
-                    {
-                        listBoxCustomer.Items.Add("-->主客户录入成功");
 
-                    }
-                    else
-                    {
-                        listBoxCustomer.Items.Add("-->主客户录入失败");
-                        MessageBox.Show("主客户录入失败！请检查！！！");
-                        return;
-                    }
+                    listBoxCustomer.Items.Add("----------->---------->----------->增加子客户失败<<<");
+                    MessageBox.Show(" 子客户添加失败！");
                 }
+            }
+            else
+            {
+                listBoxCustomer.Items.Add("开始增加主客户-->");
+                if (AddCustomerCompany())
+                {
+                    listBoxCustomer.Items.Add("-->主客户录入成功");
+
+                }
+                else
+                {
+                    listBoxCustomer.Items.Add("-->主客户录入失败");
+                    MessageBox.Show("主客户录入失败！请检查！！！");
+                    return;
+                }
+            
                 listBoxCustomer.Items.Add("开始增加子客户------->-------->------->-------->");
 
                 if (AddChildCustomer() == true)
@@ -4391,48 +4443,7 @@ namespace FSTIMAIN
                 }
 
             }
-            if (rbnParentCustomer.Checked)
-            {
-                listBoxCustomer.Items.Add("开始增加主客户------->-------->------->-------->");
-                if (AddCustomerCompany() == true)
-                {
-                    listBoxCustomer.Items.Add("----------->---------->----------->增加主客户成功！<<<");
-                    //MessageBox.Show("主客户添加成功！");
-                    dgvUpdateStockNum["状态", index].Value = "1";
-                    #region 检查是否有重复的客户名称
-                    using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
-                    {
-                        conn.Open();
-                        SqlCommand cmd = new SqlCommand("select CustomerName from _NoLock_FS_Customer where CustomerID = '" + tbCustomerCode.Text.Trim().Substring(0, 6) + "'", conn);
-                        object vendornamelading = cmd.ExecuteScalar();
-                        if (vendornamelading == null)
-                        { MessageBox.Show("没有该客户的记录!"); }
-                        else
-                        {
-                            string CustomerName = vendornamelading.ToString();
-                            cmd = new SqlCommand("select CustomerID from _NoLock_FS_Customer where CustomerName = '" + CustomerName + "'", conn);
-                            SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                            DataTable dtcust = new DataTable();
-                            sda.Fill(dtcust);
-                            foreach (DataRow dr in dtcust.Rows)
-                            {
-                                if (dr["CustomerID"].ToString().Trim().Substring(0, 6) != tbCustomerCode.Text.Trim().Substring(0, 6))
-                                {
-                                    MessageBox.Show("有多个相同客户名称的记录，请检查！");
-                                    MessageBox.Show("有多个相同客户名称的记录，请检查！");
-                                }
-                            }
-                        }
-                    }
-                    #endregion
-
-                }
-                else
-                {
-                    listBoxCustomer.Items.Add("----------->---------->----------->增加主客户失败！<<<");
-                    MessageBox.Show("主客户添加失败！");
-                }
-            }
+            
         }
 
         private void ZikehuTemplateDownload_Click(object sender, EventArgs e)
@@ -4530,6 +4541,23 @@ namespace FSTIMAIN
                 this.dgvCustomer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 this.dgvCustomer.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
+        }
+
+        private void NumForSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter) return;
+         
+            List<ITMBliucheng> list1 = new List<ITMBliucheng>();
+                ITMBliucheng Vendor1 = TolistITMB(SqlHelper1.ExecuteDataTable(SqlHelper.UltimusBusinessSQL, "SELECT * FROM [dbo].[YW_ZJWLCB] where REV_INCIDENT=" + NumForSearch.Text.Trim()));
+                list1.Add(Vendor1);
+
+            dgvItmb.DataSource = list1;
+            for (int i = 0; i < this.dgvItmb.Columns.Count; i++)
+            {
+                this.dgvItmb.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                this.dgvItmb.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+            ITMBResult.Items.Clear();
         }
     }
 }
