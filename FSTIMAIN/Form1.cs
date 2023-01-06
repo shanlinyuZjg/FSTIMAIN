@@ -2729,8 +2729,8 @@ namespace FSTIMAIN
             listBoxCustomer.Items.Clear();
             int CustomerChenck = 1;
             TbCustomer.Text = string.Empty;
-            string RpaSuccess = "增加子客户成功";
-            string RpaFail = "增加子客户失败";
+            string RpaSuccess = "增加客户子客户成功";
+            string RpaFail = "增加客户子客户失败";
             if (toolStripStatusLabel1.Text == "未登录" || "ID:" + _fstiClient.UserId != toolStripStatusLabel1.Text)
             {
                 TbCustomer.Text += "请登录四班账号！";

@@ -191,6 +191,7 @@
             this.customercode = new System.Windows.Forms.Label();
             this.label44 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.CbChildCustomer = new System.Windows.Forms.CheckBox();
             this.GetCustomerprocessNotYet = new System.Windows.Forms.Button();
             this.ActiveCustomer = new System.Windows.Forms.Button();
             this.UpdateCustomer = new System.Windows.Forms.Button();
@@ -273,7 +274,6 @@
             this.BtUpdateStockNum = new System.Windows.Forms.Button();
             this.ExcelImport = new System.Windows.Forms.Button();
             this.TemplateDownload = new System.Windows.Forms.Button();
-            this.CbChildCustomer = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -2019,6 +2019,17 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "操作区";
             // 
+            // CbChildCustomer
+            // 
+            this.CbChildCustomer.AutoSize = true;
+            this.CbChildCustomer.Enabled = false;
+            this.CbChildCustomer.Location = new System.Drawing.Point(21, 184);
+            this.CbChildCustomer.Name = "CbChildCustomer";
+            this.CbChildCustomer.Size = new System.Drawing.Size(84, 16);
+            this.CbChildCustomer.TabIndex = 10;
+            this.CbChildCustomer.Text = "增加子客户";
+            this.CbChildCustomer.UseVisualStyleBackColor = true;
+            // 
             // GetCustomerprocessNotYet
             // 
             this.GetCustomerprocessNotYet.Location = new System.Drawing.Point(6, 52);
@@ -2973,17 +2984,6 @@
             this.TemplateDownload.UseVisualStyleBackColor = true;
             this.TemplateDownload.Click += new System.EventHandler(this.TemplateDownload_Click);
             // 
-            // CbChildCustomer
-            // 
-            this.CbChildCustomer.AutoSize = true;
-            this.CbChildCustomer.Enabled = false;
-            this.CbChildCustomer.Location = new System.Drawing.Point(21, 184);
-            this.CbChildCustomer.Name = "CbChildCustomer";
-            this.CbChildCustomer.Size = new System.Drawing.Size(84, 16);
-            this.CbChildCustomer.TabIndex = 10;
-            this.CbChildCustomer.Text = "增加子客户";
-            this.CbChildCustomer.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2995,7 +2995,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ERP-BPM流程";
+            this.Text = "ERP-BPM流程(RPA版)";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
