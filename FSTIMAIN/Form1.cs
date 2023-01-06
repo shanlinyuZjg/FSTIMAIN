@@ -626,6 +626,16 @@ namespace FSTIMAIN
                     return;
                 }
 
+                cmd = new SqlCommand("SELECT VendorID FROM _NoLock_FS_Vendor  WHERE  TaxID = '" + tbVendorTaxCode.Text.Trim() + "'", conn);
+                sda = new SqlDataAdapter(cmd);
+                dtcust = new DataTable();
+                sda.Fill(dtcust);
+                if (dtcust.Rows.Count > 0)
+                {
+                    //MessageBox.Show("有相同供应商名称的记录，请检查" + dtcust.Rows[0][0].ToString());
+                    MessageBox.Show("有相同供应商税号的记录，请检查" + dtcust.Rows[0][0].ToString() + "!");
+                    return;
+                }
             }
             #endregion
 
