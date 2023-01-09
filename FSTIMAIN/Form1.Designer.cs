@@ -135,6 +135,7 @@
             this.VendorResult = new System.Windows.Forms.ListBox();
             this.dgvVendor = new System.Windows.Forms.DataGridView();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.CbChildCustomer = new System.Windows.Forms.CheckBox();
             this.label64 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.tbProvince = new System.Windows.Forms.TextBox();
@@ -264,7 +265,8 @@
             this.BtUpdateStockNum = new System.Windows.Forms.Button();
             this.ExcelImport = new System.Windows.Forms.Button();
             this.TemplateDownload = new System.Windows.Forms.Button();
-            this.CbChildCustomer = new System.Windows.Forms.CheckBox();
+            this.label71 = new System.Windows.Forms.Label();
+            this.BtnUpdateLotNumberMask = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -1454,6 +1456,17 @@
             this.tabPage7.Size = new System.Drawing.Size(1401, 768);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "客户";
+            // 
+            // CbChildCustomer
+            // 
+            this.CbChildCustomer.AutoSize = true;
+            this.CbChildCustomer.Enabled = false;
+            this.CbChildCustomer.Location = new System.Drawing.Point(37, 657);
+            this.CbChildCustomer.Name = "CbChildCustomer";
+            this.CbChildCustomer.Size = new System.Drawing.Size(60, 16);
+            this.CbChildCustomer.TabIndex = 28;
+            this.CbChildCustomer.Text = "子客户";
+            this.CbChildCustomer.UseVisualStyleBackColor = true;
             // 
             // label64
             // 
@@ -2738,6 +2751,8 @@
             // 
             // tabPage10
             // 
+            this.tabPage10.Controls.Add(this.label71);
+            this.tabPage10.Controls.Add(this.BtnUpdateLotNumberMask);
             this.tabPage10.Controls.Add(this.label66);
             this.tabPage10.Controls.Add(this.btnGetPONumber);
             this.tabPage10.Controls.Add(this.ZikehuTemplateDownload);
@@ -2858,16 +2873,24 @@
             this.TemplateDownload.UseVisualStyleBackColor = true;
             this.TemplateDownload.Click += new System.EventHandler(this.TemplateDownload_Click);
             // 
-            // CbChildCustomer
+            // label71
             // 
-            this.CbChildCustomer.AutoSize = true;
-            this.CbChildCustomer.Enabled = false;
-            this.CbChildCustomer.Location = new System.Drawing.Point(37, 657);
-            this.CbChildCustomer.Name = "CbChildCustomer";
-            this.CbChildCustomer.Size = new System.Drawing.Size(60, 16);
-            this.CbChildCustomer.TabIndex = 28;
-            this.CbChildCustomer.Text = "子客户";
-            this.CbChildCustomer.UseVisualStyleBackColor = true;
+            this.label71.AutoSize = true;
+            this.label71.Location = new System.Drawing.Point(11, 586);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(179, 12);
+            this.label71.TabIndex = 29;
+            this.label71.Text = "ItemNumber LotNumberMask 状态";
+            // 
+            // BtnUpdateLotNumberMask
+            // 
+            this.BtnUpdateLotNumberMask.Location = new System.Drawing.Point(196, 579);
+            this.BtnUpdateLotNumberMask.Name = "BtnUpdateLotNumberMask";
+            this.BtnUpdateLotNumberMask.Size = new System.Drawing.Size(133, 23);
+            this.BtnUpdateLotNumberMask.TabIndex = 28;
+            this.BtnUpdateLotNumberMask.Text = "修改批号格式符为20X";
+            this.BtnUpdateLotNumberMask.UseVisualStyleBackColor = true;
+            this.BtnUpdateLotNumberMask.Click += new System.EventHandler(this.BtnUpdateLotNumberMask_Click);
             // 
             // Form1
             // 
@@ -3183,6 +3206,8 @@
         private System.Windows.Forms.Button GetCustomerprocessNotYet;
         private System.Windows.Forms.TextBox NumForSearch;
         private System.Windows.Forms.CheckBox CbChildCustomer;
+        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.Button BtnUpdateLotNumberMask;
     }
 }
 

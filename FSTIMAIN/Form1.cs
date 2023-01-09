@@ -632,7 +632,6 @@ namespace FSTIMAIN
                 sda.Fill(dtcust);
                 if (dtcust.Rows.Count > 0)
                 {
-                    //MessageBox.Show("有相同供应商名称的记录，请检查" + dtcust.Rows[0][0].ToString());
                     MessageBox.Show("有相同供应商税号的记录，请检查" + dtcust.Rows[0][0].ToString() + "!");
                     return;
                 }
@@ -4568,6 +4567,56 @@ namespace FSTIMAIN
                 this.dgvItmb.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
             ITMBResult.Items.Clear();
+        }
+
+        private void BtnUpdateLotNumberMask_Click(object sender, EventArgs e)
+        {
+            if (dgvUpdateStockNum.Rows.Count == 0)
+            {
+                MessageBox.Show("无内容！");
+                return;
+            }
+            if (toolStripStatusLabel1.Text == "未登录" || "ID:" + _fstiClient.UserId != toolStripStatusLabel1.Text)
+            {
+                MessageBox.Show("请登录四班账号！");
+                return;
+            }
+            Thread tread = new Thread(UpdateLotNumberMask);
+            tread.IsBackground = true;//变为后台程序，随主窗体结束线程
+            tread.Start(dgvUpdateStockNum);
+        }
+        private void UpdateLotNumberMask(object dgv0)
+        {
+            DataGridView dgv = (DataGridView)dgv0;
+            int a = 1;
+            for (int i = 0; i < dgv.Rows.Count; i++)
+            {
+                string itemcode = dgv["ItemNumber", i].Value.ToString().Trim().ToUpper();
+                this.Invoke((EventHandler)delegate
+                {
+                    RowIndexIntime.Text = (i + 1).ToString() + "  " + itemcode;
+                });
+                ITMB07 itmb07 = new ITMB07();
+                itmb07.ItemNumber.Value = itemcode;
+                itmb07.LotNumberMask.Value = "XXXXXXXXXXXXXXXXXXXX";
+
+                if (_fstiClient.ProcessId(itmb07, null))
+                {
+                    dgv["状态", i].Value = "1";
+
+                }
+                else
+                {
+                    a = 0;
+
+                    FSTIError itemError = _fstiClient.TransactionError;
+                    dgv["状态", i].Value = "0:" + itemError.Description;
+                }
+            }
+            if (a == 1)
+                MessageBox.Show("全部修改成功！");
+            if (a == 0)
+                MessageBox.Show("部分删除失败！请检查！！！！！！");
         }
     }
 }
