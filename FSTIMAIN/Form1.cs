@@ -156,7 +156,7 @@ namespace FSTIMAIN
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and PROCESSNAME='RY增加BOM申请流程' and TASKUSER='BPM/zuojinguo' and ENDTIME >'2020/9/17' and STEPLABEL='ERP系统录入'");
             //实际获得BOM流程 and TASKUSER='BPM/zuojinguo'
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程' and TASKUSER='BPM/zuojinguo'  and STEPLABEL='ERP系统录入'");
-            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程'   and STEPLABEL='ERP系统录入' ");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程'   and STEPLABEL='ERP系统录入' and 1=0");
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程'");
             List<BOMliucheng> list1 = new List<BOMliucheng>();
             foreach (DataRow dr in Incidents.Rows)
@@ -697,6 +697,11 @@ namespace FSTIMAIN
                 }
             }
             #endregion
+            if (StrLength(tbVendorTaxCode.Text.Trim()) > 20)
+            {
+                TbVendor.Text += "税号大于20位!";
+                VendorCheck = 0;
+            }
             if (VendorCheck == 0)
             {
                 TbVendor.Text = "供应商检查失败:" + TbVendor.Text;
@@ -2250,7 +2255,7 @@ namespace FSTIMAIN
             ItemName.Text = "";
             ItemNamedgv.DataSource = null;
             dgvItmbDetail.DataSource = null;
-            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护')");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护') and 1=0");
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
             List<ITMBliucheng> list1 = new List<ITMBliucheng>();
             foreach (DataRow dr in Incidents.Rows)
@@ -3746,7 +3751,7 @@ namespace FSTIMAIN
             dgvItemNumber.DataSource = null;
             dgvItmbUpdateDetail.DataSource = null;
             ItmbUpdateResult.Items.Clear();
-            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY标准成本修改流程' and (STEPLABEL = '系统管理员维护')");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY标准成本修改流程' and (STEPLABEL = '系统管理员维护') and 1=0");
 
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
             string Sqlstr = "SELECT REV_INCIDENT 流水号,ZY 摘要,REV_CREATER_NAME 申请人,REV_CREATER_DPT 申请部门,REV_CREATER_DATE 申请时间,REV_CID  FROM [dbo].[YW_RY_BZCBXG] where REV_INCIDENT=-123";
