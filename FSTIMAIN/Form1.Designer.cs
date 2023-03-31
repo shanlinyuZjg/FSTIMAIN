@@ -255,6 +255,8 @@
             this.dgvItmbUpdate = new System.Windows.Forms.DataGridView();
             this.ItmbUpdateResult = new System.Windows.Forms.ListBox();
             this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.label71 = new System.Windows.Forms.Label();
+            this.BtnUpdateLotNumberMask = new System.Windows.Forms.Button();
             this.label66 = new System.Windows.Forms.Label();
             this.btnGetPONumber = new System.Windows.Forms.Button();
             this.ZikehuTemplateDownload = new System.Windows.Forms.Button();
@@ -265,8 +267,6 @@
             this.BtUpdateStockNum = new System.Windows.Forms.Button();
             this.ExcelImport = new System.Windows.Forms.Button();
             this.TemplateDownload = new System.Windows.Forms.Button();
-            this.label71 = new System.Windows.Forms.Label();
-            this.BtnUpdateLotNumberMask = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -2166,7 +2166,6 @@
             // 
             this.textConfig.Location = new System.Drawing.Point(269, 48);
             this.textConfig.Name = "textConfig";
-            this.textConfig.ReadOnly = true;
             this.textConfig.Size = new System.Drawing.Size(135, 21);
             this.textConfig.TabIndex = 14;
             this.textConfig.Text = "m:\\mfgsys\\fs.cfg";
@@ -2771,6 +2770,25 @@
             this.tabPage10.Text = "修改库管员代码";
             this.tabPage10.UseVisualStyleBackColor = true;
             // 
+            // label71
+            // 
+            this.label71.AutoSize = true;
+            this.label71.Location = new System.Drawing.Point(11, 586);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(179, 12);
+            this.label71.TabIndex = 29;
+            this.label71.Text = "ItemNumber LotNumberMask 状态";
+            // 
+            // BtnUpdateLotNumberMask
+            // 
+            this.BtnUpdateLotNumberMask.Location = new System.Drawing.Point(196, 579);
+            this.BtnUpdateLotNumberMask.Name = "BtnUpdateLotNumberMask";
+            this.BtnUpdateLotNumberMask.Size = new System.Drawing.Size(133, 23);
+            this.BtnUpdateLotNumberMask.TabIndex = 28;
+            this.BtnUpdateLotNumberMask.Text = "修改批号格式符为20X";
+            this.BtnUpdateLotNumberMask.UseVisualStyleBackColor = true;
+            this.BtnUpdateLotNumberMask.Click += new System.EventHandler(this.BtnUpdateLotNumberMask_Click);
+            // 
             // label66
             // 
             this.label66.AutoSize = true;
@@ -2872,25 +2890,6 @@
             this.TemplateDownload.Text = "模板下载";
             this.TemplateDownload.UseVisualStyleBackColor = true;
             this.TemplateDownload.Click += new System.EventHandler(this.TemplateDownload_Click);
-            // 
-            // label71
-            // 
-            this.label71.AutoSize = true;
-            this.label71.Location = new System.Drawing.Point(11, 586);
-            this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(179, 12);
-            this.label71.TabIndex = 29;
-            this.label71.Text = "ItemNumber LotNumberMask 状态";
-            // 
-            // BtnUpdateLotNumberMask
-            // 
-            this.BtnUpdateLotNumberMask.Location = new System.Drawing.Point(196, 579);
-            this.BtnUpdateLotNumberMask.Name = "BtnUpdateLotNumberMask";
-            this.BtnUpdateLotNumberMask.Size = new System.Drawing.Size(133, 23);
-            this.BtnUpdateLotNumberMask.TabIndex = 28;
-            this.BtnUpdateLotNumberMask.Text = "修改批号格式符为20X";
-            this.BtnUpdateLotNumberMask.UseVisualStyleBackColor = true;
-            this.BtnUpdateLotNumberMask.Click += new System.EventHandler(this.BtnUpdateLotNumberMask_Click);
             // 
             // Form1
             // 

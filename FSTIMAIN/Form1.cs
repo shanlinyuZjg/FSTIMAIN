@@ -610,6 +610,12 @@ namespace FSTIMAIN
                 MessageBox.Show("请登录四班账号！");
                 return;
             }
+            if (StrLength(tbVendorTaxCode.Text.Trim()) > 20)
+            {
+                MessageBox.Show("税号大于20位!");
+                return;
+            }
+
             #region 检查供应商名称是否重复
             using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
             {
@@ -2747,7 +2753,7 @@ namespace FSTIMAIN
                 {
 
                     listBoxCustomer.Items.Add("----------->---------->----------->增加子客户成功<<<");
-                    MessageBox.Show("子客户添加成功！");
+                    MessageBox.Show("主客户子客户添加成功！");
                     #region 检查是否有重复的客户名称
                     using (SqlConnection conn = new SqlConnection(SqlHelper.FSDBMRSQL))
                     {
@@ -2926,22 +2932,23 @@ namespace FSTIMAIN
             if (cbMoney.Text.Trim() == "本币")
             {
                 myCustomerSales.CreditLimitControllingAmount.Value = "1.00";//信用额度总值,此处不用带RMB即可，系统根据采用的货币区域自动添加，实际存储时没有货币代码
-                myCustomerSales.IsCustomerOnCreditHold.Value = "Y";//客户信用策略冻结
+                myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
                 myCustomerSales.CustomerControllingCode.Value = "L";
                 myCustomerSales.CustomerCurrencyCode.Value = "00000";
-
+                myCustomerSales.ShipmentCreditHoldCode.Value = "R";//客户订单信用强制--发货
+                myCustomerSales.OrderEntryCreditHoldCode.Value = "R";//客户订单信用强制--订单录入
             }
             else
             {
-                //美元（USD）、欧元(EURO)、瑞士法郎（CHF） 本币（00000）
                 myCustomerSales.CreditLimitControllingAmount.Value = "0.00";//信用额度总值,此处不用带RMB即可，系统根据采用的货币区域自动添加，实际存储时没有货币代码
                 myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
                 myCustomerSales.CustomerControllingCode.Value = "F";
                 myCustomerSales.CustomerCurrencyCode.Value = tbCustomerCurrencyCode.Text.Trim();
-
+                myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
+                myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
             }
-            myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
-            myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
+            //myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
+            //myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
             if (_fstiClient.ProcessId(myCustomerSales, null))
             {
                 listBoxCustomer.Items.Add("子客户概要及信用添加成功:");
@@ -3076,10 +3083,11 @@ namespace FSTIMAIN
             if (cbMoney.Text.Trim() == "本币")
             {
                 myCustomerSales.CreditLimitControllingAmount.Value = "1.00";//信用额度总值,此处不用带RMB即可，系统根据采用的货币区域自动添加，实际存储时没有货币代码
-                myCustomerSales.IsCustomerOnCreditHold.Value = "Y";//客户信用策略冻结
+                myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
                 myCustomerSales.CustomerControllingCode.Value = "L";
                 myCustomerSales.CustomerCurrencyCode.Value = "00000";
-
+                myCustomerSales.ShipmentCreditHoldCode.Value = "R";//客户订单信用强制--发货
+                myCustomerSales.OrderEntryCreditHoldCode.Value = "R";//客户订单信用强制--订单录入
             }
             else
             {
@@ -3087,10 +3095,11 @@ namespace FSTIMAIN
                 myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
                 myCustomerSales.CustomerControllingCode.Value = "F";
                 myCustomerSales.CustomerCurrencyCode.Value = tbCustomerCurrencyCode.Text.Trim();
-
+                myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
+                myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
             }
-            myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
-            myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
+            //myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
+            //myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
             if (_fstiClient.ProcessId(myCustomerSales, null))
             {
                 listBoxCustomer.Items.Add("主客户概要及信用添加成功:");
