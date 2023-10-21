@@ -156,7 +156,7 @@ namespace FSTIMAIN
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and PROCESSNAME='RY增加BOM申请流程' and TASKUSER='BPM/zuojinguo' and ENDTIME >'2020/9/17' and STEPLABEL='ERP系统录入'");
             //实际获得BOM流程 and TASKUSER='BPM/zuojinguo'
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程' and TASKUSER='BPM/zuojinguo'  and STEPLABEL='ERP系统录入'");
-            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程'   and STEPLABEL='ERP系统录入' and 1=0");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程'   and STEPLABEL='ERP系统录入'");
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and PROCESSNAME='RY增加BOM申请流程'");
             List<BOMliucheng> list1 = new List<BOMliucheng>();
             foreach (DataRow dr in Incidents.Rows)
@@ -822,7 +822,7 @@ namespace FSTIMAIN
             else if (cbVendorClass.Text.ToString().Contains("A"))
             {
                 myVendorDetail.VendorClass6.Value = "A";
-                myVendorDetail.VendorClass7.Value = "五金供";
+                myVendorDetail.VendorClass7.Value = "辅料供";
             }
             else if (cbVendorClass.Text.ToString().Contains("S"))
             {
@@ -2255,7 +2255,7 @@ namespace FSTIMAIN
             ItemName.Text = "";
             ItemNamedgv.DataSource = null;
             dgvItmbDetail.DataSource = null;
-            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护') and 1=0");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护')");
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
             List<ITMBliucheng> list1 = new List<ITMBliucheng>();
             foreach (DataRow dr in Incidents.Rows)
@@ -3064,10 +3064,11 @@ namespace FSTIMAIN
             if (cbMoney.Text.Trim() == "本币")
             {
                 myCustomerSales.CreditLimitControllingAmount.Value = "1.00";//信用额度总值,此处不用带RMB即可，系统根据采用的货币区域自动添加，实际存储时没有货币代码
-                myCustomerSales.IsCustomerOnCreditHold.Value = "Y";//客户信用策略冻结
+                myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
                 myCustomerSales.CustomerControllingCode.Value = "L";
                 myCustomerSales.CustomerCurrencyCode.Value = "00000";
-
+                myCustomerSales.ShipmentCreditHoldCode.Value = "R";//客户订单信用强制--发货
+                myCustomerSales.OrderEntryCreditHoldCode.Value = "R";//客户订单信用强制--订单录入
             }
             else
             {
@@ -3076,10 +3077,12 @@ namespace FSTIMAIN
                 myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
                 myCustomerSales.CustomerControllingCode.Value = "F";
                 myCustomerSales.CustomerCurrencyCode.Value = tbCustomerCurrencyCode.Text.Trim();
+                myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
+                myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
 
             }
-            myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
-            myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
+            //myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
+            //myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
             if (_fstiClient.ProcessId(myCustomerSales, null))
             {
                 listBoxCustomer.Items.Add("子客户概要及信用添加成功:");
@@ -3220,10 +3223,11 @@ namespace FSTIMAIN
             if (cbMoney.Text.Trim() == "本币")
             {
                 myCustomerSales.CreditLimitControllingAmount.Value = "1.00";//信用额度总值,此处不用带RMB即可，系统根据采用的货币区域自动添加，实际存储时没有货币代码
-                myCustomerSales.IsCustomerOnCreditHold.Value = "Y";//客户信用策略冻结
+                myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
                 myCustomerSales.CustomerControllingCode.Value = "L";
                 myCustomerSales.CustomerCurrencyCode.Value = "00000";
-
+                myCustomerSales.ShipmentCreditHoldCode.Value = "R";//客户订单信用强制--发货
+                myCustomerSales.OrderEntryCreditHoldCode.Value = "R";//客户订单信用强制--订单录入
             }
             else
             {
@@ -3231,10 +3235,11 @@ namespace FSTIMAIN
                 myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
                 myCustomerSales.CustomerControllingCode.Value = "F";
                 myCustomerSales.CustomerCurrencyCode.Value = tbCustomerCurrencyCode.Text.Trim();
-
+                myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
+                myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
             }
-            myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
-            myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
+            //myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
+            //myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
             if (_fstiClient.ProcessId(myCustomerSales, null))
             {
                 listBoxCustomer.Items.Add("主客户概要及信用添加成功:");
@@ -3751,7 +3756,7 @@ namespace FSTIMAIN
             dgvItemNumber.DataSource = null;
             dgvItmbUpdateDetail.DataSource = null;
             ItmbUpdateResult.Items.Clear();
-            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY标准成本修改流程' and (STEPLABEL = '系统管理员维护') and 1=0");
+            DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 1 and   PROCESSNAME='RY标准成本修改流程' and (STEPLABEL = '系统管理员维护')");
 
             //DataTable Incidents = SqlHelper1.ExecuteDataTable(SqlHelper.ultimusSQL, "SELECT INCIDENT FROM [dbo].[TASKS] where STATUS = 3 and   PROCESSNAME='RY增加物料申请流程' and (STEPLABEL = '系统管理员维护' or STEPLABEL = 'ERP管理员审核') and STARTTIME >'2019-5-10'");
             string Sqlstr = "SELECT REV_INCIDENT 流水号,ZY 摘要,REV_CREATER_NAME 申请人,REV_CREATER_DPT 申请部门,REV_CREATER_DATE 申请时间,REV_CID  FROM [dbo].[YW_RY_BZCBXG] where REV_INCIDENT=-123";
