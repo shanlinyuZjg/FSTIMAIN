@@ -3126,157 +3126,165 @@ namespace FSTIMAIN
 
         private bool AddCustomerCompany()//程序增加主客户
         {
-            string CustomerCode = tbCustomerCode.Text.Trim().Substring(0, 6);//客户代码
-            //添加客户基础信息
-            SOPC00 myCustomerBasic = new SOPC00();
-            myCustomerBasic.CustomerID.Value = CustomerCode;//客户代码
-            myCustomerBasic.CustomerName.Value = tbCustomerName.Text.Trim();//客户名称
-            myCustomerBasic.CustomerLevel.Value = "P";//客户是否为主公司，p为主公司
-            myCustomerBasic.TradeClassName.Value = cbIndustry.Text.Trim();//行业类别
-            if (_fstiClient.ProcessId(myCustomerBasic, null))
+            try
             {
-                listBoxCustomer.Items.Add("主客户新建成功:");
-                listBoxCustomer.Items.Add(_fstiClient.CDFResponse);
-            }
-            else
-            {
-                listBoxCustomer.Items.Add("主客户新建失败:");
-                
-                FSTIError itemError = _fstiClient.TransactionError;
-                DumpErrorObject(myCustomerBasic, itemError, listBoxCustomer);
-                TbCustomer.Text += "主客户新建失败!"+ itemError.Description;
-                return false;
-            }
-            //添加通信地址
-            SOPC01 myCustomerAddress = new SOPC01();
-            myCustomerAddress.CustomerID.Value = CustomerCode;//客户代码
-            #region 客户地址
-            string strCustAddress = tbCustAddress.Text.Trim();
-            if (StrLength(strCustAddress) > 60)
-            {
-                int Len1 = strCustAddress.Length;
-                for (int i = strCustAddress.Length; i > 0; i--)
+                string CustomerCode = tbCustomerCode.Text.Trim().Substring(0, 6);//客户代码
+                                                                                 //添加客户基础信息
+                SOPC00 myCustomerBasic = new SOPC00();
+                myCustomerBasic.CustomerID.Value = CustomerCode;//客户代码
+                myCustomerBasic.CustomerName.Value = tbCustomerName.Text.Trim();//客户名称
+                myCustomerBasic.CustomerLevel.Value = "P";//客户是否为主公司，p为主公司
+                myCustomerBasic.TradeClassName.Value = cbIndustry.Text.Trim();//行业类别
+                if (_fstiClient.ProcessId(myCustomerBasic, null))
                 {
-                    if (StrLength(strCustAddress.Substring(0, i)) <= 60)
-                    { Len1 = i; break; }
+                    listBoxCustomer.Items.Add("主客户新建成功:");
+                    listBoxCustomer.Items.Add(_fstiClient.CDFResponse);
                 }
-                myCustomerAddress.CustomerAddress1.Value = strCustAddress.Substring(0, Len1);
-                myCustomerAddress.CustomerAddress2.Value = strCustAddress.Substring(Len1, strCustAddress.Length - Len1);
+                else
+                {
+                    listBoxCustomer.Items.Add("主客户新建失败:");
+
+                    FSTIError itemError = _fstiClient.TransactionError;
+                    DumpErrorObject(myCustomerBasic, itemError, listBoxCustomer);
+                    TbCustomer.Text += "主客户新建失败!" + itemError.Description;
+                    return false;
+                }
+                //添加通信地址
+                SOPC01 myCustomerAddress = new SOPC01();
+                myCustomerAddress.CustomerID.Value = CustomerCode;//客户代码
+                #region 客户地址
+                string strCustAddress = tbCustAddress.Text.Trim();
+                if (StrLength(strCustAddress) > 60)
+                {
+                    int Len1 = strCustAddress.Length;
+                    for (int i = strCustAddress.Length; i > 0; i--)
+                    {
+                        if (StrLength(strCustAddress.Substring(0, i)) <= 60)
+                        { Len1 = i; break; }
+                    }
+                    myCustomerAddress.CustomerAddress1.Value = strCustAddress.Substring(0, Len1);
+                    myCustomerAddress.CustomerAddress2.Value = strCustAddress.Substring(Len1, strCustAddress.Length - Len1);
+                }
+                else
+                {
+                    myCustomerAddress.CustomerAddress1.Value = strCustAddress;//客户地址 
+                }
+                #endregion
+                myCustomerAddress.CustomerContact.Value = tbContactPerson.Text.Trim();//客户联系人姓名
+                myCustomerAddress.CustomerContactPhone.Value = tbContactTelephone.Text.Trim();//客户联系人电话
+                myCustomerAddress.CustomerContactFax.Value = tbContactFax.Text.Trim();//客户联系人传真
+                myCustomerAddress.CustomerZip.Value = tbPostcode.Text.Trim();//客户联系人邮编
+                myCustomerAddress.CustomerState.Value = tbProvince.Text.Trim();//客户所在省份
+                if (_fstiClient.ProcessId(myCustomerAddress, null))
+                {
+                    listBoxCustomer.Items.Add("主客户地址添加成功:");
+                    listBoxCustomer.Items.Add(_fstiClient.CDFResponse);
+                }
+                else
+                {
+                    listBoxCustomer.Items.Add("主客户地址添加失败:");
+                    FSTIError itemError = _fstiClient.TransactionError;
+                    DumpErrorObject(myCustomerAddress, itemError, listBoxCustomer);
+                    TbCustomer.Text += "主客户地址添加失败!" + itemError.Description;
+                    return false;
+                }
+                //添加客户财务应收账款及税金
+                SOPC04 myCustomerAccount = new SOPC04();
+                myCustomerAccount.CustomerID.Value = CustomerCode;//客户代码 
+                string result = DateTime.Now.ToString("MMddyy");
+                myCustomerAccount.CustomerStartDate.Value = result;//客户启用日期,格式为：032517
+
+                if (cbMoney.Text.Trim() == "本币")
+                {
+                    myCustomerAccount.AROpenItemBalanceForwardCode.Value = "B";
+                }
+                else
+                {
+                    myCustomerAccount.AROpenItemBalanceForwardCode.Value = "O";
+                }
+                myCustomerAccount.FederalPrimaryTaxExemptCertificateNumber.Value = tbTaxCode.Text.Trim();//国家免税证书 VAT税金代码
+                if (_fstiClient.ProcessId(myCustomerAccount, null))
+                {
+                    listBoxCustomer.Items.Add("主客户财务应收账款及税金添加成功:");
+                    listBoxCustomer.Items.Add(_fstiClient.CDFResponse);
+                }
+                else
+                {
+                    listBoxCustomer.Items.Add("主客户财务应收账款及税金添加失败:");
+                    FSTIError itemError = _fstiClient.TransactionError;
+                    DumpErrorObject(myCustomerAccount, itemError, listBoxCustomer);
+                    TbCustomer.Text += "主客户财务应收账款及税金添加失败!" + itemError.Description;
+                    return false;
+                }
+                //概要及信用
+                SOPC03 myCustomerSales = new SOPC03();
+                myCustomerSales.CustomerID.Value = CustomerCode;//客户代码
+                myCustomerSales.SalesRegion.Value = tbSalesmanName.Text.ToString().Trim();//销售地区
+                myCustomerSales.CSR.Value = tbSalesmanCode.Text.ToString().Trim();//客户服务代表字段
+                myCustomerSales.CustomerState.Value = "A";
+                if (cbMoney.Text.Trim() == "本币")
+                {
+                    myCustomerSales.CreditLimitControllingAmount.Value = "1.00";//信用额度总值,此处不用带RMB即可，系统根据采用的货币区域自动添加，实际存储时没有货币代码
+                    myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
+                    myCustomerSales.CustomerControllingCode.Value = "L";
+                    myCustomerSales.CustomerCurrencyCode.Value = "00000";
+                    myCustomerSales.ShipmentCreditHoldCode.Value = "R";//客户订单信用强制--发货
+                    myCustomerSales.OrderEntryCreditHoldCode.Value = "R";//客户订单信用强制--订单录入
+                }
+                else
+                {
+                    myCustomerSales.CreditLimitControllingAmount.Value = "0.00";//信用额度总值,此处不用带RMB即可，系统根据采用的货币区域自动添加，实际存储时没有货币代码
+                    myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
+                    myCustomerSales.CustomerControllingCode.Value = "F";
+                    myCustomerSales.CustomerCurrencyCode.Value = tbCustomerCurrencyCode.Text.Trim();
+                    myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
+                    myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
+                }
+                //myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
+                //myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
+                if (_fstiClient.ProcessId(myCustomerSales, null))
+                {
+                    listBoxCustomer.Items.Add("主客户概要及信用添加成功:");
+                    listBoxCustomer.Items.Add(_fstiClient.CDFResponse);
+                }
+                else
+                {
+                    listBoxCustomer.Items.Add("主客户概要及信用添加失败:");
+                    FSTIError itemError = _fstiClient.TransactionError;
+                    DumpErrorObject(myCustomerSales, itemError, listBoxCustomer);
+                    TbCustomer.Text += "主客户概要及信用添加失败!" + itemError.Description;
+                    return false;
+                }
+
+                //添加会计信息、银行账户和应收账款账号
+                SOPC05 myCustomerBank = new SOPC05();
+                myCustomerBank.CustomerID.Value = CustomerCode;//客户代码
+                myCustomerBank.AccountingContact.Value = tbAccountantName.Text.Trim();//会计
+                myCustomerBank.AccountingContactPhone.Value = tbAccountantPhone.Text.Trim();//会计电话
+                myCustomerBank.BankReference1.Value = tbBankOfDeposit.Text.Trim();//开户银行
+                myCustomerBank.BankReference2.Value = tbBankAccount.Text.Trim();//开户银行账号
+                if (_fstiClient.ProcessId(myCustomerBank, null))
+                {
+                    listBoxCustomer.Items.Add("主客户财务会计信息添加成功:");
+                    listBoxCustomer.Items.Add(_fstiClient.CDFResponse);
+                }
+                else
+                {
+                    listBoxCustomer.Items.Add("主客户财务会计信息添加失败:");
+                    FSTIError itemError = _fstiClient.TransactionError;
+                    DumpErrorObject(myCustomerBank, itemError, listBoxCustomer);
+                    TbCustomer.Text += "主客户财务会计信息添加失败!" + itemError.Description;
+                    return false;
+                }
+
+
+                return true;
             }
-            else
+            catch (Exception ex)
             {
-                myCustomerAddress.CustomerAddress1.Value = strCustAddress;//客户地址 
-            }
-            #endregion
-            myCustomerAddress.CustomerContact.Value = tbContactPerson.Text.Trim();//客户联系人姓名
-            myCustomerAddress.CustomerContactPhone.Value = tbContactTelephone.Text.Trim();//客户联系人电话
-            myCustomerAddress.CustomerContactFax.Value = tbContactFax.Text.Trim();//客户联系人传真
-            myCustomerAddress.CustomerZip.Value = tbPostcode.Text.Trim();//客户联系人邮编
-            myCustomerAddress.CustomerState.Value = tbProvince.Text.Trim();//客户所在省份
-            if (_fstiClient.ProcessId(myCustomerAddress, null))
-            {
-                listBoxCustomer.Items.Add("主客户地址添加成功:");
-                listBoxCustomer.Items.Add(_fstiClient.CDFResponse);
-            }
-            else
-            {
-                listBoxCustomer.Items.Add("主客户地址添加失败:");
-                FSTIError itemError = _fstiClient.TransactionError;
-                DumpErrorObject(myCustomerAddress, itemError, listBoxCustomer);
-                TbCustomer.Text += "主客户地址添加失败!" + itemError.Description;
+                TbCustomer.Text += "主客户添加报错!" + ex.Message;
                 return false;
             }
-            //添加客户财务应收账款及税金
-            SOPC04 myCustomerAccount = new SOPC04();
-            myCustomerAccount.CustomerID.Value = CustomerCode;//客户代码 
-            string result = DateTime.Now.ToString("MMddyy");
-            myCustomerAccount.CustomerStartDate.Value = result;//客户启用日期,格式为：032517
-
-            if (cbMoney.Text.Trim() == "本币")
-            {
-                myCustomerAccount.AROpenItemBalanceForwardCode.Value = "B";
-            }
-            else
-            {
-                myCustomerAccount.AROpenItemBalanceForwardCode.Value = "O";
-            }
-            myCustomerAccount.FederalPrimaryTaxExemptCertificateNumber.Value = tbTaxCode.Text.Trim();//国家免税证书 VAT税金代码
-            if (_fstiClient.ProcessId(myCustomerAccount, null))
-            {
-                listBoxCustomer.Items.Add("主客户财务应收账款及税金添加成功:");
-                listBoxCustomer.Items.Add(_fstiClient.CDFResponse);
-            }
-            else
-            {
-                listBoxCustomer.Items.Add("主客户财务应收账款及税金添加失败:");
-                FSTIError itemError = _fstiClient.TransactionError;
-                DumpErrorObject(myCustomerAccount, itemError, listBoxCustomer);
-                TbCustomer.Text += "主客户财务应收账款及税金添加失败!" + itemError.Description;
-                return false;
-            }
-            //概要及信用
-            SOPC03 myCustomerSales = new SOPC03();
-            myCustomerSales.CustomerID.Value = CustomerCode;//客户代码
-            myCustomerSales.SalesRegion.Value = tbSalesmanName.Text.ToString().Trim();//销售地区
-            myCustomerSales.CSR.Value = tbSalesmanCode.Text.ToString().Trim();//客户服务代表字段
-            myCustomerSales.CustomerState.Value = "A";
-            if (cbMoney.Text.Trim() == "本币")
-            {
-                myCustomerSales.CreditLimitControllingAmount.Value = "1.00";//信用额度总值,此处不用带RMB即可，系统根据采用的货币区域自动添加，实际存储时没有货币代码
-                myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
-                myCustomerSales.CustomerControllingCode.Value = "L";
-                myCustomerSales.CustomerCurrencyCode.Value = "00000";
-                myCustomerSales.ShipmentCreditHoldCode.Value = "R";//客户订单信用强制--发货
-                myCustomerSales.OrderEntryCreditHoldCode.Value = "R";//客户订单信用强制--订单录入
-            }
-            else
-            {
-                myCustomerSales.CreditLimitControllingAmount.Value = "0.00";//信用额度总值,此处不用带RMB即可，系统根据采用的货币区域自动添加，实际存储时没有货币代码
-                myCustomerSales.IsCustomerOnCreditHold.Value = "N";//客户信用策略冻结
-                myCustomerSales.CustomerControllingCode.Value = "F";
-                myCustomerSales.CustomerCurrencyCode.Value = tbCustomerCurrencyCode.Text.Trim();
-                myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
-                myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
-            }
-            //myCustomerSales.ShipmentCreditHoldCode.Value = "H";//客户订单信用强制--发货
-            //myCustomerSales.OrderEntryCreditHoldCode.Value = "H";//客户订单信用强制--订单录入
-            if (_fstiClient.ProcessId(myCustomerSales, null))
-            {
-                listBoxCustomer.Items.Add("主客户概要及信用添加成功:");
-                listBoxCustomer.Items.Add(_fstiClient.CDFResponse);
-            }
-            else
-            {
-                listBoxCustomer.Items.Add("主客户概要及信用添加失败:");
-                FSTIError itemError = _fstiClient.TransactionError;
-                DumpErrorObject(myCustomerSales, itemError, listBoxCustomer);
-                TbCustomer.Text += "主客户概要及信用添加失败!" + itemError.Description;
-                return false;
-            }
-
-            //添加会计信息、银行账户和应收账款账号
-            SOPC05 myCustomerBank = new SOPC05();
-            myCustomerBank.CustomerID.Value = CustomerCode;//客户代码
-            myCustomerBank.AccountingContact.Value = tbAccountantName.Text.Trim();//会计
-            myCustomerBank.AccountingContactPhone.Value = tbAccountantPhone.Text.Trim();//会计电话
-            myCustomerBank.BankReference1.Value = tbBankOfDeposit.Text.Trim();//开户银行
-            myCustomerBank.BankReference2.Value = tbBankAccount.Text.Trim();//开户银行账号
-            if (_fstiClient.ProcessId(myCustomerBank, null))
-            {
-                listBoxCustomer.Items.Add("主客户财务会计信息添加成功:");
-                listBoxCustomer.Items.Add(_fstiClient.CDFResponse);
-            }
-            else
-            {
-                listBoxCustomer.Items.Add("主客户财务会计信息添加失败:");
-                FSTIError itemError = _fstiClient.TransactionError;
-                DumpErrorObject(myCustomerBank, itemError, listBoxCustomer);
-                TbCustomer.Text += "主客户财务会计信息添加失败!" + itemError.Description;
-                return false;
-            }
-
-
-            return true;
         }
 
         private void tbCustomerCode_KeyDown(object sender, KeyEventArgs e)//通过客户代码获得客户信息
